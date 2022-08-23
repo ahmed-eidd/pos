@@ -1,16 +1,13 @@
 import './App.less';
-import { Button, Space, Input, Spin, Slider } from 'antd';
+import './styles/global.scss';
+import Routes from './services/routes';
+import { CurrentLangProvider } from './context/currentLang';
 
 function App() {
   return (
-    <div className=''>
-      <Space direction='vertical'>
-        <Input placeholder='Type here...' />
-        <Button type='primary'>start</Button>
-        <Spin spinning />
-        <Slider />
-      </Space>
-    </div>
+    <CurrentLangProvider>
+      <Routes />
+    </CurrentLangProvider>
   );
 }
 

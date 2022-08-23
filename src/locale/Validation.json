@@ -1,0 +1,24 @@
+{
+  "validation": {
+    "pleaseselectaddresscontinue": {
+      "en": "please select address to continue",
+      "ar": "الرجاء تحديد العنوان للمتابعة"
+    },
+    "pleaseselectpaymentcontinue": {
+      "en": "please select payment to continue",
+      "ar": "الرجاء تحديد طريقة الدفع للمتابعة"
+    },
+    "enternewpassword": {
+      "en": "Please enter the new password",
+      "ar": "الرجاء إدخال كلمة المرور الجديدة"
+    },
+    "ResetPassword": {
+      "en": "Reset your password",
+      "ar": "اعد ضبط كلمه المرور"
+    },
+    "emailValidation": {
+      "en": "Please enter an email",
+      "ar": "الرجاء ادخال بريد الكتروني"
+    }
+  }
+}

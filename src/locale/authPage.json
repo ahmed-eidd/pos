@@ -1,0 +1,43 @@
+{
+  "authPage": {
+    "welcome": {
+      "ar": "أهلاً بك",
+      "en": "Welcome"
+    },
+    "creditMainTitle": {
+      "ar": "برجاء إدخال الرصيد الافتتاحي",
+      "en": "Please enter the opening balance"
+    },
+
+    "creditTitle": {
+      "en": "You must enter the opening balance before entering the account ",
+      "ar": "يجب عليك إدخال الرصيد الافتتاحي قبل الدخول إلى الحساب"
+    },
+    "loginTitle": {
+      "ar": "برجاء إدخال بيانات حسابك",
+      "en": "Please fill the form"
+    },
+    "sercetCodeTitle": {
+      "ar": "برجاء إدخال الرقم السري",
+      "en": "Please enter the secret code"
+    },
+    "secretCodeLabel": {
+      "en": "Sercet code",
+      "ar": "الرقم السري"
+    },
+    "emailLabel": {
+      "ar": "البريد الإلكتروني",
+      "en": "Email"
+    },
+    "passwordLabel": {
+      "ar": "كلمة المرور",
+      "en": "Password"
+    },
+
+    "loginBtn": {
+      "ar": "تسجيل الدخول",
+      "en": "Log in"
+    }
+    
+  }
+}

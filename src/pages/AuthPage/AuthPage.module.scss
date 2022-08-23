@@ -1,0 +1,46 @@
+.AuthPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow-y: hidden;
+
+  &__Form,
+  &__Image {
+    width: 50%;
+  }
+
+  &__Image {
+    position: relative;
+    &::after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #101828;
+      opacity: 0.6;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__Form {
+    &__Content {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      margin: auto;
+      width: 80%;
+    }
+  }
+}
+
+.Input {
+  border-radius: 8px;
+}
