@@ -17,13 +17,21 @@
       "ar": "برجاء إدخال بيانات حسابك",
       "en": "Please fill the form"
     },
-    "sercetCodeTitle": {
-      "ar": "برجاء إدخال الرقم السري",
-      "en": "Please enter the secret code"
+    "secretCodeTitle": {
+      "ar": "أهلاً بك",
+      "en": "Welcome"
+    },
+    "secretCodeSecondTitle": {
+      "en": "",
+      "ar": "برجاء إدخال الرقم السري"
     },
     "secretCodeLabel": {
       "en": "Sercet code",
       "ar": "الرقم السري"
+    },
+    "creditLabel": {
+      "en": "Main credit",
+      "ar": "الرصيد الافتتاحي"
     },
     "emailLabel": {
       "ar": "البريد الإلكتروني",
@@ -38,6 +46,5 @@
       "ar": "تسجيل الدخول",
       "en": "Log in"
     }
-    
   }
 }

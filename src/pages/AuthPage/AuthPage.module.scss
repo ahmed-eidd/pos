@@ -1,3 +1,5 @@
+@import '../../styles/abstract/variables';
+
 .AuthPage {
   display: flex;
   align-items: center;
@@ -36,11 +38,27 @@
       align-items: flex-start;
       flex-direction: column;
       margin: auto;
-      width: 80%;
+      width: 410px;
+      // width: 80%;
+
+      form {
+        width: 360px;
+      }
+
+      &__Titles {
+        margin-bottom: 2rem;
+      }
+
+      &__MainTitle {
+        font-weight: 600;
+        font-size: 30px;
+      }
+      &__SecondTitle {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400;
+        color: $color-grey;
+      }
     }
   }
-}
-
-.Input {
-  border-radius: 8px;
 }
