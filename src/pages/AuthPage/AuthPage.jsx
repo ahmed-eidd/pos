@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import CreditForm from './CreditForm/CreditForm';

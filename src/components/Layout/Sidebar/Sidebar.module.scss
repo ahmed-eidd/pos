@@ -1,0 +1,22 @@
+@import '../../../styles/abstract/variables';
+
+$sidebar-padding: 38px;
+
+.Sidebar {
+  padding: $sidebar-padding 0;
+  background-color: $color-grey-100;
+  &__Wrapper {
+    width: 100%;
+    padding-top: calc(60px - #{$sidebar-padding});
+  }
+  &__Logo {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 55px;
+  }
+
+  &__Burger {
+    cursor: pointer;
+  }
+}
