@@ -1,0 +1,35 @@
+@import '../../../../styles/index.scss';
+
+.NavMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  &__MenuItem {
+    height: 80px;
+    width: 123px;
+    // line-height: inherit !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: $radius-lg;
+    gap: 10px;
+    transition: all 0.4s ease-in-out;
+    &__Text {
+      margin: 0 !important;
+      color: $color-grey-900;
+      font-weight: 500;
+    }
+  }
+}
+
+.MenuItemActive {
+  border: 1px solid $color-primary;
+  background-color: white;
+
+  .NavMenu__MenuItem__Text {
+    color: $color-primary;
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "sidebar": {
+    "menu": {
+      "categories": {
+        "en": "Categories",
+        "ar": "فئات",
+        "link": "categories"
+      },
+      "orders": {
+        "en": "Orders",
+        "ar": "الطلبات",
+        "link": "orders"
+      },
+      "hold": {
+        "en": "On hold",
+        "ar": "أوامر معلقة",
+        "link": "on-hold"
+      },
+      "money": {
+        "ar": "إدارة النقد",
+        "en": "Cash management",
+        "link": "cash-management"
+      },
+      "settings": {
+        "ar": "ملفي",
+        "en": "My profile",
+        "link": "my-profile"
+      }
+    }
+  }
+}

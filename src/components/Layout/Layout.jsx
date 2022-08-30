@@ -2,8 +2,9 @@ import React from 'react';
 import { Layout as AntLayout } from 'antd';
 import Sidebar from './Sidebar/Sidebar';
 import Content from './Content/Content';
+import { Outlet } from 'react-router-dom';
 
-const Layout = ({ children }) => {
+const Layout = () => {
   return (
     <AntLayout
       style={{
@@ -11,7 +12,9 @@ const Layout = ({ children }) => {
       }}
     >
       <Sidebar />
-      <Content>{children}</Content>
+      <Content>
+        <Outlet />
+      </Content>
     </AntLayout>
   );
 };
