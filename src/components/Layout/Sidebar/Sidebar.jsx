@@ -18,7 +18,7 @@ const Sidebar = () => {
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
       style={{ height: '100vh' }}
-      collapsedWidth={93}
+      // collapsedWidth={93}
       trigger={null}
     >
       <div className={classes.Sidebar__Wrapper}>

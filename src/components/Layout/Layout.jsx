@@ -3,18 +3,24 @@ import { Layout as AntLayout } from 'antd';
 import Sidebar from './Sidebar/Sidebar';
 import Content from './Content/Content';
 import { Outlet } from 'react-router-dom';
+import CartSidebar from './CartSidebar/CartSidebar';
+import SearchBar from '../SearchBar/SearchBar';
 
 const Layout = () => {
   return (
     <AntLayout
       style={{
-        minHeight: '100vh',
+        height: '100vh',
       }}
     >
       <Sidebar />
-      <Content>
-        <Outlet />
-      </Content>
+      <AntLayout>
+        <SearchBar />
+        <Content>
+          <Outlet />
+        </Content>
+      </AntLayout>
+      <CartSidebar />
     </AntLayout>
   );
 };

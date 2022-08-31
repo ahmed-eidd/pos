@@ -1,0 +1,23 @@
+@import '../../styles/index';
+
+.SearchBar {
+  height: 92px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-grey-100 !important;
+  padding: 0 38px;
+
+  &__Icon {
+    padding: 0 5px;
+  }
+
+  &__Input {
+    background-color: $color-grey-100 !important;
+    border: none !important;
+    padding: 10px;
+    input {
+      background-color: $color-grey-100 !important;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "currency": {
+    "ar": "جنيه",
+    "en": "EGP"
+  },
+  "currencyWithEgyptian": {
+    "en": "EGP",
+    "ar": "جنيه مصري"
+  }
+}

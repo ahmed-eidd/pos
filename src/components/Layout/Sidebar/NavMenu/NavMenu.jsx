@@ -42,7 +42,7 @@ const MenuItem = ({ to, text, icon }) => {
 
 const NavMenu = () => {
   const [currentLang] = useCurrentLang();
-  const localeSidebar = locale.sidebar.menu;
+  const localeSidebar = locale.sidebar.sidebar.menu;
   return (
     <div className={classes.NavMenu}>
       <MenuItem

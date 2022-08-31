@@ -27,5 +27,15 @@
         "link": "my-profile"
       }
     }
+  },
+  "cart": {
+    "title": {
+      "ar": "عربة التسوق",
+      "en": "Cart"
+    },
+    "count": {
+      "ar": "منتج",
+      "en": "Item"
+    }
   }
 }

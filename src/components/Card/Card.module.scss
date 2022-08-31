@@ -1,0 +1,30 @@
+@import '../../styles/index.scss';
+
+.Card {
+  border: 1px solid $color-white-500;
+  border-radius: $radius-md;
+  width: 211px;
+  font-weight: 500;
+
+  &__Img {
+    width: 100%;
+  }
+
+  &__TextWrapper {
+    padding: 11px 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &__Price {
+    color: $color-primary;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+}

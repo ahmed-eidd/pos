@@ -1,0 +1,7 @@
+.Categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(211px, 1fr));
+  gap: 15px;
+  justify-content: center;
+  justify-items: center;
+}

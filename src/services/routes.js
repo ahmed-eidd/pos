@@ -16,29 +16,32 @@ const Routes = () => {
       <Route
         path='*'
         element={
-          <Navigate to={`/${locale.sidebar.menu.categories.link}`} replace />
+          <Navigate
+            to={`/${locale.sidebar.sidebar.menu.categories.link}`}
+            replace
+          />
         }
       />
 
       <Route element={<Layout />}>
         <Route
-          path={`/${locale.sidebar.menu.categories.link}`}
+          path={`/${locale.sidebar.sidebar.menu.categories.link}`}
           element={<Categories />}
         />
         <Route
-          path={`/${locale.sidebar.menu.orders.link}`}
+          path={`/${locale.sidebar.sidebar.menu.orders.link}`}
           element={<Orders />}
         />
         <Route
-          path={`/${locale.sidebar.menu.hold.link}`}
+          path={`/${locale.sidebar.sidebar.menu.hold.link}`}
           element={<HoldOrder />}
         />
         <Route
-          path={`/${locale.sidebar.menu.money.link}`}
+          path={`/${locale.sidebar.sidebar.menu.money.link}`}
           element={<MoneySettings />}
         />
         <Route
-          path={`/${locale.sidebar.menu.settings.link}`}
+          path={`/${locale.sidebar.sidebar.menu.settings.link}`}
           element={<MyProfile />}
         />
       </Route>

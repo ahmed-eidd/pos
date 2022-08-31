@@ -1,0 +1,15 @@
+@import '../../../../styles/index.scss';
+
+.CartCounter {
+  width: 100%;
+  background-color: $color-primary;
+  color: white;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    margin: 0;
+    font-size: 16px;
+  }
+}
