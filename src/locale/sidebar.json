@@ -36,6 +36,28 @@
     "count": {
       "ar": "منتج",
       "en": "Item"
+    },
+    "noitems": {
+      "ar": "لا توجد عناصر في سلة التسوق",
+      "en": "There is no items in cart"
+    },
+    "orderLables": {
+      "subtotal": {
+        "ar": "المجموع الفرعي",
+        "en": "Subtotal"
+      },
+      "vat": {
+        "en": "VAT",
+        "ar": "ضريبة القيمة المضافة"
+      },
+      "shipping": {
+        "en": "Shipping Fee",
+        "ar": "رسوم الشحن"
+      },
+      "total": {
+        "en": "Total Price",
+        "ar": "السعر الكلي"
+      }
     }
   }
 }

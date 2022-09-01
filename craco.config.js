@@ -11,6 +11,8 @@ module.exports = {
             modifyVars: {
               '@primary-color': '#006AFF',
               '@btn-border-radius-base': '8px',
+              // '@divider-orientation-margin': '13px',
+              '@divider-color': '#D0D5DD',
               // '@font-size-base': '16px',
             },
             javascriptEnabled: true,

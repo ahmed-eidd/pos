@@ -13,12 +13,26 @@
 
     .ant-collapse-header[aria-expanded='false'] {
       background-color: white;
+      padding-top: 20px;
+      padding-bottom: 20px;
     }
 
     .ant-collapse-borderless {
       background-color: #f9fafb;
     }
+    .ant-collapse-item {
+      border-bottom: none !important;
+    }
   }
+
+  &__NoItems {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
   &__Header {
     display: flex;
     justify-content: flex-start;

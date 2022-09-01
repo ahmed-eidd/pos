@@ -5,6 +5,7 @@ import classes from './Categories.module.scss';
 
 const Categories = () => {
   const products = useProductsStore((state) => state.products);
+  const onAddToCart = useProductsStore((state) => state.addToCart);
   return (
     <div className={classes.Categories}>
       {products.map((el) => (
@@ -14,6 +15,7 @@ const Categories = () => {
           key={el.id}
           img={el.img}
           price={el.price}
+          onClick={() => onAddToCart(el.id)}
         >
           {el.id}
         </Card>

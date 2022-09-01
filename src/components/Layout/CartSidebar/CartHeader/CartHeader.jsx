@@ -5,13 +5,14 @@ import ThreeDotsPng from '../../../../assets/threedots.png';
 import { locale } from '../../../../locale';
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 
-const CartHeader = () => {
+const CartHeader = ({ onDeleteAll }) => {
   const [currentLang] = useCurrentLang();
   const cartLocale = locale.sidebar.cart;
   return (
     <div className={classes.CartHeader}>
       <img
         className={classes.CartHeader__TrashImg}
+        onClick={onDeleteAll}
         src={TrashPng}
         alt='delete'
       />

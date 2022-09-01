@@ -3,6 +3,7 @@ import pizza1 from '../assets/products/pizza-1.png';
 import pizza2 from '../assets/products/pizza-2.png';
 import pizza3 from '../assets/products/pizza-3.png';
 import pizza4 from '../assets/products/pizza-4.png';
+import { devtools } from 'zustand/middleware';
 
 const products = (idStarts = 1, reverse) => {
   const items = [
@@ -33,31 +34,48 @@ const products = (idStarts = 1, reverse) => {
   ];
   return reverse ? items.reverse() : items;
 };
-export const useProductsStore = create((set) => ({
-  products: [
-    ...products(1),
-    ...products(5, true),
-    ...products(10),
-    ...products(50, true),
-  ],
-  cart: [],
-  addToCart: (id) =>
-    set((state) => ({
-      cart: [
-        ...state.cart,
-        { ...state.products.find((prd) => prd.id === id), quantity: 1 },
-      ],
-    })),
-  deleteFromCart: (id) =>
-    set((state) => state.cart.filter((prd) => prd.id !== id)),
-  increaseQuantity: (id) =>
-    set((state) => {
-      const foundProductIdx = state.cart.findIndex((el) => el.id === id);
-      state.cart[foundProductIdx] = state.cart[foundProductIdx].quantity + 1;
-    }),
-  decreaseQuantity: (id) =>
-    set((state) => {
-      const foundProductIdx = state.cart.findIndex((el) => el.id === id);
-      state.cart[foundProductIdx] = state.cart[foundProductIdx].quantity - 1;
-    }),
-}));
+export const useProductsStore = create(
+  devtools((set) => ({
+    products: [
+      ...products(1),
+      ...products(5, true),
+      ...products(10),
+      ...products(50, true),
+    ],
+    cart: [],
+    addToCart: (id) =>
+      set((state) => {
+        const foundItem = state.cart.find((el) => el.id === id);
+        if (foundItem) {
+          return {
+            cart: state.cart.map((item) =>
+              item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            ),
+          };
+        } else {
+          return {
+            cart: [
+              ...state.cart,
+              { ...state.products.find((prd) => prd.id === id), quantity: 1 },
+            ],
+          };
+        }
+      }),
+    deleteFromCart: (id) => {
+      set((state) => ({ cart: state.cart.filter((prd) => prd.id !== id) }));
+    },
+    deleteAllCartItems: () => set({ cart: [] }),
+    increaseQuantity: (id) =>
+      set((state) => ({
+        cart: state.cart.map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+        ),
+      })),
+    decreaseQuantity: (id) =>
+      set((state) => ({
+        cart: state.cart.map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        ),
+      })),
+  }))
+);

@@ -3,17 +3,17 @@ import classes from './CartCounter.module.scss';
 import { locale } from '../../../../locale';
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 
-const CartCounter = () => {
+const CartCounter = ({ prices, count }) => {
   const [currentLang] = useCurrentLang();
   const cartLocale = locale.sidebar.cart;
   return (
     <div className={classes.CartCounter}>
       <p>
         {cartLocale.title[currentLang] +
-          ' 2 ' +
+          ` ${count} ` +
           cartLocale.count[currentLang] +
           ' / ' +
-          '0.00 ' +
+          `${prices} ` +
           locale.global.currency[currentLang]}
       </p>
     </div>
