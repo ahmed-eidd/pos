@@ -4,15 +4,17 @@ import TrashPng from '../../../../assets/trash.png';
 import ThreeDotsPng from '../../../../assets/threedots.png';
 import { locale } from '../../../../locale';
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
+import { useProductsStore } from '../../../../store/useStore';
 
 const CartHeader = ({ onDeleteAll }) => {
   const [currentLang] = useCurrentLang();
   const cartLocale = locale.sidebar.cart;
+  const deleteAllItems = useProductsStore((state) => state.deleteAllCartItems);
   return (
     <div className={classes.CartHeader}>
       <img
         className={classes.CartHeader__TrashImg}
-        onClick={onDeleteAll}
+        onClick={deleteAllItems}
         src={TrashPng}
         alt='delete'
       />

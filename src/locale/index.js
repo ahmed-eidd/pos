@@ -4,6 +4,8 @@ import validation from './Validation.json';
 import sidebar from './sidebar.json';
 import global from './global.json';
 import searchbar from './searchbar.json';
+import categoires from './categories.json';
+import checkout from './checkout.json';
 
 export const locale = {
   global,
@@ -12,4 +14,6 @@ export const locale = {
   sidebar,
   authPage,
   searchbar,
+  categoires,
+  checkout,
 };

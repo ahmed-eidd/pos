@@ -10,7 +10,6 @@ const CreditForm = ({ onClick }) => {
   return (
     <Form
       onFinish={(values) => {
-        console.log(values);
         onClick();
       }}
       layout='vertical'

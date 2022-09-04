@@ -10,7 +10,6 @@ const LoginForm = ({ onClick }) => {
   return (
     <Form
       onFinish={(values) => {
-        console.log(values);
         onClick();
       }}
       layout='vertical'

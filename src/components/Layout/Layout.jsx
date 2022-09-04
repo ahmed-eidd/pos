@@ -2,11 +2,13 @@ import React from 'react';
 import { Layout as AntLayout } from 'antd';
 import Sidebar from './Sidebar/Sidebar';
 import Content from './Content/Content';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import CartSidebar from './CartSidebar/CartSidebar';
 import SearchBar from '../SearchBar/SearchBar';
+import { locale } from '../../locale';
 
-const Layout = () => {
+const Layout = ({ showCartSideabar = true }) => {
+  const location = useLocation();
   return (
     <AntLayout
       style={{
@@ -15,12 +17,14 @@ const Layout = () => {
     >
       <Sidebar />
       <AntLayout>
-        <SearchBar />
+        {location.pathname.includes(
+          locale.sidebar.sidebar.menu.categories.link
+        ) && <SearchBar />}
         <Content>
           <Outlet />
         </Content>
       </AntLayout>
-      <CartSidebar />
+      {showCartSideabar && <CartSidebar />}
     </AntLayout>
   );
 };

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route, Routes as ReactRoutes, Navigate } from 'react-router-dom';
+import { Navigate, Route, Routes as ReactRoutes } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
 import { locale } from '../locale';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import Categories from '../pages/Categories/Categories';
+import Checkout from '../pages/Checkout/Checkout';
 import HoldOrder from '../pages/HoldOrders/HoldOrder';
 import MoneySettings from '../pages/MoneySettings.jsx/MoneySettings';
 import MyProfile from '../pages/MyProfile/MyProfile';
@@ -14,10 +15,10 @@ const Routes = () => {
     <ReactRoutes>
       <Route path='/login' element={<AuthPage />} />
       <Route
-        path='*'
+        path={`/${locale.sidebar.sidebar.menu.categories.link}/`}
         element={
           <Navigate
-            to={`/${locale.sidebar.sidebar.menu.categories.link}`}
+            to={`/${locale.sidebar.sidebar.menu.categories.link}/pizza`}
             replace
           />
         }
@@ -25,7 +26,7 @@ const Routes = () => {
 
       <Route element={<Layout />}>
         <Route
-          path={`/${locale.sidebar.sidebar.menu.categories.link}`}
+          path={`/${locale.sidebar.sidebar.menu.categories.link}/*`}
           element={<Categories />}
         />
         <Route
@@ -44,6 +45,10 @@ const Routes = () => {
           path={`/${locale.sidebar.sidebar.menu.settings.link}`}
           element={<MyProfile />}
         />
+      </Route>
+
+      <Route element={<Layout showCartSideabar={false} />}>
+        <Route path={'/checkout'} element={<Checkout />} />
       </Route>
     </ReactRoutes>
   );

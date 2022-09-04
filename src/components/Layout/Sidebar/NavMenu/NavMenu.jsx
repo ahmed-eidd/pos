@@ -70,6 +70,7 @@ const NavMenu = () => {
         to={localeSidebar.settings.link}
         icon={MenuSettingsIcon}
       />
+      <MenuItem text={'checkout'} to={'checkout'} icon={MenuSettingsIcon} />
     </div>
   );
 };

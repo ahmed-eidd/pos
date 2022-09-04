@@ -8,17 +8,20 @@ const Card = ({ img, name, id, price, onClick }) => {
   return (
     <div onClick={onClick} key={id} className={classes.Card}>
       <img src={img} alt='product' className={classes.Card__Img} />
-      <div className={classes.Card__TextWrapper}>
-        <p className={classes.Card__Text}>{name}</p>
-        {price && (
+
+      {price ? (
+        <div className={classes.Card__TextWrapper}>
+          <p className={classes.Card__Text}>{name}</p>
           <p className={classes.Card__Price}>
             {price}
             <span>
               {` ${locale.global.currencyWithEgyptian[currentLang]}`}{' '}
             </span>
           </p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <p className={classes.Card__SingleText}>{name}</p>
+      )}
     </div>
   );
 };

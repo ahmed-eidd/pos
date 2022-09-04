@@ -1,0 +1,22 @@
+@import '../../styles/index.scss';
+
+.Checkout {
+  display: grid;
+  grid-template-columns: 591px 426px;
+  justify-content: center;
+  gap: 15px;
+
+  .col-1 {
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .col-2 {
+    grid-column: 2/3;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}

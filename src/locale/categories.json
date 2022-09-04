@@ -1,0 +1,22 @@
+{
+  "all": {
+    "en": "All Categories",
+    "ar": "كل الفئات",
+    "link": "all"
+  },
+  "pizza": {
+    "ar": "بيتزا",
+    "en": "Pizza",
+    "link": "pizza"
+  },
+  "hotDrinks": {
+    "en": "Hot beverages",
+    "ar": "مشروبات ساخنة",
+    "link": "hot-beverages"
+  },
+  "coldDrinks": {
+    "en": "Cold beverages",
+    "ar": "مشروبات باردة",
+    "link": "cold-beverages"
+  }
+}

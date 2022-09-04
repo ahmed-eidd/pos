@@ -7,6 +7,7 @@ const Flex = ({
   direction = 'row',
   gap = 0,
   style,
+  className,
 }) => {
   return (
     <div
@@ -19,6 +20,7 @@ const Flex = ({
         width: '100%',
         ...style,
       }}
+      className={className}
     >
       {children}
     </div>

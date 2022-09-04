@@ -23,11 +23,7 @@ const Sidebar = () => {
     >
       <div className={classes.Sidebar__Wrapper}>
         <img src={Logo} className={classes.Sidebar__Wrapper__Logo} alt='logo' />
-        {!collapsed && (
-          <>
-            <NavMenu />
-          </>
-        )}
+        {!collapsed && <NavMenu />}
       </div>
       <img
         className={classes.Sidebar__Wrapper__Burger}
