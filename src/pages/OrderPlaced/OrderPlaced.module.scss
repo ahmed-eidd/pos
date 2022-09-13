@@ -1,0 +1,48 @@
+@import '../../styles/index.scss';
+
+.OrderPlaced {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 16px;
+
+  &__Wrapper {
+    width: 706px;
+    height: 712px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    @include borderedWhiteBox;
+
+    &__Title {
+      margin-bottom: 65px;
+      font-size: 16px;
+    }
+
+    &__Img {
+      margin-bottom: 33px;
+    }
+
+    &__TextWrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 42px;
+
+      :nth-child(2) {
+        color: $color-primary;
+        font-size: 14px;
+      }
+    }
+
+    &__Btn {
+      width: 300px !important;
+    }
+  }
+}

@@ -4,5 +4,39 @@
       "ar": "نوع الطلب",
       "en": "Order type"
     }
+  },
+  "orderTotal": {
+    "paid": {
+      "ar": "مدفوع",
+      "en": "Subtotal"
+    },
+    "onhold": {
+      "ar": "لا تزال قائمة",
+      "en": "On hold"
+    },
+    "nochange": {
+      "ar": "يتغيرون ",
+      "en": "Changes"
+    },
+    "order": {
+      "ar": "دفع",
+      "en": "Order"
+    },
+    "canelOrder": {
+      "ar": "الغاء الطلب",
+      "en": "Cancel order"
+    },
+    "vat": {
+      "en": "VAT",
+      "ar": "ضريبة القيمة المضافة"
+    },
+    "shipping": {
+      "en": "Shipping Fee",
+      "ar": "رسوم الشحن"
+    },
+    "total": {
+      "en": "Total Price",
+      "ar": "السعر الكلي"
+    }
   }
 }

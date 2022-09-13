@@ -8,7 +8,7 @@ import NavMenu from './NavMenu/NavMenu';
 
 const { Sider } = Layout;
 
-const Sidebar = () => {
+const Sidebar = ({ style }) => {
   const [collapsed, setCollapsed] = useState();
   return (
     <Sider
@@ -17,7 +17,7 @@ const Sidebar = () => {
       theme='light'
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
-      style={{ height: '100vh' }}
+      style={{ height: '100vh', ...style }}
       // collapsedWidth={93}
       trigger={null}
     >

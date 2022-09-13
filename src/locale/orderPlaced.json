@@ -1,0 +1,14 @@
+{
+  "orderDone": {
+    "ar": "تم الطلب",
+    "en": "Order placed"
+  },
+  "orderSuccess": {
+    "ar": "تم تقديم الطلب بنجاح",
+    "en": "Order placed successfully"
+  },
+  "newOrder": {
+    "ar": "طلب جديد",
+    "en": "New order"
+  }
+}

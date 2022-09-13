@@ -20,7 +20,7 @@ const SecretCodeForm = ({ onClick }) => {
       >
         <InputField placeholder='ex: 5000' type='number' />
       </Form.Item>
-      <Button type='primary' fullwidth>
+      <Button large={false} type='primary' fullwidth>
         {locale.authPage.loginBtn[currentLang]}
       </Button>
     </Form>

@@ -1,0 +1,21 @@
+.SavedOrders {
+  &__Title {
+    margin-bottom: 30px;
+  }
+
+  &__Modal {
+    &__Title {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    &__Label {
+      color: #667085;
+      margin-bottom: 32px;
+    }
+    &__Actions {
+      display: flex;
+      gap: 15px;
+    }
+  }
+}

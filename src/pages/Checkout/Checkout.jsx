@@ -8,15 +8,27 @@ import PaymentType from './PaymentType/PaymentType';
 const Checkout = () => {
   // const [currentLang] = useCurrentLang();
   const [orderType, setOrderType] = useState('delivery');
+  const [receivedValue, setReceivedValue] = useState('delivery');
+  const [paymentType, setPaymentType] = useState('wallet');
   const onChangeOrderType = ({ target: { value: val } }) => {
-    console.log(val);
     setOrderType(val);
+  };
+  const onChangePaymentType = ({ target: { value: val } }) => {
+    setPaymentType(val);
+  };
+  const onChangeReceivedMoney = ({ target: { value: val } }) => {
+    setReceivedValue(val);
   };
   return (
     <div className={classes.Checkout}>
       <div className={classes['col-1']}>
         <OrderType value={orderType} onChange={onChangeOrderType} />
-        <PaymentType />
+        <PaymentType
+          paymentValue={paymentType}
+          onChangePaymentType={onChangePaymentType}
+          receivedValue={receivedValue}
+          onChangeReceivedMoney={onChangeReceivedMoney}
+        />
       </div>
 
       <div className={classes['col-2']}>

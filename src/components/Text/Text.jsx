@@ -4,18 +4,25 @@ import classnames from 'classnames';
 
 const Text = ({
   children,
-  size = 'md',
+  size = 'medium',
   weight = 'bold',
   color = 'black',
   label,
+  className,
+  block,
 }) => {
   return (
     <p
-      style={{ display: 'inline-block' }}
+      style={{ display: block ? 'block' : 'inline-block' }}
       className={
         label
-          ? classnames(classes.normal, classes.base, classes.grey)
-          : classnames(classes[size], classes[weight], classes[color])
+          ? classnames(classes.normal, classes.base, classes.grey, className)
+          : classnames(
+              classes[size],
+              classes[weight],
+              classes[color],
+              className
+            )
       }
     >
       {children}

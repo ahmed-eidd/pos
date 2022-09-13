@@ -6,8 +6,13 @@ import { Outlet, useLocation } from 'react-router-dom';
 import CartSidebar from './CartSidebar/CartSidebar';
 import SearchBar from '../SearchBar/SearchBar';
 import { locale } from '../../locale';
+import ProfileModal from '../ProfileModal/ProfileModal';
 
-const Layout = ({ showCartSideabar = true }) => {
+const Layout = ({
+  showCartSideabar = true,
+  showSidebar = 'true',
+  sidebarStyle,
+}) => {
   const location = useLocation();
   return (
     <AntLayout
@@ -15,7 +20,7 @@ const Layout = ({ showCartSideabar = true }) => {
         height: '100vh',
       }}
     >
-      <Sidebar />
+      <Sidebar style={sidebarStyle} />
       <AntLayout>
         {location.pathname.includes(
           locale.sidebar.sidebar.menu.categories.link
@@ -25,6 +30,7 @@ const Layout = ({ showCartSideabar = true }) => {
         </Content>
       </AntLayout>
       {showCartSideabar && <CartSidebar />}
+      <ProfileModal />
     </AntLayout>
   );
 };

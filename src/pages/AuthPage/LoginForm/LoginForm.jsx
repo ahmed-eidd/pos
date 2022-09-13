@@ -26,7 +26,7 @@ const LoginForm = ({ onClick }) => {
       >
         <InputField type='password' />
       </Form.Item>
-      <Button type='primary' fullwidth>
+      <Button large={false} type='primary' fullwidth>
         {locale.authPage.loginBtn[currentLang]}
       </Button>
     </Form>

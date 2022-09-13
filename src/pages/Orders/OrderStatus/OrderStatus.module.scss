@@ -1,0 +1,21 @@
+@import '../../../styles/index.scss';
+
+.OrderStatus {
+  width: 61px;
+  height: 26px;
+  border-radius: $radius-md;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__Done {
+    background-color: $color-green-100;
+    color: $color-success;
+  }
+
+  &__Unpaid {
+    width: 76px;
+    background-color: $color-blue-100;
+    color: $color-primary;
+  }
+}

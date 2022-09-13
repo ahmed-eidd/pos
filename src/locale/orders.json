@@ -1,0 +1,60 @@
+{
+  "title": {
+    "ar": "الطلبات",
+    "en": "Orders"
+  },
+  "orderType": {
+    "ar": "نوع الطلب",
+    "en": "Order type"
+  },
+  "orderTypeLabelRestaurant": {
+    "en": "in resturant",
+    "ar": "في المطعم"
+  },
+  "orderTypeLabelDelivery": {
+    "en": "Delivery",
+    "ar": "توصيل"
+  },
+  "sortBy": {
+    "en": "Sort by",
+    "ar": "ترتيب حسب"
+  },
+
+  "searchForOrders": {
+    "en": "Search in orders",
+    "ar": "ابحث عن الطلبات"
+  },
+  "searchForOrdersPlaceholder": {
+    "en": "Search",
+    "ar": "بحث"
+  },
+  "searchResult": {
+    "ar": "نتائج البحث",
+    "en": "Search result"
+  },
+  "searchBy": {
+    "ar": "البحث عن طريق",
+    "en": "Search by"
+  },
+  "noSearchResult": {
+    "ar": "لم يتم العثور على نتائج",
+    "en": "No results found"
+  },
+  "paidDone": {
+    "en": "Paid",
+    "ar": "مدفوع"
+  },
+  "notPaid": {
+    "en": "not paid",
+    "ar": "غير مدفوعة"
+  },
+  "orderDetail": {
+    "en": "Order details",
+    "ar": "تفاصيل الطلب"
+  },
+
+  "orderDetailsBtn": {
+    "en": "Order details",
+    "ar": "تفاصيل الطلب"
+  }
+}

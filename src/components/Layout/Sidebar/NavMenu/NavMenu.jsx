@@ -9,8 +9,9 @@ import MenuSettingsIcon from '../../../../icons/SideMenuIcons/Settings/Settings'
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 import { locale } from '../../../../locale';
 import { scssVar } from '../../../../styles/scssVars';
+import { useZusStore } from '../../../../store/useStore';
 
-const MenuItem = ({ to, text, icon }) => {
+const MenuItem = ({ to, text, icon, onClick }) => {
   const [isActive, setIsActive] = useState(false);
   const RenderedIcon = icon;
   const location = useLocation();
@@ -26,6 +27,7 @@ const MenuItem = ({ to, text, icon }) => {
   }, [location, to]);
   return (
     <NavLink
+      onClick={onClick}
       className={({ isActive }) => {
         if (isActive) {
           return [classes.NavMenu__MenuItem, classes.MenuItemActive].join(' ');
@@ -43,6 +45,9 @@ const MenuItem = ({ to, text, icon }) => {
 const NavMenu = () => {
   const [currentLang] = useCurrentLang();
   const localeSidebar = locale.sidebar.sidebar.menu;
+  const onProfileOpen = useZusStore(
+    (state) => state.profileModal.setProfileModalOpen
+  );
   return (
     <div className={classes.NavMenu}>
       <MenuItem
@@ -69,8 +74,8 @@ const NavMenu = () => {
         text={localeSidebar.settings[currentLang]}
         to={localeSidebar.settings.link}
         icon={MenuSettingsIcon}
+        onClick={() => onProfileOpen()}
       />
-      <MenuItem text={'checkout'} to={'checkout'} icon={MenuSettingsIcon} />
     </div>
   );
 };

@@ -6,5 +6,16 @@
   "currencyWithEgyptian": {
     "en": "EGP",
     "ar": "جنيه مصري"
+  },
+
+  "orderStatus": {
+    "done": {
+      "ar": "مدفوع",
+      "en": "Paid"
+    },
+    "unpaid": {
+      "en": "Unpaid",
+      "ar": "غير مدفوعة"
+    }
   }
 }

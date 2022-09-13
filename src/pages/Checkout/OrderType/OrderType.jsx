@@ -1,5 +1,6 @@
 import { Radio } from 'antd';
 import React from 'react';
+import RadioButton from '../../../components/RadioButton/RadioButton';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
 import classes from './OrderType.module.scss';
@@ -15,8 +16,8 @@ const OrderType = ({ onChange, value }) => {
         defaultValue='delivery'
         buttonStyle='solid'
       >
-        <Radio.Button value={'delivery'}>توصيل</Radio.Button>
-        <Radio.Button value={'restaurant'}>في المطعم</Radio.Button>
+        <RadioButton value={'delivery'} label='توصيل'></RadioButton>
+        <RadioButton value={'restaurant'} label='في المطعم'></RadioButton>
       </Radio.Group>
     </div>
   );

@@ -1,0 +1,27 @@
+{
+  "title": {
+    "ar": "أوامر معلقة",
+    "en": "Saved Orders"
+  },
+  "chooseSavedOrder": {
+    "ar": "حدد الطلب حسب اسم العميل",
+    "en": "Select the order according to customer's name"
+  },
+  "modalOk": {
+    "ar": "إكمال",
+    "en": "Continue"
+  },
+  "modalClose": {
+    "ar": "إلغاء",
+    "en": "Close"
+  },
+  "modalTitle": {
+    "ar": "إكمال الطلب",
+    "en": "Continue this order"
+  },
+
+  "modalLabel": {
+    "ar": "هل أنت متأكد من إكمال هذا الطلب؟",
+    "en": "Are you sure to complete this order?"
+  }
+}

@@ -8,6 +8,7 @@ import classes from './CheckoutTotal.module.scss';
 
 const CheckoutTotal = () => {
   const [currentLang] = useCurrentLang();
+
   const orderlabels = locale.sidebar.cart.orderLables;
   return (
     <Flex
@@ -19,15 +20,15 @@ const CheckoutTotal = () => {
       className={classes.CheckoutTotal}
     >
       <Flex justify='space-between'>
-        <Text>100 جنيه مصري</Text>
-        <Text label>{orderlabels.subtotal[currentLang]}</Text>
+        <Text>{locale.global.currencyWithEgyptian[currentLang]} 100</Text>
+        <Text label>{orderlabels.total[currentLang]}</Text>
       </Flex>
       <Flex justify='space-between'>
-        <Text>جنيه مصري 5.5</Text>
+        <Text>{locale.global.currencyWithEgyptian[currentLang]} 5.5</Text>
         <Text label>{orderlabels.vat[currentLang]}</Text>
       </Flex>
       <Flex justify='space-between'>
-        <Text>جنيه مصري 50</Text>
+        <Text> {locale.global.currencyWithEgyptian[currentLang]} 50</Text>
         <Text label>{orderlabels.shipping[currentLang]}</Text>
       </Flex>
       <Divider style={{ margin: '0' }} />

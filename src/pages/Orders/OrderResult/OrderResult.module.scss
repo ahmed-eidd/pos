@@ -1,0 +1,25 @@
+@import '../../../styles/index.scss';
+
+.OrderResult {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 8px;
+  &__Details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    $detailGap: 28px;
+    gap: $detailGap;
+
+    &__OrderNumber {
+      margin-left: calc(62px - #{$detailGap});
+    }
+  }
+
+  &__Link {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+}

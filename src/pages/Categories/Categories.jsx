@@ -2,12 +2,12 @@ import React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Card from '../../components/Card/Card';
 import CategoriesTab from '../../components/CategoriesTabs/CategoriesTabs';
-import { useProductsStore } from '../../store/useStore';
+import { useZusStore } from '../../store/useStore';
 import classes from './Categories.module.scss';
 
 const Categories = () => {
-  const products = useProductsStore((state) => state.products);
-  const onAddToCart = useProductsStore((state) => state.addToCart);
+  const products = useZusStore((state) => state.products.products);
+  const onAddToCart = useZusStore((state) => state.products.addToCart);
   const navigate = useNavigate();
   return (
     <div>

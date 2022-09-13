@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import classes from './CartSidebar.module.scss';
 import CartHeader from './CartHeader/CartHeader';
 import CartCounter from './CartCounter/CartCounter';
-import { useProductsStore } from '../../../store/useStore';
+import { useZusStore } from '../../../store/useStore';
 import shallow from 'zustand/shallow';
 import { Divider } from 'antd';
 import Text from '../../Text/Text';
@@ -14,7 +14,7 @@ import CartItems from './CartItems/CartItems';
 const CartSidebar = () => {
   const [currentLang] = useCurrentLang();
   const orderlabels = locale.sidebar.cart.orderLables;
-  const cartItems = useProductsStore((state) => state.cart, shallow);
+  const cartItems = useZusStore((state) => state.products.cart, shallow);
   const cartPrices = useMemo(
     () =>
       cartItems.reduce((prev, curr) => prev + curr.price * curr.quantity, 0),

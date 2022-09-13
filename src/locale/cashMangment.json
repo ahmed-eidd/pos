@@ -1,0 +1,44 @@
+{
+  "title": {
+    "ar": "إدارة النقد",
+    "en": "Cash Mangment"
+  },
+  "chooseCashType": {
+    "ar": "حدد نوع النقد",
+    "en": "Choose Cash Type"
+  },
+  "cashTypelabel_incomes": {
+    "ar": "التدفقات",
+    "en": "Incomes"
+  },
+  "cashTypeLabel_expanses": {
+    "ar": "المصروفات",
+    "en": "Expanese"
+  },
+  "cashAmount": {
+    "ar": "مقدار",
+    "en": "Amount"
+  },
+  "cashAmountPlaceholder": {
+    "ar": "مبلغ نقدي",
+    "en": "Cash amount"
+  },
+  "comment": {
+    "ar": "تعليق",
+    "en": "Comment"
+  },
+
+  "commentPlaceholder": {
+    "ar": "أضف تعليق (اختياري)",
+    "en": "Add a comment"
+  },
+  "cancel": {
+    "ar": "الغاء",
+    "en": "Cancel"
+  },
+
+  "send": {
+    "ar": "تقديم",
+    "en": "Send"
+  }
+}

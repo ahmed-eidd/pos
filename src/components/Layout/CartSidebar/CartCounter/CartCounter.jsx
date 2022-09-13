@@ -2,12 +2,18 @@ import React from 'react';
 import classes from './CartCounter.module.scss';
 import { locale } from '../../../../locale';
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
+import { Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const CartCounter = ({ prices, count }) => {
   const [currentLang] = useCurrentLang();
   const cartLocale = locale.sidebar.cart;
+  const navigate = useNavigate();
+  const onClickHandler = () => {
+    navigate('/checkout');
+  };
   return (
-    <div className={classes.CartCounter}>
+    <Button onClick={onClickHandler} className={classes.CartCounter}>
       <p>
         {cartLocale.title[currentLang] +
           ` ${count} ` +
@@ -16,7 +22,7 @@ const CartCounter = ({ prices, count }) => {
           `${prices} ` +
           locale.global.currency[currentLang]}
       </p>
-    </div>
+    </Button>
   );
 };
 
