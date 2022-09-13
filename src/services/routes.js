@@ -18,7 +18,8 @@ const Routes = () => {
     <ReactRoutes>
       <Route path='/login' element={<AuthPage />} />
       <Route
-        path={`/${locale.sidebar.sidebar.menu.categories.link}/`}
+        // path={`/${locale.sidebar.sidebar.menu.categories.link}/`}
+        path={`/`}
         element={
           <Navigate
             to={`/${locale.sidebar.sidebar.menu.categories.link}/pizza`}
