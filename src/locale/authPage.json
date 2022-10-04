@@ -44,5 +44,12 @@
   "loginBtn": {
     "ar": "تسجيل الدخول",
     "en": "Log in"
+  },
+
+  "error": {
+    "pointOfSalesError": {
+      "ar": "يجب أختار فرع",
+      "en": "Please choose a branch"
+    }
   }
 }

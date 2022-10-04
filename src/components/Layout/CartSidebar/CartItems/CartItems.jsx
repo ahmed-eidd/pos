@@ -1,30 +1,37 @@
 import React from 'react';
 import classes from './CartItems.module.scss';
 import classNames from 'classnames';
-import { useZusStore } from '../../../../store/useStore';
-import shallow from 'zustand/shallow';
 import ItemAccordion from '../../../ItemAccordion/ItemAccordion';
+import {
+  useDecreaseQuantity,
+  useGetCart,
+  useIncreaseQuantity,
+  useRemoveCartItem,
+} from '../../../../hooks/query/useCart';
 
 const CartItems = ({ className }) => {
-  const increaseQuantity = useZusStore(
-    (state) => state.products.increaseQuantity
-  );
-  const decreaseQuantity = useZusStore(
-    (state) => state.products.decreaseQuantity
-  );
-  const deleteFromCart = useZusStore((state) => state.products.deleteFromCart);
-  const cartItems = useZusStore((state) => state.products.cart, shallow);
+  const { data, isLoading: cartIsloading } = useGetCart();
+  const removeItem = useRemoveCartItem();
+  const increaseQuantity = useIncreaseQuantity();
+  const decreaseQuantity = useDecreaseQuantity();
+  const cartItems = data?.items;
   return (
     <div
       className={classNames(classes.CartItems, className, {
-        [classes.center]: cartItems.length === 0,
+        [classes.center]: cartItems?.length === 0,
       })}
     >
       <ItemAccordion
-        onIncrement={increaseQuantity}
-        onDecrement={decreaseQuantity}
-        onDelete={deleteFromCart}
+        loading={cartIsloading}
+        onIncrement={(data) => increaseQuantity.mutate(data)}
+        onDecrement={(data) => decreaseQuantity.mutate(data)}
+        onDelete={(data) => removeItem.mutate(data)}
         items={cartItems}
+        actionsLoading={[
+          removeItem.isLoading,
+          increaseQuantity.isLoading,
+          decreaseQuantity.isLoading,
+        ]}
       />
     </div>
   );

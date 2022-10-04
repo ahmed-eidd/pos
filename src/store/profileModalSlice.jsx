@@ -27,6 +27,7 @@ export const profileModaSlice = (set) => ({
     set((state) => ({
       profileModal: {
         ...state.profileModal,
+        step: ProfileModalStates.PROFILE,
         open: false,
       },
     })),

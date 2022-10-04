@@ -7,20 +7,48 @@ import TrashIcon from '../../assets/trash.png';
 import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
 import { locale } from '../../locale';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
+import Spinner from '../Spinner/Spinner';
 
 const { Panel } = Collapse;
 
-const Header = ({ text, count }) => {
+const Header = ({ text, count, loading }) => {
   return (
     <div className={classes.ItemAccordion__Header}>
       <p className={classes.ItemAccordion__Header__Count}>{count}</p>
       <p className={classes.ItemAccordion__Header__Text}>{text}</p>
+      <Spinner
+        spinning={loading}
+        style={{
+          marginLeft: 'auto',
+          marginRight: '10px',
+        }}
+        size={20}
+      />
     </div>
   );
 };
 
-const ItemAccordion = ({ items = [], onDelete, onIncrement, onDecrement }) => {
+const ItemAccordion = ({
+  items = [],
+  onDelete,
+  onIncrement,
+  onDecrement,
+  loading,
+  actionsLoading,
+}) => {
   const [currentLang] = useCurrentLang();
+
+  if (loading) {
+    return (
+      <Spinner
+        style={{
+          position: 'static !important',
+          display: 'block',
+          margin: 'auto',
+        }}
+      />
+    );
+  }
   return (
     <>
       {items.length > 0 ? (
@@ -45,15 +73,24 @@ const ItemAccordion = ({ items = [], onDelete, onIncrement, onDecrement }) => {
             return (
               <Panel
                 key={item.id}
-                header={<Header text={item.name} count={item.quantity} />}
+                header={
+                  <>
+                    <Header
+                      // loading={actionsLoading.some((el) => el === true)}
+                      loading={actionsLoading.some((el) => el === true)}
+                      text={item.productName}
+                      count={item.quantity}
+                    />
+                  </>
+                }
               >
                 <div className={classes.ItemAccordion__Panel}>
                   <div className={classes.ItemAccordion__Panel__CounterWrapper}>
                     <CounterBtns
-                      onIncrement={() => onIncrement(item.id)}
-                      onDecrement={() => onDecrement(item.id)}
-                      count={item.quantity}
-                      disableDecBtn={item.quantity < 2}
+                      onIncrement={() => onIncrement(item?.id)}
+                      onDecrement={() => onDecrement(item?.id)}
+                      count={+item.quantity}
+                      disableDecBtn={+item.quantity < 2}
                     />
                     <p
                       className={
@@ -69,7 +106,7 @@ const ItemAccordion = ({ items = [], onDelete, onIncrement, onDecrement }) => {
                     }
                     src={TrashIcon}
                     alt='delete'
-                    onClick={() => onDelete(item.id)}
+                    onClick={() => onDelete(item?.id)}
                   />
                 </div>
               </Panel>

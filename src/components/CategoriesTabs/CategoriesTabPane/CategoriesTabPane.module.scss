@@ -1,0 +1,32 @@
+@import '../../../styles/index.scss';
+
+.CategoriesTabPane {
+  cursor: pointer;
+  height: 70px;
+  background-color: #fcfcfd;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  width: 222px;
+  border-radius: $radius-md;
+  overflow: hidden;
+
+  &--active {
+    background-color: #cce1ff;
+    border: 1px solid #006aff;
+  }
+  &__Img {
+    width: 80px;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__Icon {
+    font-size: 20px;
+    padding: 0 20px;
+  }
+  &__Name {
+    font-weight: 500;
+  }
+}

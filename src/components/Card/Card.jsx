@@ -6,8 +6,21 @@ import classes from './Card.module.scss';
 const Card = ({ img, name, id, price, onClick }) => {
   const [currentLang] = useCurrentLang();
   return (
-    <div onClick={onClick} key={id} className={classes.Card}>
-      <img src={img} alt='product' className={classes.Card__Img} />
+    <div
+      aria-disabled={true}
+      onClick={onClick}
+      key={id}
+      className={classes.Card}
+    >
+      {img ? (
+        <div className={classes.Card__Img}>
+          <img src={img} alt='product' />
+        </div>
+      ) : (
+        <div className={classes.Card__Icon}>
+          <i className={'fa-solid fa-pizza-slice'}></i>
+        </div>
+      )}
 
       {price ? (
         <div className={classes.Card__TextWrapper}>

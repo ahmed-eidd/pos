@@ -1,7 +1,7 @@
 .Categories {
   display: grid;
   grid-template-columns: repeat(auto-fit, 211px);
-  gap: 15px;
+  row-gap: 15px;
   justify-content: space-between;
   justify-items: center;
 }

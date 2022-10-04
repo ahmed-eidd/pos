@@ -23,5 +23,9 @@
   "modalLabel": {
     "ar": "هل أنت متأكد من إكمال هذا الطلب؟",
     "en": "Are you sure to complete this order?"
+  },
+  "noItems": {
+    "ar": "لا يوجد طلبات معلقة",
+    "en": "No saved orders"
   }
 }

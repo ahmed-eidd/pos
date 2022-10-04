@@ -10,8 +10,9 @@ import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 import { locale } from '../../../../locale';
 import { scssVar } from '../../../../styles/scssVars';
 import { useZusStore } from '../../../../store/useStore';
+import classNames from 'classnames';
 
-const MenuItem = ({ to, text, icon, onClick }) => {
+const MenuItem = ({ to, text, icon, onClick, isButton }) => {
   const [isActive, setIsActive] = useState(false);
   const RenderedIcon = icon;
   const location = useLocation();
@@ -25,20 +26,28 @@ const MenuItem = ({ to, text, icon, onClick }) => {
       setIsActive(false);
     }
   }, [location, to]);
+  const Element = isButton ? 'div' : NavLink;
   return (
-    <NavLink
-      onClick={onClick}
-      className={({ isActive }) => {
-        if (isActive) {
-          return [classes.NavMenu__MenuItem, classes.MenuItemActive].join(' ');
-        }
-        return classes.NavMenu__MenuItem;
-      }}
-      to={to}
-    >
-      <RenderedIcon color={isActive ? scssVar.primaryColor : false} />
-      <p className={classes.NavMenu__MenuItem__Text}>{text}</p>
-    </NavLink>
+    <>
+      <Element
+        onClick={onClick}
+        // className={({ isActive }) => {
+        //   if (isActive) {
+        //     return [classes.NavMenu__MenuItem, classes.MenuItemActive].join(
+        //       ' '
+        //     );
+        //   }
+        //   return classes.NavMenu__MenuItem;
+        // }}
+        className={classNames(classes.NavMenu__MenuItem, {
+          [classes['MenuItemActive']]: isActive,
+        })}
+        to={to}
+      >
+        <RenderedIcon color={isActive ? scssVar.primaryColor : false} />
+        <p className={classes.NavMenu__MenuItem__Text}>{text}</p>
+      </Element>
+    </>
   );
 };
 
@@ -75,6 +84,7 @@ const NavMenu = () => {
         to={localeSidebar.settings.link}
         icon={MenuSettingsIcon}
         onClick={() => onProfileOpen()}
+        isButton
       />
     </div>
   );

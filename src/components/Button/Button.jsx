@@ -11,6 +11,7 @@ const Button = ({
   halfwidth = false,
   type = 'primary',
   large = true,
+  isLoading,
   onClick,
   ...props
 }) => {
@@ -24,6 +25,8 @@ const Button = ({
       type={type}
       htmlType={htmlType}
       onClick={onClick}
+      loading={isLoading}
+      disabled={isLoading}
     >
       {children}
     </AntButton>

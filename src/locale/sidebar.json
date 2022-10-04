@@ -29,6 +29,10 @@
     }
   },
   "cart": {
+    "orderSavedSuccess": {
+      "ar": "تم حفظ الطلب",
+      "en": "Order saved successfully"
+    },
     "title": {
       "ar": "عربة التسوق",
       "en": "Cart"

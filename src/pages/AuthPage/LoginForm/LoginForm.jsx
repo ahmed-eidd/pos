@@ -2,15 +2,20 @@ import { Form } from 'antd';
 import React from 'react';
 import Button from '../../../components/Button/Button';
 import InputField from '../../../components/InputField/InputField';
+import { useLogin } from '../../../hooks/query/useAuth';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
 
-const LoginForm = ({ onClick }) => {
+const LoginForm = ({ onClick, onSuccess }) => {
   const [currentLang] = useCurrentLang();
+  const { mutate, isLoading } = useLogin();
   return (
     <Form
       onFinish={(values) => {
-        onClick();
+        const body = new FormData();
+        body.append('name', values.email);
+        body.append('password', values.password);
+        mutate(body, { onSuccess: onSuccess });
       }}
       layout='vertical'
       style={{
@@ -26,7 +31,7 @@ const LoginForm = ({ onClick }) => {
       >
         <InputField type='password' />
       </Form.Item>
-      <Button large={false} type='primary' fullwidth>
+      <Button isLoading={isLoading} large={false} type='primary' fullwidth>
         {locale.authPage.loginBtn[currentLang]}
       </Button>
     </Form>

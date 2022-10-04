@@ -12,61 +12,81 @@ import OrderPlaced from '../pages/OrderPlaced/OrderPlaced';
 import Orders from '../pages/Orders/Orders';
 import ReviewOrder from '../pages/ReviewOrder/ReviewOrder';
 import ReceiptDetails from '../pages/ReceiptDetails/ReceiptDetails';
+import { useZusStore } from '../store/useStore';
 
 const Routes = () => {
+  const token = useZusStore((state) => state.auth.token);
+  const sheet = useZusStore((state) => state.auth.sheet);
+  // const posId = useZusStore((state) => state.auth.posId);
+
+  if (!token && !sheet) {
+  }
+
   return (
     <ReactRoutes>
-      <Route path='/login' element={<AuthPage />} />
-      <Route
-        // path={`/${locale.sidebar.sidebar.menu.categories.link}/`}
-        path={`/`}
-        element={
-          <Navigate
-            to={`/${locale.sidebar.sidebar.menu.categories.link}/pizza`}
-            replace
+      {token && sheet ? (
+        <>
+          <Route
+            // path={`/${locale.sidebar.sidebar.menu.categories.link}/`}
+            path={`/*`}
+            element={
+              <Navigate
+                to={`/${locale.sidebar.sidebar.menu.categories.link}/`}
+                replace
+              />
+            }
           />
-        }
-      />
 
-      <Route element={<Layout />}>
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.categories.link}/*`}
-          element={<Categories />}
-        />
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.orders.link}`}
-          element={<Orders />}
-        />
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.hold.link}`}
-          element={<SavedOrders />}
-        />
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.settings.link}`}
-          element={<MyProfile />}
-        />
-      </Route>
+          <Route element={<Layout />}>
+            <Route
+              path={`/${locale.sidebar.sidebar.menu.categories.link}/*`}
+              element={<Categories />}
+            />
+            <Route
+              path={`/${locale.sidebar.sidebar.menu.orders.link}`}
+              element={<Orders />}
+            />
+            <Route
+              path={`/${locale.sidebar.sidebar.menu.hold.link}`}
+              element={<SavedOrders />}
+            />
+            <Route
+              path={`/${locale.sidebar.sidebar.menu.settings.link}`}
+              element={<MyProfile />}
+            />
+          </Route>
 
-      <Route element={<Layout showCartSideabar={false} />}>
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.money.link}`}
-          element={<CashMangment />}
-        />
-        <Route path={'/checkout'} element={<Checkout />} />
-        <Route path={'/review-order'} element={<ReviewOrder />} />
-        <Route path={'/order-placed'} element={<OrderPlaced />} />
-      </Route>
+          <Route element={<Layout showCartSideabar={false} />}>
+            <Route
+              path={`/${locale.sidebar.sidebar.menu.money.link}`}
+              element={<CashMangment />}
+            />
+            <Route path={'/checkout'} element={<Checkout />} />
+            <Route path={'/review-order'} element={<ReviewOrder />} />
+            <Route path={'/order-placed'} element={<OrderPlaced />} />
+          </Route>
 
-      <Route
-        element={
-          <Layout
-            sidebarStyle={{ visibility: 'hidden' }}
-            showCartSideabar={false}
+          <Route
+            element={
+              <Layout
+                sidebarStyle={{ visibility: 'hidden' }}
+                showCartSideabar={false}
+              />
+            }
+          >
+            <Route path='/order/:id' element={<ReceiptDetails />} />
+          </Route>
+        </>
+      ) : (
+        <>
+          <Route
+            // path={`/${locale.sidebar.sidebar.menu.categories.link}/`}
+            path={`/*`}
+            element={<Navigate to={'/login'} replace />}
           />
-        }
-      >
-        <Route path='/order/:id' element={<ReceiptDetails />} />
-      </Route>
+          <Route path='/login' element={<AuthPage />} />
+        </>
+      )}
     </ReactRoutes>
   );
 };

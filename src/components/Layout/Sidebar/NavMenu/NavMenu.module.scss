@@ -16,6 +16,7 @@
     align-items: center;
     border-radius: $radius-lg;
     gap: 10px;
+    cursor: pointer;
     transition: all 0.4s ease-in-out;
     &__Text {
       margin: 0 !important;

@@ -7,15 +7,23 @@ import SingleSavedOrder from './SingleSavedOrder/SingleSavedOrder';
 import classes from './SavedOrders.module.scss';
 import { Modal } from 'antd';
 import Button from '../../components/Button/Button';
+import { useGetOrders } from '../../hooks/query/useOrders';
+import { orderStatus } from '../../constants/orderStatus';
+import { useNavigate } from 'react-router-dom';
+import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
 
 const SavedOrders = () => {
   const [currentLang] = useCurrentLang();
   const [modalOpen, setModalOpen] = useState(false);
+  const { data: savedOrders } = useGetOrders(orderStatus.pending);
   const savedOrderLocale = locale.savedOrders;
+  const navigate = useNavigate();
   const onModalClose = () => {
     setModalOpen(false);
   };
-  const onModalOk = () => {};
+  const onModalOk = () => {
+    navigate(locale.categoires.all.link);
+  };
 
   return (
     <>
@@ -24,12 +32,20 @@ const SavedOrders = () => {
           <Text className={classes.SavedOrders__Title}>
             {savedOrderLocale.chooseSavedOrder[currentLang]}
           </Text>
-          <SingleSavedOrder
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          />
-          <SingleSavedOrder />
+          {savedOrders?.length > 0 ? (
+            savedOrders?.map((order) => (
+              <SingleSavedOrder
+                onClick={() => {
+                  setModalOpen(true);
+                }}
+              />
+            ))
+          ) : (
+            <div className={classes.SavedOrders__NoItems}>
+              <CartIcon style={{ width: '50px', height: '50px' }} />
+              <p>{locale.savedOrders.noItems[currentLang]}</p>
+            </div>
+          )}
         </div>
       </PageLayout>
 

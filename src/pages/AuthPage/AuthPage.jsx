@@ -1,41 +1,61 @@
 import React, { useMemo, useState } from 'react';
+import { useEffect } from 'react';
+import { getToken } from '../../helper/localStorage';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import CreditForm from './CreditForm/CreditForm';
 import FormLayout from './FormLayout/FormLayout';
 import LoginForm from './LoginForm/LoginForm';
-import SecretCodeForm from './SecretCodeForm/SecretCodeForm';
+import PointsOfSalesForm from './PointsOfSalesForm/PointsOfSalesForm';
+
+const STEPS = {
+  LOGIN_STEP: 'LOGIN_STEP',
+  CHECKPOINTS_STEP: 'CHECKPOINTS_STEP',
+  ADD_OPENING_AMOUNT_STEP: 'ADD_OPENING_AMOUNT_STEP',
+};
 
 const AuthPage = () => {
   const [currentLang] = useCurrentLang();
-  const [currentForm, setCurrentForm] = useState(1);
+  const [currentForm, setCurrentForm] = useState(STEPS.LOGIN_STEP);
   const [currentTitles, setCurrentTitles] = useState({
     mainTitle: locale.authPage.welcome[currentLang],
     secondTitle: locale.authPage.loginTitle[currentLang],
   });
+  const token = getToken();
+  useEffect(() => {
+    if (token) {
+      setCurrentForm(STEPS.CHECKPOINTS_STEP);
+    }
+  }, [token]);
 
   const renderForm = useMemo(() => {
     switch (currentForm) {
-      case 1: {
+      case STEPS.LOGIN_STEP: {
         setCurrentTitles({
           mainTitle: locale.authPage.welcome[currentLang],
           secondTitle: locale.authPage.loginTitle[currentLang],
         });
-        return <LoginForm onClick={() => setCurrentForm(2)} />;
+        return (
+          <LoginForm onSuccess={() => setCurrentForm(STEPS.CHECKPOINTS_STEP)} />
+        );
       }
-      case 2: {
+      case STEPS.CHECKPOINTS_STEP: {
+        setCurrentTitles({
+          mainTitle: locale.authPage.secretCodeTitle[currentLang],
+          secondTitle: locale.authPage.secretCodeSecondTitle[currentLang],
+        });
+        return (
+          <PointsOfSalesForm
+            onClick={() => setCurrentForm(STEPS.ADD_OPENING_AMOUNT_STEP)}
+          />
+        );
+      }
+      case STEPS.ADD_OPENING_AMOUNT_STEP: {
         setCurrentTitles({
           mainTitle: locale.authPage.creditMainTitle[currentLang],
           secondTitle: locale.authPage.creditTitle[currentLang],
         });
         return <CreditForm onClick={() => setCurrentForm(3)} />;
-      }
-      case 3: {
-        setCurrentTitles({
-          mainTitle: locale.authPage.secretCodeTitle[currentLang],
-          secondTitle: locale.authPage.secretCodeSecondTitle[currentLang],
-        });
-        return <SecretCodeForm onClick={() => setCurrentForm(1)} />;
       }
       default:
         return null;
