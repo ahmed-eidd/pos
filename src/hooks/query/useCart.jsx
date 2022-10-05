@@ -1,12 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import { queryKeys } from '../../constants/queryKeys';
-import { getPointOfSale } from '../../helper/localStorage';
 import { axiosInstance } from '../../service/api';
-
-const posId = getPointOfSale();
+import { useZusStore } from '../../store/useStore';
 
 export const useAddToCart = () => {
+  const posId = useZusStore((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     (data) => {
@@ -32,6 +31,7 @@ export const useAddToCart = () => {
 };
 
 export const useGetCart = (selectPrice) => {
+  const posId = useZusStore((state) => state.auth.posId);
   return useQuery(
     [queryKeys.getCart],
     () => {
@@ -49,6 +49,7 @@ export const useGetCart = (selectPrice) => {
 };
 
 export const useIncreaseQuantity = () => {
+  const posId = useZusStore((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     (itemId) => {
@@ -71,6 +72,7 @@ export const useIncreaseQuantity = () => {
 };
 
 export const useDecreaseQuantity = () => {
+  const posId = useZusStore((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     (itemId) => {
@@ -93,6 +95,7 @@ export const useDecreaseQuantity = () => {
 };
 
 export const useRemoveAllCartItems = () => {
+  const posId = useZusStore((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     () => {
@@ -114,6 +117,7 @@ export const useRemoveAllCartItems = () => {
 };
 
 export const useRemoveCartItem = () => {
+  const posId = useZusStore((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     (itemId) => {
