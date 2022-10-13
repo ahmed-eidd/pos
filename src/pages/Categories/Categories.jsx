@@ -1,23 +1,46 @@
+import { message, Modal } from 'antd';
 import React from 'react';
+import { useState } from 'react';
+import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import CategoriesTab from '../../components/CategoriesTabs/CategoriesTabs';
+import Flex from '../../components/Flex/Flex';
+import InputField from '../../components/InputField/InputField';
+import Spinner from '../../components/Spinner/Spinner';
+import Text from '../../components/Text/Text';
 import { useAddToCart, useIncreaseQuantity } from '../../hooks/query/useCart';
 import { useGetProducts } from '../../hooks/query/useGetProducts';
+import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
+import { useCurrentLang } from '../../hooks/useCurrentLang';
+import { locale } from '../../locale';
 import { useZusStore } from '../../store/useStore';
 import classes from './Categories.module.scss';
 
 const Categories = () => {
+  const [currentLang] = useCurrentLang();
+  const { data: savedOrder } = useCurrentCartItems();
+  const [quantityModalVisible, setQuantityModalVisible] = useState(false);
+  const [quantity, setQuantity] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null); // selected product is a state for the current select product to add quantity to it in a saved order
+  const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
   const activeCategory = useZusStore(
     (state) => state.categories.activeCategory
   );
 
+  const categoriesLocale = locale.categoires;
   const addToCart = useAddToCart();
   const increaseQuantity = useIncreaseQuantity();
-  const { data: products } = useGetProducts(
+  const { data: products, isLoading } = useGetProducts(
     activeCategory === 'all' ? '' : activeCategory
   );
 
   const onAddToCartHandler = (product) => {
+    if (showSavedOrder) {
+      setQuantityModalVisible(true);
+      setSelectedProduct(product);
+      return;
+    }
+
     if (product?.in_cart === 0) {
       addToCart.mutate({
         id: product?.id,
@@ -29,10 +52,85 @@ const Categories = () => {
     }
   };
 
+  const onQuantityModalOk = () => {
+    if (quantity < 0 || !quantity) {
+      message.error(
+        categoriesLocale.quantityModal.validation.pleaseAddQuantity[currentLang]
+      );
+      return;
+    }
+    addToCart.mutate(
+      {
+        id: selectedProduct?.id,
+        type: selectedProduct?.type,
+        quantity: quantity,
+        order_id: savedOrder?.id,
+      },
+      {
+        onSuccess: (data) => {
+          if (data.data.validation.length > 0) return;
+
+          message.success(
+            categoriesLocale.quantityModal.notifation.addSucess[currentLang]
+          );
+          setQuantityModalVisible(false);
+        },
+      }
+    );
+  };
+
+  const onChangeQuantityHandler = (e) => {
+    setQuantity(e.target.value);
+  };
+
+  const onCloseQuantityModal = () => {
+    setQuantityModalVisible(false);
+    setQuantity(null);
+  };
+
   return (
     <div>
       <CategoriesTab />
-
+      <Modal
+        visible={quantityModalVisible}
+        onCancel={onCloseQuantityModal}
+        footer={null}
+        className={classes.Categories__QuantityModal}
+      >
+        <Flex direction='column' align='flex-start' justify='center' gap='10px'>
+          <Text>{selectedProduct?.name}</Text>
+          <InputField
+            type='number'
+            placeholder={
+              categoriesLocale.quantityModal.inputPlacehodler[currentLang]
+            }
+            onChange={onChangeQuantityHandler}
+            value={quantity}
+          />
+          <Flex justify='center' gap='10px'>
+            <Button
+              onClick={onQuantityModalOk}
+              isLoading={addToCart.isLoading}
+              fullwidth
+            >
+              {categoriesLocale.quantityModal.add[currentLang]}
+            </Button>
+            <Button
+              isLoading={addToCart.isLoading}
+              onClick={onCloseQuantityModal}
+              type='danger'
+              fullwidth
+            >
+              {categoriesLocale.quantityModal.cancel[currentLang]}
+            </Button>
+          </Flex>
+        </Flex>
+      </Modal>
+      <Spinner
+        fullWidth
+        spinning={isLoading}
+        spinnerStyle={{ margin: '10px' }}
+      />
       <div className={classes.Categories}>
         {products?.data?.data?.items?.map((el) => (
           <Card

@@ -18,5 +18,32 @@
     "en": "Cold beverages",
     "ar": "مشروبات باردة",
     "link": "cold-beverages"
+  },
+
+  "quantityModal": {
+    "add": {
+      "ar": "أضافة",
+      "en": "Add"
+    },
+    "cancel": {
+      "ar": "ألغاء",
+      "en": "Cancel"
+    },
+    "inputPlacehodler": {
+      "ar": "أضف كمية لهذا المنتج",
+      "en": "Add quantity to this product"
+    },
+    "notifation": {
+      "addSucess": {
+        "ar": "تم أضافة المنتج بالكمية المطلوبة",
+        "en": "Product has been added successfully"
+      }
+    },
+    "validation": {
+      "pleaseAddQuantity": {
+        "ar": "الرجاء اضافة كمية أولاٌ",
+        "en": "Please add quantity first"
+      }
+    }
   }
 }

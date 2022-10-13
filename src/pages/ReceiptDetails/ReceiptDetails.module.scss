@@ -1,4 +1,12 @@
+@import '../../styles/index.scss';
+
 .ReceiptDetails {
+  :global {
+    .ant-collapse .ant-collapse-item-disabled > .ant-collapse-header {
+      color: $color-grey-900 !important;
+    }
+  }
+
   &__Link {
     font-size: 20px;
     display: flex;

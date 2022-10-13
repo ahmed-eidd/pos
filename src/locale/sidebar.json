@@ -62,6 +62,13 @@
         "en": "Total Price",
         "ar": "السعر الكلي"
       }
+    },
+
+    "validation": {
+      "emptyCart": {
+        "ar": "الرجاء اضافة منتجات أولاٌ",
+        "en": "Please add products first"
+      }
     }
   }
 }

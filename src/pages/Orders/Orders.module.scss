@@ -55,11 +55,15 @@
     width: 100%;
     justify-content: space-between;
     font-weight: 500;
-    max-height: 425px;
+    height: 425px;
 
     &__Divider {
       height: 90%;
       margin-top: auto;
+    }
+
+    &__SearchResults {
+      width: 325px;
     }
 
     &__SearchResults,

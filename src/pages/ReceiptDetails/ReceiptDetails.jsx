@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import classes from './ReceiptDetails.module.scss';
 import LeftArrow from '../../assets/arrow-left.png';
@@ -9,9 +9,12 @@ import Flex from '../../components/Flex/Flex';
 import { locale } from '../../locale';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
 import FramerIcon from '../../assets/receipt-details/Frame.png';
+import { useGetOrders } from '../../hooks/query/useOrders';
 
 const ReceiptDetails = () => {
   const [currentLang] = useCurrentLang();
+  const { id } = useParams();
+  const { data: readOnlyData = [], isFetching } = useGetOrders(null, id);
   const reviewOrderLocale = locale.reviewOrder;
   return (
     <div className={classes.ReceiptDetails}>
@@ -25,7 +28,7 @@ const ReceiptDetails = () => {
           align='center'
           className={classes.ReceiptDetails__ContentWrapper__Titles}
         >
-          <Text color='grey'>الطلب رقم 6598</Text>
+          <Text color='grey'>الطلب رقم {id}</Text>
           <Text>10/05/2022 10:30 مساءً</Text>
         </Flex>
         <div className={classes.ReceiptDetails__ContentWrapper__OrderDetails}>
@@ -44,7 +47,8 @@ const ReceiptDetails = () => {
               <Flex justify='space-between'>
                 <Text weight='semi-bold'>مجموع المبالغ المدفوعة</Text>
                 <Text>
-                  {locale.global.currencyWithEgyptian[currentLang]} 150{' '}
+                  {locale.global.currencyWithEgyptian[currentLang]}{' '}
+                  {readOnlyData[0]?.total_amount}
                 </Text>
               </Flex>
               <Flex justify='space-between'>
@@ -96,7 +100,9 @@ const ReceiptDetails = () => {
         </div>
         <div className={classes.ReceiptDetails__ContentWrapper__CartItems}>
           <CartItems
+            readOnlyData={readOnlyData[0]?.order_items}
             className={classes.ReceiptDetails__ContentWrapper__CartItems__Items}
+            isFetching={isFetching}
           />
         </div>
       </PageLayout>

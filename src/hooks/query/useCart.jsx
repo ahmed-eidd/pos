@@ -6,6 +6,7 @@ import { useZusStore } from '../../store/useStore';
 
 export const useAddToCart = () => {
   const posId = useZusStore((state) => state.auth.posId);
+  const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
   const queryClient = useQueryClient();
   return useMutation(
     (data) => {
@@ -13,7 +14,11 @@ export const useAddToCart = () => {
       body.append('Id', data?.id);
       body.append('type', data?.type);
       body.append('quantity', data?.quantity);
+
       body.append('point_of_sale_id', posId);
+      if (showSavedOrder) {
+        body.append('order_id', data?.order_id);
+      }
       return axiosInstance().post('/addToCart', body);
     },
     {
@@ -23,7 +28,11 @@ export const useAddToCart = () => {
           message.error(error[0]);
           return;
         }
-        queryClient.invalidateQueries([queryKeys.getCart]);
+        if (showSavedOrder) {
+          queryClient.invalidateQueries([queryKeys.getSavedOrder]);
+        } else {
+          queryClient.invalidateQueries([queryKeys.getCart]);
+        }
         queryClient.invalidateQueries([queryKeys.getProducts]);
       },
     }

@@ -27,5 +27,15 @@
   "noItems": {
     "ar": "لا يوجد طلبات معلقة",
     "en": "No saved orders"
+  },
+  "customerNameLabel": {
+    "ar": "أسم الزبون",
+    "en": "Customer name"
+  },
+  "validation": {
+    "noName": {
+      "ar": "لا يوجد أسم",
+      "en": "No name found"
+    }
   }
 }

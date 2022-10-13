@@ -4,10 +4,15 @@ import SuccessIcon from '../../assets/order-placed/successIcon.png';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import Button from '../../components/Button/Button';
+import { useNavigate } from 'react-router-dom';
 
 const OrderPlaced = () => {
   const [currentLang] = useCurrentLang();
   const orderPlacedLocale = locale.orderPlaced;
+  const navigate = useNavigate();
+  const onNewOrderHandler = () => {
+    navigate('/');
+  };
   return (
     <div className={classes.OrderPlaced}>
       <div className={classes.OrderPlaced__Wrapper}>
@@ -23,7 +28,11 @@ const OrderPlaced = () => {
           <p>{orderPlacedLocale.orderDone[currentLang]}</p>
           <p>{orderPlacedLocale.orderSuccess[currentLang]}</p>
         </div>
-        <Button type='primary' className={classes.OrderPlaced__Wrapper__Btn}>
+        <Button
+          type='primary'
+          onClick={onNewOrderHandler}
+          className={classes.OrderPlaced__Wrapper__Btn}
+        >
           {orderPlacedLocale.newOrder[currentLang]}
         </Button>
       </div>

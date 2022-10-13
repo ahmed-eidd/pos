@@ -18,4 +18,9 @@
     background-color: $color-blue-100;
     color: $color-primary;
   }
+  &__NotFound {
+    background-color: $color-grey;
+    color: black;
+    width: 76px;
+  }
 }

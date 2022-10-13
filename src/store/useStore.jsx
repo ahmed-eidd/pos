@@ -2,6 +2,7 @@ import create from 'zustand';
 // TODO: import Presist from zustand/middleware Add it to zustand store
 import { devtools } from 'zustand/middleware';
 import { authSlice } from './authSlice';
+import { cartSlice } from './cartSlice';
 import { categoriesSlice } from './categoriesSlice';
 import { productSlice } from './productsSlice';
 import { profileModaSlice } from './profileModalSlice';
@@ -12,5 +13,6 @@ export const useZusStore = create(
     profileModal: profileModaSlice(...a),
     categories: categoriesSlice(...a),
     auth: authSlice(...a),
+    cart: cartSlice(...a),
   }))
 );

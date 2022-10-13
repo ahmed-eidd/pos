@@ -8,17 +8,17 @@ import Flex from '../../Flex/Flex';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
 import CartItems from './CartItems/CartItems';
-import { useGetCart } from '../../../hooks/query/useCart';
+import { useCurrentCartItems } from '../../../hooks/useCurrentCartItems';
 
 const CartSidebar = () => {
   const [currentLang] = useCurrentLang();
   const orderlabels = locale.sidebar.cart.orderLables;
-  const { data } = useGetCart();
-
+  const { data: currentCartItem, isLoading: cartIsLoading } =
+    useCurrentCartItems();
   return (
     <div className={classes.CartSidebar}>
       <CartHeader />
-      <CartItems />
+      <CartItems cartIsloading={cartIsLoading} data={currentCartItem} />
       <Flex
         style={{
           padding: '18px',
@@ -40,11 +40,14 @@ const CartSidebar = () => {
         </Flex> */}
         <Divider style={{ margin: '0' }} />
         <Flex justify='space-between'>
-          <Text color='primary'>م. {data?.total ?? 0}</Text>
+          <Text color='primary'>م. {currentCartItem?.total ?? 0}</Text>
           <Text label>{orderlabels.total[currentLang]}</Text>
         </Flex>
       </Flex>
-      <CartCounter count={data?.items?.length ?? 0} prices={data?.total ?? 0} />
+      <CartCounter
+        count={currentCartItem?.items?.length}
+        prices={currentCartItem?.total}
+      />
     </div>
   );
 };

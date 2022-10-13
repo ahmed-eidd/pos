@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
 import classes from './Checkout.module.scss';
 import CheckoutItems from './CheckoutItems/CheckoutItems';
 import CheckoutTotal from './CheckoutTotal/CheckoutTotal';
@@ -7,6 +8,7 @@ import PaymentType, { PAYMENT_TYPE } from './PaymentType/PaymentType';
 
 const Checkout = () => {
   // const [currentLang] = useCurrentLang();
+  const { data: cart } = useCurrentCartItems();
   const [orderType, setOrderType] = useState('delivery');
   const [receivedValue, setReceivedValue] = useState('delivery');
   const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash);
@@ -24,6 +26,7 @@ const Checkout = () => {
       <div className={classes['col-1']}>
         <OrderType value={orderType} onChange={onChangeOrderType} />
         <PaymentType
+          total={cart?.total}
           orderType={orderType}
           paymentValue={paymentType}
           onChangePaymentType={onChangePaymentType}
@@ -34,7 +37,7 @@ const Checkout = () => {
 
       <div className={classes['col-2']}>
         <CheckoutItems />
-        <CheckoutTotal />
+        <CheckoutTotal total={cart?.total} />
       </div>
     </div>
   );

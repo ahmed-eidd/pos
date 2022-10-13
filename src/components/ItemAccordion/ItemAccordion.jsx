@@ -34,7 +34,8 @@ const ItemAccordion = ({
   onIncrement,
   onDecrement,
   loading,
-  actionsLoading,
+  actionsLoading = [],
+  readOnly,
 }) => {
   const [currentLang] = useCurrentLang();
 
@@ -54,6 +55,7 @@ const ItemAccordion = ({
       {items.length > 0 ? (
         <Collapse
           expandIconPosition='end'
+          collapsible={readOnly && 'disabled'}
           expandIcon={({ isActive }) => (
             <div>
               <img
@@ -77,7 +79,7 @@ const ItemAccordion = ({
                   <>
                     <Header
                       // loading={actionsLoading.some((el) => el === true)}
-                      loading={actionsLoading.some((el) => el === true)}
+                      loading={actionsLoading?.some((el) => el === true)}
                       text={item.productName}
                       count={item.quantity}
                     />

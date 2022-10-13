@@ -6,4 +6,5 @@ export const queryKeys = {
   getPointsOfSales: 'getPointsOfSales',
   getCart: 'getCart',
   getOrders: 'getOrders',
+  getSavedOrder: 'getSavedOrder',
 };

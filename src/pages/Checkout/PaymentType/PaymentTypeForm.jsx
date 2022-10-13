@@ -16,6 +16,7 @@ const PaymentTypeForm = ({
   onChangeReceivedMoney,
   receivedValue,
   orderType,
+  total,
 }) => {
   const [currentLang] = useCurrentLang();
   const payOrder = usePayOrder();
@@ -27,7 +28,7 @@ const PaymentTypeForm = ({
         <Form
           onFinish={(values) =>
             payOrder.mutate({
-              pyament_type: orderType,
+              payment_type: orderType,
               paidAmount: values.paidAmount,
             })
           }
@@ -59,24 +60,28 @@ const PaymentTypeForm = ({
               <InputField radius='md' type='number' />
             </Form.Item>
 
-            <Flex gap='15px' direction='column'>
+            <Flex
+              style={{ marginBottom: '10px' }}
+              gap='15px'
+              direction='column'
+            >
               <Flex justify='space-between'>
                 <Text label>
                   {locale.checkout.orderTotal.paid[currentLang]}
                 </Text>
-                <Text>150 جنيه مصري</Text>
+                <Text>{total} جنيه مصري</Text>
               </Flex>
               <Flex justify='space-between'>
                 <Text label>
                   {locale.checkout.orderTotal.onhold[currentLang]}
                 </Text>
-                <Text>150 جنيه مصري</Text>
+                <Text>{total} جنيه مصري</Text>
               </Flex>
               <Flex justify='space-between'>
                 <Text label>
                   {locale.checkout.orderTotal.nochange[currentLang]}
                 </Text>
-                <Text color='success'>150 جنيه مصري</Text>
+                <Text color='success'>{total} جنيه مصري</Text>
               </Flex>
             </Flex>
           </Flex>
@@ -94,7 +99,7 @@ const PaymentTypeForm = ({
             })
           }
         >
-          <h3>رقم الغرفة</h3>
+          <h3 className={classes.PaymentTypeForm__Form__Label}>رقم الغرفة</h3>
           <Form.Item
             name='room_num'
             rules={[{ required: true, message: 'الرجاء ادخال رقم الموظف' }]}
@@ -114,7 +119,7 @@ const PaymentTypeForm = ({
             })
           }
         >
-          <h3>رقم الموظف</h3>
+          <h3 className={classes.PaymentTypeForm__Form__Label}>رقم الموظف</h3>
           <Form.Item
             name='customer_id'
             rules={[{ required: true, message: 'الرجاء ادخال رقم الموظف' }]}
@@ -145,7 +150,13 @@ const FormButtons = ({ onCancel }) => {
       >
         {locale.checkout.orderTotal.order[currentLang]}
       </Button>
-      <Button type='danger' size='lg' onClick={onCancel} fullwidth>
+      <Button
+        type='danger'
+        htmlType='button'
+        size='lg'
+        onClick={onCancel}
+        fullwidth
+      >
         {locale.checkout.orderTotal.canelOrder[currentLang]}
       </Button>
     </Flex>

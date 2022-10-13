@@ -3,30 +3,33 @@ import { Link } from 'react-router-dom';
 import Text from '../../../components/Text/Text';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
-import OrderStatus from '../OrderStatus/OrderStatus';
+import OrderStatus, { NOTFOUND_ORDER } from '../OrderStatus/OrderStatus';
 import classes from './OrderResult.module.scss';
 
-const OrderResult = ({ status }) => {
+const OrderResult = ({ status, type, id, date }) => {
   const [currentLang] = useCurrentLang();
   const orderLocale = locale.orders;
   return (
     <div className={classes.OrderResult}>
       <div className={classes.OrderResult__Details}>
         <OrderStatus status={status} />
-        <Text>في المطعم</Text>
+        <Text>{type?.toUpperCase()}</Text>
         <Text
           className={classes.OrderResult__Details__OrderNumber}
           color='grey'
         >
-          الطلب رقم 6598
+          الطلب رقم {id}
         </Text>
       </div>
 
-      <Text>10/05/2022 10:30 مساءً</Text>
-
-      <Link to={`/order/33`} className={classes.OrderResult__Link}>
-        {orderLocale.orderDetailsBtn[currentLang]}
-      </Link>
+      {status !== NOTFOUND_ORDER && (
+        <>
+          <Text>{date ?? '10/05/2022 10:30 مساءً'}</Text>
+          <Link to={`/order/${id}`} className={classes.OrderResult__Link}>
+            {orderLocale.orderDetailsBtn[currentLang]}
+          </Link>
+        </>
+      )}
     </div>
   );
 };

@@ -8,13 +8,22 @@ import { useZusStore } from '../../store/useStore';
 export const usePayOrder = () => {
   const navigate = useNavigate();
   const posId = useZusStore((state) => state.auth.posId);
+  const sheetId = useZusStore((state) => state.auth.sheet);
+  const currentSavedOrderId = useZusStore(
+    (state) => state.cart.currentSavedOrderId
+  );
   const queryClient = useQueryClient();
   return useMutation(
     (data) => {
       const body = new FormData();
       body.append('point_of_sale_id', posId);
+      body.append('point_of_sale_order_sheet_id', sheetId);
       for (let [key, value] of Object.entries(data)) {
         body.append(key, value);
+      }
+      if (currentSavedOrderId) {
+        body.append('order_id', currentSavedOrderId);
+        console.log('payed saved order');
       }
       return axiosInstance().post('/payOrder', body);
     },

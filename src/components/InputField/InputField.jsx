@@ -8,6 +8,7 @@ const InputField = ({
   type,
   style,
   placeholder,
+  onChange,
   ...props
 }) => {
   return (
@@ -19,6 +20,8 @@ const InputField = ({
       })}
       style={style}
       placeholder={placeholder}
+      onChange={onChange}
+      
     />
   );
 };

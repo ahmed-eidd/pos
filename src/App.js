@@ -16,6 +16,7 @@ function App() {
     function changeStatus() {
       setStatus(navigator.onLine);
       if (!navigator.onLine) {
+        message.info('you are offline');
       }
     }
     window.addEventListener('online', changeStatus);
@@ -30,7 +31,7 @@ function App() {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        staleTime: 6000,
+        staleTime: 60000,
       },
       mutations: {
         onError: (e) => {

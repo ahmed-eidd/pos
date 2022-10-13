@@ -11,18 +11,31 @@ import { useGetOrders } from '../../hooks/query/useOrders';
 import { orderStatus } from '../../constants/orderStatus';
 import { useNavigate } from 'react-router-dom';
 import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
+import Spinner from '../../components/Spinner/Spinner';
+import { useZusStore } from '../../store/useStore';
 
 const SavedOrders = () => {
   const [currentLang] = useCurrentLang();
+  const setCurrentSavedOrderId = useZusStore(
+    (state) => state.cart.setCurrentSavedOrderId
+  );
   const [modalOpen, setModalOpen] = useState(false);
-  const { data: savedOrders } = useGetOrders(orderStatus.pending);
+  const { data: savedOrders, isLoading } = useGetOrders(orderStatus.pending);
   const savedOrderLocale = locale.savedOrders;
+  const [savedOrderId, setSavedOrderId] = useState(null);
+
   const navigate = useNavigate();
   const onModalClose = () => {
     setModalOpen(false);
   };
   const onModalOk = () => {
-    navigate(locale.categoires.all.link);
+    setCurrentSavedOrderId(savedOrderId);
+    navigate('/categories/');
+  };
+
+  const onSavedOrderClickHandler = (id) => {
+    setModalOpen(true);
+    setSavedOrderId(id);
   };
 
   return (
@@ -32,11 +45,15 @@ const SavedOrders = () => {
           <Text className={classes.SavedOrders__Title}>
             {savedOrderLocale.chooseSavedOrder[currentLang]}
           </Text>
-          {savedOrders?.length > 0 ? (
+
+          {isLoading ? (
+            <Spinner style={{ display: 'block' }} />
+          ) : savedOrders?.length > 0 ? (
             savedOrders?.map((order) => (
               <SingleSavedOrder
+                key={order?.id}
                 onClick={() => {
-                  setModalOpen(true);
+                  onSavedOrderClickHandler(order?.id);
                 }}
               />
             ))

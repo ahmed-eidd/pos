@@ -46,7 +46,7 @@ const ProfileModal = () => {
           onClose={setClose}
           onClick={() => {
             logOut();
-            setClose()
+            setClose();
           }}
           loading={isLoading}
         >
