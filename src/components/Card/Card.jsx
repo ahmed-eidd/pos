@@ -3,12 +3,15 @@ import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import classes from './Card.module.scss';
 
-const Card = ({ img, name, id, price, onClick }) => {
+const Card = ({ img, name, id, price, onClick, isLoading }) => {
   const [currentLang] = useCurrentLang();
   return (
     <div
       aria-disabled={true}
-      onClick={onClick}
+      onClick={() => {
+        if (isLoading) return;
+        onClick();
+      }}
       key={id}
       className={classes.Card}
     >

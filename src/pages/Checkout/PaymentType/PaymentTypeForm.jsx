@@ -1,5 +1,6 @@
-import { Form, Radio } from 'antd';
+import { Checkbox, Form, Radio } from 'antd';
 import React from 'react';
+import { useState } from 'react';
 import Button from '../../../components/Button/Button';
 import Flex from '../../../components/Flex/Flex';
 import InputField from '../../../components/InputField/InputField';
@@ -85,7 +86,7 @@ const PaymentTypeForm = ({
               </Flex>
             </Flex>
           </Flex>
-
+          <DiscountInputs />
           <FormButtons />
         </Form>
       )}
@@ -106,6 +107,7 @@ const PaymentTypeForm = ({
           >
             <InputField type='number' radius='md' />
           </Form.Item>
+          <DiscountInputs />
           <FormButtons />
         </Form>
       )}
@@ -126,6 +128,7 @@ const PaymentTypeForm = ({
           >
             <InputField type='number' radius='md' />
           </Form.Item>
+          <DiscountInputs />
           <FormButtons />
         </Form>
       )}
@@ -160,5 +163,26 @@ const FormButtons = ({ onCancel }) => {
         {locale.checkout.orderTotal.canelOrder[currentLang]}
       </Button>
     </Flex>
+  );
+};
+
+const DiscountInputs = () => {
+  const [isDiscount, setIsDiscount] = useState(false);
+  return (
+    <>
+      <Form.Item
+        checkout={isDiscount}
+        onChange={(e) => setIsDiscount(e.target.checked)}
+        label='تخفيض'
+        name='discount'
+      >
+        <Checkbox />
+      </Form.Item>
+      {isDiscount && (
+        <Form.Item>
+          <InputField />
+        </Form.Item>
+      )}
+    </>
   );
 };

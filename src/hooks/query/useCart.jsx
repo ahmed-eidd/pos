@@ -120,6 +120,7 @@ export const useRemoveAllCartItems = () => {
           return;
         }
         queryClient.invalidateQueries([queryKeys.getCart]);
+        queryClient.invalidateQueries([queryKeys.getProducts]);
       },
     }
   );

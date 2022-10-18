@@ -1,4 +1,4 @@
-import { message, Modal } from 'antd';
+import { Alert, message, Modal } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import Button from '../../components/Button/Button';
@@ -8,7 +8,11 @@ import Flex from '../../components/Flex/Flex';
 import InputField from '../../components/InputField/InputField';
 import Spinner from '../../components/Spinner/Spinner';
 import Text from '../../components/Text/Text';
-import { useAddToCart, useIncreaseQuantity } from '../../hooks/query/useCart';
+import {
+  useAddToCart,
+  useGetCart,
+  useIncreaseQuantity,
+} from '../../hooks/query/useCart';
 import { useGetProducts } from '../../hooks/query/useGetProducts';
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
@@ -17,30 +21,36 @@ import { useZusStore } from '../../store/useStore';
 import classes from './Categories.module.scss';
 
 const Categories = () => {
-  const [currentLang] = useCurrentLang();
-  const { data: savedOrder } = useCurrentCartItems();
-  const [quantityModalVisible, setQuantityModalVisible] = useState(false);
-  const [quantity, setQuantity] = useState(null);
+  // state
   const [selectedProduct, setSelectedProduct] = useState(null); // selected product is a state for the current select product to add quantity to it in a saved order
+  const [quantity, setQuantity] = useState(null);
+  const [quantityModalVisible, setQuantityModalVisible] = useState(false);
+
+  // zustand store
   const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
   const activeCategory = useZusStore(
     (state) => state.categories.activeCategory
   );
 
+  // locale
+  const [currentLang] = useCurrentLang();
   const categoriesLocale = locale.categoires;
-  const addToCart = useAddToCart();
-  const increaseQuantity = useIncreaseQuantity();
+
+  // react quey hooks
+  const { data: savedOrder } = useCurrentCartItems();
   const { data: products, isLoading } = useGetProducts(
     activeCategory === 'all' ? '' : activeCategory
   );
+  const addToCart = useAddToCart();
+  const increaseQuantity = useIncreaseQuantity();
 
+  // handlers
   const onAddToCartHandler = (product) => {
     if (showSavedOrder) {
       setQuantityModalVisible(true);
       setSelectedProduct(product);
       return;
     }
-
     if (product?.in_cart === 0) {
       addToCart.mutate({
         id: product?.id,
@@ -124,6 +134,11 @@ const Categories = () => {
               {categoriesLocale.quantityModal.cancel[currentLang]}
             </Button>
           </Flex>
+          <Alert
+            message={categoriesLocale.quantityModal.warning[currentLang]}
+            type='warning'
+            style={{ width: '100%' }}
+          />
         </Flex>
       </Modal>
       <Spinner
@@ -140,6 +155,7 @@ const Categories = () => {
             img={el?.image}
             price={el?.cost}
             onClick={() => onAddToCartHandler(el)}
+            isLoading={addToCart.isLoading || increaseQuantity.isLoading}
           />
         ))}
         {activeCategory === 'all' &&
@@ -151,6 +167,7 @@ const Categories = () => {
               img={el?.image}
               price={el?.cost}
               onClick={() => onAddToCartHandler(el.id)}
+              isLoading={addToCart.isLoading || increaseQuantity.isLoading}
             />
           ))}
       </div>

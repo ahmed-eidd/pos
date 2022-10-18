@@ -54,7 +54,7 @@ const Orders = () => {
             defaultValue={orderLocale.orderTypeLabelDelivery.en}
             className={classes.Orders__Radios__OrderType__RadioContainer}
             buttonStyle='solid'
-            onChange={(e) => e.target.value}
+            onChange={(e) => setOrderType(e.target.value)}
             value={orderType}
           >
             <RadioButton value={'delivery'} label='توصيل'></RadioButton>
@@ -77,8 +77,8 @@ const Orders = () => {
             buttonStyle='solid'
           >
             <RadioButton
-              value={orderLocale.sortBy.en}
-              label={orderLocale.sortBy[currentLang]}
+              value={orderLocale.orderTypeLabelDelivery.en}
+              label={orderLocale.orderTypeLabelDelivery[currentLang]}
             />
             <RadioButton
               value={orderLocale.orderTypeLabelRestaurant.en}

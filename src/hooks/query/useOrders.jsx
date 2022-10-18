@@ -26,6 +26,7 @@ export const useSaveOrder = () => {
       onSuccess: () => {
         queryClient.invalidateQueries([queryKeys.getCart]);
         queryClient.invalidateQueries([queryKeys.getOrders]);
+        queryClient.invalidateQueries([queryKeys.getProducts]);
         message.success(locale.sidebar.cart.orderSavedSuccess[currentLang]);
         setShowSavedOrder(false);
       },

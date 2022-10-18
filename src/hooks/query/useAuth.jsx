@@ -29,6 +29,12 @@ export const useLogOut = () => {
   const setAuthToken = useZusStore((state) => state.auth.setToken);
   const setAuthPosId = useZusStore((state) => state.auth.setPosId);
   const setAuthSheet = useZusStore((state) => state.auth.setSheet);
+  const setCartSavedOrder = useZusStore(
+    (state) => state.cart.setCartToShowSavedOrder
+  );
+  const setCurrentSavedOrderId = useZusStore(
+    (state) => state.cart.setCurrentSavedOrderId
+  );
   const { mutate, isLoading, isError } = useMutation(
     () => axiosInstance().get('/logout'),
     {
@@ -40,6 +46,8 @@ export const useLogOut = () => {
         setAuthToken(null);
         setAuthPosId(null);
         setAuthSheet(null);
+        setCartSavedOrder(false);
+        setCurrentSavedOrderId(null);
       },
     }
   );

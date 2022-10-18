@@ -8,10 +8,12 @@ import {
   useRemoveCartItem,
 } from '../../../../hooks/query/useCart';
 import { useCurrentCartItems } from '../../../../hooks/useCurrentCartItems';
+import { useZusStore } from '../../../../store/useStore';
 
 const CartItems = ({ className, readOnlyData, isFetching }) => {
   // const { data, isLoading: cartIsloading } = useGetCart();
   const removeItem = useRemoveCartItem();
+  const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
   const increaseQuantity = useIncreaseQuantity();
   const decreaseQuantity = useDecreaseQuantity();
 
@@ -23,8 +25,11 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
         [classes.center]: currentCartItems?.length === 0 || !currentCartItems,
       })}
     >
-      {readOnlyData ? (
-        <ItemAccordion readOnly items={readOnlyData} />
+      {readOnlyData || showSavedOrder ? (
+        <ItemAccordion
+          readOnly
+          items={readOnlyData ? readOnlyData : currentCartItems?.items}
+        />
       ) : (
         <ItemAccordion
           loading={cartIsLoading || isFetching}
