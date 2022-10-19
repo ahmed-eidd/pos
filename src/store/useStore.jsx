@@ -4,6 +4,7 @@ import { devtools } from 'zustand/middleware';
 import { authSlice } from './authSlice';
 import { cartSlice } from './cartSlice';
 import { categoriesSlice } from './categoriesSlice';
+import { orderSlice } from './orderSlice';
 import { productSlice } from './productsSlice';
 import { profileModaSlice } from './profileModalSlice';
 
@@ -14,5 +15,6 @@ export const useZusStore = create(
     categories: categoriesSlice(...a),
     auth: authSlice(...a),
     cart: cartSlice(...a),
+    order: orderSlice(...a),
   }))
 );

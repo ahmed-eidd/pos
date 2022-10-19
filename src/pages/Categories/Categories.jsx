@@ -8,11 +8,7 @@ import Flex from '../../components/Flex/Flex';
 import InputField from '../../components/InputField/InputField';
 import Spinner from '../../components/Spinner/Spinner';
 import Text from '../../components/Text/Text';
-import {
-  useAddToCart,
-  useGetCart,
-  useIncreaseQuantity,
-} from '../../hooks/query/useCart';
+import { useAddToCart, useIncreaseQuantity } from '../../hooks/query/useCart';
 import { useGetProducts } from '../../hooks/query/useGetProducts';
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
 import { useCurrentLang } from '../../hooks/useCurrentLang';

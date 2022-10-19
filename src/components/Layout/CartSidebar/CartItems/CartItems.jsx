@@ -11,7 +11,6 @@ import { useCurrentCartItems } from '../../../../hooks/useCurrentCartItems';
 import { useZusStore } from '../../../../store/useStore';
 
 const CartItems = ({ className, readOnlyData, isFetching }) => {
-  // const { data, isLoading: cartIsloading } = useGetCart();
   const removeItem = useRemoveCartItem();
   const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
   const increaseQuantity = useIncreaseQuantity();

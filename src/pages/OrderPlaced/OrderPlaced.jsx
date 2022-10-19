@@ -10,9 +10,11 @@ const OrderPlaced = () => {
   const [currentLang] = useCurrentLang();
   const orderPlacedLocale = locale.orderPlaced;
   const navigate = useNavigate();
+
   const onNewOrderHandler = () => {
     navigate('/');
   };
+
   return (
     <div className={classes.OrderPlaced}>
       <div className={classes.OrderPlaced__Wrapper}>

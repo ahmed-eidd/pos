@@ -23,6 +23,7 @@ const PaymentType = ({
   onChangePaymentType,
   onChangeReceivedMoney,
   total,
+  onSuccessOrder
 }) => {
   return (
     <div className={classes.PaymentType}>
@@ -65,6 +66,7 @@ const PaymentType = ({
         receivedValue={receivedValue}
         orderType={orderType}
         total={total}
+        onSuccess={onSuccessOrder}
       />
     </div>
   );

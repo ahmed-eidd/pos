@@ -18,17 +18,25 @@ const PaymentTypeForm = ({
   receivedValue,
   orderType,
   total,
+  onSuccess,
 }) => {
   const [currentLang] = useCurrentLang();
   const payOrder = usePayOrder();
   const { data: cart } = useGetCart();
+
+  console.log(payOrder.isLoading, 'loading');
+  const onFinishOrderHandler = (data) => {
+    payOrder.mutate(data, {
+      onSuccess: onSuccess,
+    });
+  };
   return (
     <>
       {(paymentValue === PAYMENT_TYPE.cash ||
         paymentValue === PAYMENT_TYPE.creditCard) && (
         <Form
           onFinish={(values) =>
-            payOrder.mutate({
+            onFinishOrderHandler({
               payment_type: orderType,
               paidAmount: values.paidAmount,
             })
@@ -87,13 +95,13 @@ const PaymentTypeForm = ({
             </Flex>
           </Flex>
           <DiscountInputs />
-          <FormButtons />
+          <FormButtons isLoading={payOrder.isLoading} />
         </Form>
       )}
       {paymentValue === PAYMENT_TYPE.hotel && (
         <Form
           onFinish={(values) =>
-            payOrder.mutate({
+            onFinishOrderHandler({
               payment_type: orderType,
               paidAmount: cart?.total,
               room_num: +values.room_num,
@@ -108,13 +116,13 @@ const PaymentTypeForm = ({
             <InputField type='number' radius='md' />
           </Form.Item>
           <DiscountInputs />
-          <FormButtons />
+          <FormButtons isLoading={payOrder.isLoading} />
         </Form>
       )}
       {paymentValue === PAYMENT_TYPE.employee && (
         <Form
           onFinish={(values) =>
-            payOrder.mutate({
+            onFinishOrderHandler({
               payment_type: orderType,
               paidAmount: cart?.total,
               customer_id: +values.values.customer_id,
@@ -129,7 +137,7 @@ const PaymentTypeForm = ({
             <InputField type='number' radius='md' />
           </Form.Item>
           <DiscountInputs />
-          <FormButtons />
+          <FormButtons isLoading={payOrder.isLoading} />
         </Form>
       )}
     </>
@@ -138,18 +146,16 @@ const PaymentTypeForm = ({
 
 export default PaymentTypeForm;
 
-const FormButtons = ({ onCancel }) => {
+const FormButtons = ({ onCancel, isLoading }) => {
   const [currentLang] = useCurrentLang();
-  const payOrder = usePayOrder();
   return (
     <Flex gap='20px'>
       <Button
         type='primary'
-        // onClick={() => navigate('/review-order')}
         htmlType='submit'
         fullwidth
         size='lg'
-        isLoading={payOrder.isLoading}
+        isLoading={isLoading}
       >
         {locale.checkout.orderTotal.order[currentLang]}
       </Button>
@@ -171,15 +177,14 @@ const DiscountInputs = () => {
   return (
     <>
       <Form.Item
-        checkout={isDiscount}
         onChange={(e) => setIsDiscount(e.target.checked)}
         label='تخفيض'
         name='discount'
       >
-        <Checkbox />
+        <Checkbox checked={isDiscount} />
       </Form.Item>
       {isDiscount && (
-        <Form.Item>
+        <Form.Item name='discount-amount'>
           <InputField />
         </Form.Item>
       )}

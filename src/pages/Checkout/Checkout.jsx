@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useEffect } from 'react';
+import { useReactToPrint } from 'react-to-print';
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
+import { useZusStore } from '../../store/useStore';
 import classes from './Checkout.module.scss';
 import CheckoutItems from './CheckoutItems/CheckoutItems';
 import CheckoutTotal from './CheckoutTotal/CheckoutTotal';
@@ -7,11 +10,17 @@ import OrderType from './OrderType/OrderType';
 import PaymentType, { PAYMENT_TYPE } from './PaymentType/PaymentType';
 
 const Checkout = () => {
-  // const [currentLang] = useCurrentLang();
-  const { data: cart } = useCurrentCartItems();
   const [orderType, setOrderType] = useState('delivery');
   const [receivedValue, setReceivedValue] = useState('delivery');
   const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash);
+
+  const orderRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => orderRef.current,
+  });
+  const { data: cart } = useCurrentCartItems();
+
+  const setPrintedOrder = useZusStore((state) => state.order.setPrintedOrder);
   const onChangeOrderType = ({ target: { value: val } }) => {
     setOrderType(val);
   };
@@ -21,6 +30,14 @@ const Checkout = () => {
   const onChangeReceivedMoney = ({ target: { value: val } }) => {
     setReceivedValue(val);
   };
+
+  useEffect(() => {
+    console.log(cart);
+    if (cart?.items?.length > 0) {
+      setPrintedOrder(cart);
+    }
+  }, [cart, setPrintedOrder]);
+
   return (
     <div className={classes.Checkout}>
       <div className={classes['col-1']}>
@@ -32,10 +49,11 @@ const Checkout = () => {
           onChangePaymentType={onChangePaymentType}
           receivedValue={receivedValue}
           onChangeReceivedMoney={onChangeReceivedMoney}
+          onSuccessOrder={handlePrint}
         />
       </div>
 
-      <div className={classes['col-2']}>
+      <div ref={orderRef} className={classes['col-2']}>
         <CheckoutItems />
         <CheckoutTotal total={cart?.total} />
       </div>
