@@ -36,7 +36,7 @@ const AuthPage = () => {
           secondTitle: locale.authPage.loginTitle[currentLang],
         });
         return (
-          <LoginForm onSuccess={() => setCurrentForm(STEPS.CHECKPOINTS_STEP)} />
+          <LoginForm onSuccess={(data) => setCurrentForm(STEPS.CHECKPOINTS_STEP)} />
         );
       }
       case STEPS.CHECKPOINTS_STEP: {

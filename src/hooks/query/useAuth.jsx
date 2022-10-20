@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { message } from 'antd';
 import {
   removePointOfSale,
   removeShifId,
@@ -7,13 +8,18 @@ import {
 import { axiosInstance } from '../../service/api';
 import { useZusStore } from '../../store/useStore';
 
+// * add validation for res.data.validation in all auth
 export const useLogin = () => {
-  // const queryClient = useQueryClient();
   const setAuthToken = useZusStore((state) => state.auth.setToken);
   const { mutate, isLoading, isError } = useMutation(
     (body) => axiosInstance().post('/adminLogin', body),
     {
       onSuccess: (newData) => {
+        if (newData.data.validation.length > 0) {
+          message.error(newData.data.validation[0]);
+          return;
+        }
+
         setAuthToken(newData?.data.message);
 
         localStorage.setItem('user', JSON.stringify(newData?.data.data));

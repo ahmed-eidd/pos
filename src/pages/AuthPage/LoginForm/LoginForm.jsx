@@ -15,7 +15,12 @@ const LoginForm = ({ onClick, onSuccess }) => {
         const body = new FormData();
         body.append('name', values.email);
         body.append('password', values.password);
-        mutate(body, { onSuccess: onSuccess });
+        mutate(body, {
+          onSuccess: (newData) => {
+            if (newData.data.validation.length > 0) return;
+            onSuccess();
+          },
+        });
       }}
       layout='vertical'
       style={{

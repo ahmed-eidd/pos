@@ -26,6 +26,7 @@ export const useStartSheet = () => {
   const setAuthSheet = useZusStore((state) => state.auth.setSheet);
   return useMutation(
     ({ id, startBalance }) => {
+      // * add validation for res.data.validation in all auth 
       const body = new FormData();
       body.append('startBalance', startBalance);
       body.append('point_id', id);
