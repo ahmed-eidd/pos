@@ -8,12 +8,12 @@ import classes from './OpeningBalanceStep.module.scss';
 import { useEndSheet } from '../../../hooks/query/useGetPointsOfSales';
 
 const OpeningBalanceStep = ({ onClick, onClose }) => {
-  const endSheet = useEndSheet();
+  const endSheetQuery = useEndSheet();
   return (
     <Form
       className={classes.OpeningBalacneStep}
       onFinish={(values) => {
-        endSheet.mutate(values.balance, {
+        endSheetQuery.mutate(values.balance, {
           onSuccess: (data) => {
             if (data.data.validation.length > 0) {
               message.error(data.data.validation[0]);
@@ -40,7 +40,7 @@ const OpeningBalanceStep = ({ onClick, onClose }) => {
         <Button type='default' onClick={onClose} fullwidth>
           إلغاء
         </Button>
-        <Button htmlType='submit' fullwidth>
+        <Button htmlType='submit' isLoading={endSheetQuery.isLoading} fullwidth>
           أدخل المبلغ
         </Button>
       </Flex>

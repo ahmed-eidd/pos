@@ -32,7 +32,6 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    console.log(cart);
     if (cart?.items?.length > 0) {
       setPrintedOrder(cart);
     }

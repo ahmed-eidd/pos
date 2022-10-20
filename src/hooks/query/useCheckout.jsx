@@ -23,7 +23,6 @@ export const usePayOrder = () => {
       }
       if (currentSavedOrderId) {
         body.append('order_id', currentSavedOrderId);
-        console.log('payed saved order');
       }
       return axiosInstance().post('/payOrder', body);
     },

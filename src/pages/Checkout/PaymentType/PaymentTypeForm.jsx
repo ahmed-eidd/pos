@@ -1,4 +1,4 @@
-import { Checkbox, Form, Radio } from 'antd';
+import { Form, Radio } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import Button from '../../../components/Button/Button';
@@ -9,6 +9,7 @@ import { useGetCart } from '../../../hooks/query/useCart';
 import { usePayOrder } from '../../../hooks/query/useCheckout';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
+import DiscountInputs, { DISCOUNT_TYPE } from './DiscountInput';
 import { PAYMENT_TYPE } from './PaymentType';
 import classes from './PaymentTypeForm.module.scss';
 
@@ -24,11 +25,28 @@ const PaymentTypeForm = ({
   const payOrder = usePayOrder();
   const { data: cart } = useGetCart();
 
-  console.log(payOrder.isLoading, 'loading');
+  const [isDiscount, setIsDiscount] = useState(false);
+  const [discountType, setDiscountType] = useState(DISCOUNT_TYPE.percentage);
+  const [discountValue, setDiscountValue] = useState('');
+  const onDiscoutTypChange = (e) => {
+    setDiscountType(e.target.value);
+    setDiscountValue('');
+  };
+  const onDiscountValueChange = (e) => {
+    setDiscountValue(e.target.value);
+  };
   const onFinishOrderHandler = (data) => {
-    payOrder.mutate(data, {
-      onSuccess: onSuccess,
-    });
+    payOrder.mutate(
+      {
+        ...data,
+        ...(isDiscount
+          ? { discount_type: discountType, discount: discountValue }
+          : {}),
+      },
+      {
+        onSuccess: onSuccess,
+      }
+    );
   };
   return (
     <>
@@ -94,7 +112,14 @@ const PaymentTypeForm = ({
               </Flex>
             </Flex>
           </Flex>
-          <DiscountInputs />
+          <DiscountInputs
+            discountType={discountType}
+            discountValue={discountValue}
+            isDiscount={isDiscount}
+            onDiscountValueChange={onDiscountValueChange}
+            onDiscoutTypeChange={onDiscoutTypChange}
+            setIsDiscount={setIsDiscount}
+          />
           <FormButtons isLoading={payOrder.isLoading} />
         </Form>
       )}
@@ -115,7 +140,14 @@ const PaymentTypeForm = ({
           >
             <InputField type='number' radius='md' />
           </Form.Item>
-          <DiscountInputs />
+          <DiscountInputs
+            discountType={discountType}
+            discountValue={discountValue}
+            isDiscount={isDiscount}
+            onDiscountValueChange={onDiscountValueChange}
+            onDiscoutTypeChange={onDiscoutTypChange}
+            setIsDiscount={setIsDiscount}
+          />
           <FormButtons isLoading={payOrder.isLoading} />
         </Form>
       )}
@@ -137,7 +169,14 @@ const PaymentTypeForm = ({
             <InputField type='number' radius='md' />
           </Form.Item>
           <DiscountInputs />
-          <FormButtons isLoading={payOrder.isLoading} />
+          <DiscountInputs
+            discountType={discountType}
+            discountValue={discountValue}
+            isDiscount={isDiscount}
+            onDiscountValueChange={onDiscountValueChange}
+            onDiscoutTypeChange={onDiscoutTypChange}
+            setIsDiscount={setIsDiscount}
+          />
         </Form>
       )}
     </>
@@ -169,25 +208,5 @@ const FormButtons = ({ onCancel, isLoading }) => {
         {locale.checkout.orderTotal.canelOrder[currentLang]}
       </Button>
     </Flex>
-  );
-};
-
-const DiscountInputs = () => {
-  const [isDiscount, setIsDiscount] = useState(false);
-  return (
-    <>
-      <Form.Item
-        onChange={(e) => setIsDiscount(e.target.checked)}
-        label='تخفيض'
-        name='discount'
-      >
-        <Checkbox checked={isDiscount} />
-      </Form.Item>
-      {isDiscount && (
-        <Form.Item name='discount-amount'>
-          <InputField />
-        </Form.Item>
-      )}
-    </>
   );
 };
