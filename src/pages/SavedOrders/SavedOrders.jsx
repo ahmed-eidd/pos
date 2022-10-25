@@ -52,6 +52,7 @@ const SavedOrders = () => {
             savedOrders?.map((order) => (
               <SingleSavedOrder
                 key={order?.id}
+                date={order?.created_at}
                 onClick={() => {
                   onSavedOrderClickHandler(order?.id);
                 }}

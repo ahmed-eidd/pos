@@ -14,8 +14,9 @@ import { useGetOrders } from '../../hooks/query/useOrders';
 const ReceiptDetails = () => {
   const [currentLang] = useCurrentLang();
   const { id } = useParams();
-  const { data: readOnlyData = [], isFetching } = useGetOrders(null, id);
+  const { data: orderData = [], isFetching } = useGetOrders(null, id);
   const reviewOrderLocale = locale.reviewOrder;
+  const currentOrderData = orderData[0];
   return (
     <div className={classes.ReceiptDetails}>
       <Link className={classes.ReceiptDetails__Link} to='/orders'>
@@ -29,7 +30,7 @@ const ReceiptDetails = () => {
           className={classes.ReceiptDetails__ContentWrapper__Titles}
         >
           <Text color='grey'>الطلب رقم {id}</Text>
-          <Text>10/05/2022 10:30 مساءً</Text>
+          <Text>{currentOrderData?.created_at}</Text>
         </Flex>
         <div className={classes.ReceiptDetails__ContentWrapper__OrderDetails}>
           <Flex direction='column' align='flex-start' gap='60px'>
@@ -48,7 +49,7 @@ const ReceiptDetails = () => {
                 <Text weight='semi-bold'>مجموع المبالغ المدفوعة</Text>
                 <Text>
                   {locale.global.currencyWithEgyptian[currentLang]}{' '}
-                  {readOnlyData[0]?.total_amount}
+                  {orderData[0]?.total_amount}
                 </Text>
               </Flex>
               <Flex justify='space-between'>
@@ -100,7 +101,7 @@ const ReceiptDetails = () => {
         </div>
         <div className={classes.ReceiptDetails__ContentWrapper__CartItems}>
           <CartItems
-            readOnlyData={readOnlyData[0]?.order_items}
+            readOnlyData={orderData[0]?.order_items}
             className={classes.ReceiptDetails__ContentWrapper__CartItems__Items}
             isFetching={isFetching}
           />

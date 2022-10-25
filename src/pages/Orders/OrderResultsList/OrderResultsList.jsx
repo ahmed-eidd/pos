@@ -26,7 +26,7 @@ const OrderResultsList = ({ orders, isLoading }) => {
           id={el?.id}
           status={el?.status}
           type={el?.order_payment}
-          date={el?.date}
+          date={el?.created_at}
         />
       ))}
     </div>
