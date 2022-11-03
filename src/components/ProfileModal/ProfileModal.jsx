@@ -1,21 +1,26 @@
 import { Modal } from 'antd';
 import React from 'react';
 import { useZusStore } from '../../store/useStore';
-import { ProfileModalStates } from '../../store/profileModalSlice';
+import {
+  ProfileModalStates,
+  setProfileModalClose,
+} from '../../store/profileModalSlice';
 import ProfileDetails from './ProfileDetails/ProfileDetails';
 import ConfirmLogoutStep from './ConfirmLogoutStep/ConfirmLogoutStep';
 import OpeningBalanceStep from './OpeningBalanceStep/OpeningBalanceStep';
 import FinalLogoutStep from './FinalLogoutStep/FinalLogoutStep';
 import { useLogOut } from '../../hooks/query/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ProfileModal = () => {
-  const isOpen = useZusStore((state) => state.profileModal.open);
-  const setClose = useZusStore(
-    (state) => state.profileModal.setProfileModalClose
-  );
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.profileModal.open);
+  const currentStep = useSelector((state) => state.profileModal.step);
+  const setClose = () => {
+    dispatch(setProfileModalClose());
+  };
+  const setStep = (step) => dispatch(setStep(step));
   const { mutate: logOut, isLoading } = useLogOut(() => {});
-  const currentStep = useZusStore((state) => state.profileModal.step);
-  const setStep = useZusStore((state) => state.profileModal.setStep);
   return (
     <Modal visible={isOpen} footer={null} onCancel={setClose}>
       {currentStep === ProfileModalStates.PROFILE && (
@@ -27,7 +32,7 @@ const ProfileModal = () => {
       )}
       {currentStep === ProfileModalStates.BEFORE_OPENING_BALANCE_STEP && (
         <ConfirmLogoutStep
-          onClose={setClose}
+          onCancel={setClose}
           onClick={() => setStep(ProfileModalStates.OPENING_BALANCE_STEP)}
         >
           hello

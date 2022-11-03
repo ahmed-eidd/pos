@@ -8,11 +8,11 @@ import {
   useRemoveCartItem,
 } from '../../../../hooks/query/useCart';
 import { useCurrentCartItems } from '../../../../hooks/useCurrentCartItems';
-import { useZusStore } from '../../../../store/useStore';
+import { useSelector } from 'react-redux';
 
 const CartItems = ({ className, readOnlyData, isFetching }) => {
   const removeItem = useRemoveCartItem();
-  const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
+  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
   const increaseQuantity = useIncreaseQuantity();
   const decreaseQuantity = useDecreaseQuantity();
 

@@ -6,19 +6,18 @@ import classes from './CategoriesTabs.module.scss';
 import allcategoriesIcon from '../../assets/allCategoriesIcon.png';
 import { useGetCategories } from '../../hooks/query/useGetCategories';
 import CategoriesTabPane from './CategoriesTabPane/CategoriesTabPane';
-import { useZusStore } from '../../store/useStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveCategory } from '../../store/categoriesSlice';
 const { TabPane } = Tabs;
 
 const CategoriesTab = () => {
   const [currentLang] = useCurrentLang();
   const { data: tabsData } = useGetCategories();
-  const activeKey = useZusStore((state) => state.categories.activeCategory);
-  const setActiveTab = useZusStore(
-    (state) => state.categories.setActiveCategory
-  );
+  const dispatch = useDispatch();
+  const activeKey = useSelector((state) => state.categories.activeCategory);
 
   const onChange = (key) => {
-    setActiveTab(key);
+    dispatch(setActiveCategory(key));
   };
   return (
     <Tabs

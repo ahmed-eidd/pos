@@ -1,12 +1,19 @@
-export const categoriesSlice = (set) => ({
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
   activeCategory: 'all',
-  setActiveCategory: (payload) => {
-    set((state) => ({
-      ...state,
-      categories: {
-        ...state.categories,
-        activeCategory: payload,
-      },
-    }));
+};
+
+const categoriesSlice = createSlice({
+  name: 'categoriesSlice',
+  initialState,
+  reducers: {
+    setActiveCategory: (state, { payload }) => {
+      state.activeCategory = payload;
+    },
   },
 });
+
+
+export const {setActiveCategory} = categoriesSlice.actions;
+export default categoriesSlice.reducer;

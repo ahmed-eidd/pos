@@ -9,8 +9,9 @@ import MenuSettingsIcon from '../../../../icons/SideMenuIcons/Settings/Settings'
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 import { locale } from '../../../../locale';
 import { scssVar } from '../../../../styles/scssVars';
-import { useZusStore } from '../../../../store/useStore';
 import classNames from 'classnames';
+import { setProfileModalOpen } from '../../../../store/profileModalSlice';
+import { useDispatch } from 'react-redux';
 
 const MenuItem = ({ to, text, icon, onClick, isButton }) => {
   const [isActive, setIsActive] = useState(false);
@@ -52,11 +53,9 @@ const MenuItem = ({ to, text, icon, onClick, isButton }) => {
 };
 
 const NavMenu = () => {
+  const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
   const localeSidebar = locale.sidebar.sidebar.menu;
-  const onProfileOpen = useZusStore(
-    (state) => state.profileModal.setProfileModalOpen
-  );
   return (
     <div className={classes.NavMenu}>
       <MenuItem
@@ -83,7 +82,7 @@ const NavMenu = () => {
         text={localeSidebar.settings[currentLang]}
         to={localeSidebar.settings.link}
         icon={MenuSettingsIcon}
-        onClick={() => onProfileOpen()}
+        onClick={() => dispatch(setProfileModalOpen())}
         isButton
       />
     </div>

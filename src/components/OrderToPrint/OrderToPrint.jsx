@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react';
-import { useZusStore } from '../../store/useStore';
+import { useSelector } from 'react-redux';
 
 const OrderToPrint = forwardRef((props, ref) => {
-  const printedOrder = useZusStore((state) => state.order.printedOrder);
+  const printedOrder = useSelector((state) => state.order.printedOrder);
   return (
     <div
       ref={ref}
