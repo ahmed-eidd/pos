@@ -1,17 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { queryKeys } from '../../constants/queryKeys';
 import { locale } from '../../locale';
 import { axiosInstance } from '../../service/api';
-import { useZusStore } from '../../store/useStore';
+import { setCartToShowSavedOrder } from '../../store/cartSlice';
 import { useCurrentLang } from '../useCurrentLang';
 
 export const useSaveOrder = () => {
-  const posId = useZusStore((state) => state.auth.posId);
-  const shiftId = useZusStore((state) => state.auth.sheet);
-  const setShowSavedOrder = useZusStore(
-    (state) => state.cart.setCartToShowSavedOrder
-  );
+  const dispatch = useDispatch();
+  const posId = useSelector((state) => state.auth.posId);
+  const shiftId = useSelector((state) => state.auth.sheet);
+  const setShowSavedOrder = (payload) => {
+
+    dispatch(setCartToShowSavedOrder(payload));
+  }
   // TODO: add queryClient.invalidateQuery
   const queryClient = useQueryClient();
   const [currentLang] = useCurrentLang();
@@ -35,7 +38,7 @@ export const useSaveOrder = () => {
 };
 
 export const useGetOrders = (orderStatus, id, type) => {
-  const posId = useZusStore((state) => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   // TODO: add queryClient.invalidateQuery
   const queryClient = useQueryClient();
   return useQuery(
@@ -67,13 +70,15 @@ export const useGetOrders = (orderStatus, id, type) => {
 };
 
 export const useGetSavedOrder = () => {
-  const posId = useZusStore((state) => state.auth.posId);
-  const currentSavedOrderId = useZusStore(
+  const dispatch = useDispatch();
+  const posId = useSelector((state) => state.auth.posId);
+  const currentSavedOrderId = useSelector(
     (state) => state.cart.currentSavedOrderId
   );
-  const setShowSavedOrder = useZusStore(
-    (state) => state.cart.setCartToShowSavedOrder
-  );
+  const setShowSavedOrder = (payload) => {
+
+    dispatch(setCartToShowSavedOrder(payload));
+  }
   return useQuery(
     [queryKeys.getSavedOrder, currentSavedOrderId],
     () => {

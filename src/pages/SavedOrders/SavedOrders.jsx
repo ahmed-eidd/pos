@@ -12,13 +12,13 @@ import { orderStatus } from '../../constants/orderStatus';
 import { useNavigate } from 'react-router-dom';
 import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
 import Spinner from '../../components/Spinner/Spinner';
-import { useZusStore } from '../../store/useStore';
+import { useDispatch } from 'react-redux';
+import { setCurrentSavedOrderIdAction } from '../../store/cartSlice';
 
 const SavedOrders = () => {
+  const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
-  const setCurrentSavedOrderId = useZusStore(
-    (state) => state.cart.setCurrentSavedOrderId
-  );
+  const setCurrentSavedOrderId = (id) => dispatch(setCurrentSavedOrderIdAction(id));
   const [modalOpen, setModalOpen] = useState(false);
   const { data: savedOrders, isLoading } = useGetOrders(orderStatus.pending);
   const savedOrderLocale = locale.savedOrders;

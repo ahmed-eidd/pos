@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useDispatch, useSelector } from 'react-redux';
 import { queryKeys } from '../../constants/queryKeys';
 import { setShiftId } from '../../helper/localStorage';
 import { axiosInstance } from '../../service/api';
-import { useZusStore } from '../../store/useStore';
+import { setSheet } from '../../store/authSlice';
 
 export const useGetPointsOfSales = () => {
   return useQuery(
@@ -23,7 +24,8 @@ export const useCheckPointOfSales = () => {
 };
 
 export const useStartSheet = () => {
-  const setAuthSheet = useZusStore((state) => state.auth.setSheet);
+  const dispatch = useDispatch()
+  const setAuthSheet = (sheet) => dispatch(setSheet(sheet));
   return useMutation(
     ({ id, startBalance }) => {
       // * add validation for res.data.validation in all auth 
@@ -43,7 +45,7 @@ export const useStartSheet = () => {
 };
 
 export const useEndSheet = () => {
-  const shiftId = useZusStore((state) => state.auth.sheet);
+  const shiftId = useSelector((state) => state.auth.sheet);
   return useMutation((endBalance) => {
     const body = new FormData();
     body.append('shift', shiftId);

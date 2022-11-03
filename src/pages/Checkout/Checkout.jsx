@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
+import { useCallback } from 'react';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
-import { useZusStore } from '../../store/useStore';
 import classes from './Checkout.module.scss';
 import CheckoutItems from './CheckoutItems/CheckoutItems';
 import CheckoutTotal from './CheckoutTotal/CheckoutTotal';
@@ -10,6 +11,7 @@ import OrderType from './OrderType/OrderType';
 import PaymentType, { PAYMENT_TYPE } from './PaymentType/PaymentType';
 
 const Checkout = () => {
+  const dispatch = useDispatch();
   const [orderType, setOrderType] = useState('delivery');
   const [receivedValue, setReceivedValue] = useState('delivery');
   const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash);
@@ -20,7 +22,10 @@ const Checkout = () => {
   });
   const { data: cart } = useCurrentCartItems();
 
-  const setPrintedOrder = useZusStore((state) => state.order.setPrintedOrder);
+  const setPrintedOrder = useCallback(
+    (payload) => dispatch(setPrintedOrder(payload)),
+    [dispatch]
+  );
   const onChangeOrderType = ({ target: { value: val } }) => {
     setOrderType(val);
   };

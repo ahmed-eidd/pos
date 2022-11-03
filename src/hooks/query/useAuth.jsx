@@ -1,16 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
 import { message } from 'antd';
+import { useDispatch } from 'react-redux';
 import {
   removePointOfSale,
   removeShifId,
   removeToken,
 } from '../../helper/localStorage';
 import { axiosInstance } from '../../service/api';
-import { useZusStore } from '../../store/useStore';
+import { setPosId, setSheet, setToken } from '../../store/authSlice';
+import { setCartToShowSavedOrder, setCurrentSavedOrderIdAction } from '../../store/cartSlice';
 
 // * add validation for res.data.validation in all auth
 export const useLogin = () => {
-  const setAuthToken = useZusStore((state) => state.auth.setToken);
+  const dispatch = useDispatch();
+  const setAuthToken = (token) => dispatch(setToken(token));
   const { mutate, isLoading, isError } = useMutation(
     (body) => axiosInstance().post('/adminLogin', body),
     {
@@ -32,15 +35,12 @@ export const useLogin = () => {
 };
 
 export const useLogOut = () => {
-  const setAuthToken = useZusStore((state) => state.auth.setToken);
-  const setAuthPosId = useZusStore((state) => state.auth.setPosId);
-  const setAuthSheet = useZusStore((state) => state.auth.setSheet);
-  const setCartSavedOrder = useZusStore(
-    (state) => state.cart.setCartToShowSavedOrder
-  );
-  const setCurrentSavedOrderId = useZusStore(
-    (state) => state.cart.setCurrentSavedOrderId
-  );
+  const dispatch = useDispatch();
+  const setAuthToken = (token) => dispatch(setToken(token));
+  const setAuthPosId = (id) => dispatch(setPosId(id));
+  const setAuthSheet = (sheet) => dispatch(setSheet(sheet));
+  const setCartSavedOrder =  (payload) => dispatch(setCartToShowSavedOrder(payload))
+  const setCurrentSavedOrderId =  (id) => dispatch(setCurrentSavedOrderIdAction(id))
   const { mutate, isLoading, isError } = useMutation(
     () => axiosInstance().get('/logout'),
     {

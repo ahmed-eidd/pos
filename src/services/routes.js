@@ -12,12 +12,12 @@ import OrderPlaced from '../pages/OrderPlaced/OrderPlaced';
 import Orders from '../pages/Orders/Orders';
 import ReviewOrder from '../pages/ReviewOrder/ReviewOrder';
 import ReceiptDetails from '../pages/ReceiptDetails/ReceiptDetails';
-import { useZusStore } from '../store/useStore';
+import { useSelector } from 'react-redux';
 
 const Routes = () => {
-  const token = useZusStore((state) => state.auth.token);
-  const sheet = useZusStore((state) => state.auth.sheet);
-  // const posId = useZusStore((state) => state.auth.posId);
+  const token = useSelector((state) => state.auth.token);
+  const sheet = useSelector((state) => state.auth.sheet);
+  // const posId = useSelector((state) => state.auth.posId);
 
   if (!token && !sheet) {
   }

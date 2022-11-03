@@ -1,6 +1,5 @@
 import { Modal } from 'antd';
 import React from 'react';
-import { useZusStore } from '../../store/useStore';
 import {
   ProfileModalStates,
   setProfileModalClose,

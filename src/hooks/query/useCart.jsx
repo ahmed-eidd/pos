@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
+import { useSelector } from 'react-redux';
 import { queryKeys } from '../../constants/queryKeys';
 import { axiosInstance } from '../../service/api';
-import { useZusStore } from '../../store/useStore';
 
 export const useAddToCart = () => {
-  const posId = useZusStore((state) => state.auth.posId);
-  const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
+  const posId = useSelector((state) => state.auth.posId);
+  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
   const queryClient = useQueryClient();
   return useMutation(
     (data) => {
@@ -40,7 +40,7 @@ export const useAddToCart = () => {
 };
 
 export const useGetCart = (selectPrice) => {
-  const posId = useZusStore((state) => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   return useQuery(
     [queryKeys.getCart],
     () => {
@@ -58,7 +58,7 @@ export const useGetCart = (selectPrice) => {
 };
 
 export const useIncreaseQuantity = () => {
-  const posId = useZusStore((state) => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     (itemId) => {
@@ -81,7 +81,7 @@ export const useIncreaseQuantity = () => {
 };
 
 export const useDecreaseQuantity = () => {
-  const posId = useZusStore((state) => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     (itemId) => {
@@ -104,7 +104,7 @@ export const useDecreaseQuantity = () => {
 };
 
 export const useRemoveAllCartItems = () => {
-  const posId = useZusStore((state) => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     () => {
@@ -127,7 +127,7 @@ export const useRemoveAllCartItems = () => {
 };
 
 export const useRemoveCartItem = () => {
-  const posId = useZusStore((state) => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     (itemId) => {

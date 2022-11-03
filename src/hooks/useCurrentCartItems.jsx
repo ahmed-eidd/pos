@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { useZusStore } from '../store/useStore';
+import { useSelector } from 'react-redux';
 import { useGetCart } from './query/useCart';
 import { useGetSavedOrder } from './query/useOrders';
 
 export const useCurrentCartItems = () => {
-  const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
+  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
   const cartItems = useGetCart();
   const savedOrderItems = useGetSavedOrder();
 

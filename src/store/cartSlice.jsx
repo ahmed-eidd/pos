@@ -9,7 +9,7 @@ const cartSlice = createSlice({
   name: 'cartSlice',
   initialState,
   reducers: {
-    setCurrentSavedOrderId: (state, { payload }) => {
+    setCurrentSavedOrderIdAction: (state, { payload }) => {
       state.currentSavedOrderId = payload;
     },
     setCartToShowSavedOrder: (state, { payload }) => {
@@ -18,6 +18,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { setCartToShowSavedOrder, setCurrentSavedOrderId } =
+export const { setCartToShowSavedOrder, setCurrentSavedOrderIdAction } =
   cartSlice.actions;
 export default cartSlice.reducer;

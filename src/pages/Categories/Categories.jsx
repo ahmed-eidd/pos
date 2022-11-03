@@ -1,6 +1,7 @@
 import { Alert, message, Modal } from 'antd';
 import React from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import CategoriesTab from '../../components/CategoriesTabs/CategoriesTabs';
@@ -13,7 +14,6 @@ import { useGetProducts } from '../../hooks/query/useGetProducts';
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
-import { useZusStore } from '../../store/useStore';
 import classes from './Categories.module.scss';
 
 const Categories = () => {
@@ -23,8 +23,8 @@ const Categories = () => {
   const [quantityModalVisible, setQuantityModalVisible] = useState(false);
 
   // zustand store
-  const showSavedOrder = useZusStore((state) => state.cart.showSavedOrder);
-  const activeCategory = useZusStore(
+  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
+  const activeCategory = useSelector(
     (state) => state.categories.activeCategory
   );
 

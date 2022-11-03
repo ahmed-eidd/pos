@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { queryKeys } from '../../constants/queryKeys';
 import { axiosInstance } from '../../service/api';
-import { useZusStore } from '../../store/useStore';
 
 export const usePayOrder = () => {
   const navigate = useNavigate();
-  const posId = useZusStore((state) => state.auth.posId);
-  const sheetId = useZusStore((state) => state.auth.sheet);
-  const currentSavedOrderId = useZusStore(
+  const posId = useSelector((state) => state.auth.posId);
+  const sheetId = useSelector((state) => state.auth.sheet);
+  const currentSavedOrderId = useSelector(
     (state) => state.cart.currentSavedOrderId
   );
   const queryClient = useQueryClient();

@@ -1,5 +1,6 @@
 import { message, Radio } from 'antd';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button/Button';
 import RadioButton from '../../../components/RadioButton/RadioButton';
@@ -10,18 +11,19 @@ import {
 } from '../../../hooks/query/useGetPointsOfSales';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
-import { useZusStore } from '../../../store/useStore';
+import { setPosId, setSheet } from '../../../store/authSlice';
 import classes from './PointsOfSalesForm.module.scss';
 
 const PointsOfSalesForm = ({ onClick }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [posValue, setPosValue] = useState(null);
   const authLocale = locale.authPage;
   const [currentLang] = useCurrentLang();
   const checkPointOfSale = useCheckPointOfSales();
   const { data } = useGetPointsOfSales();
-  const setAuthPosId = useZusStore((state) => state.auth.setPosId);
-  const setAuthSheet = useZusStore((state) => state.auth.setSheet);
+  const setAuthPosId = (id) => dispatch(setPosId(id));
+  const setAuthSheet = (sheet) => dispatch(setSheet(sheet));
 
   const onSubmitHandler = () => {
     if (!posValue) {
@@ -30,7 +32,6 @@ const PointsOfSalesForm = ({ onClick }) => {
     }
     checkPointOfSale.mutate(posValue, {
       onSuccess: (newData) => {
-
         const startSheet = newData.data.item.start_sheet;
         const shiftId = newData.data.item.shift_id;
         setPointOfSale(posValue);
