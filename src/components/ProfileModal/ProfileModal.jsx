@@ -3,6 +3,7 @@ import React from 'react';
 import {
   ProfileModalStates,
   setProfileModalClose,
+  setStep,
 } from '../../store/profileModalSlice';
 import ProfileDetails from './ProfileDetails/ProfileDetails';
 import ConfirmLogoutStep from './ConfirmLogoutStep/ConfirmLogoutStep';
@@ -18,21 +19,23 @@ const ProfileModal = () => {
   const setClose = () => {
     dispatch(setProfileModalClose());
   };
-  const setStep = (step) => dispatch(setStep(step));
+  const setStepHandler = (step) => dispatch(setStep(step));
   const { mutate: logOut, isLoading } = useLogOut(() => {});
   return (
     <Modal visible={isOpen} footer={null} onCancel={setClose}>
       {currentStep === ProfileModalStates.PROFILE && (
         <ProfileDetails
           onClick={() =>
-            setStep(ProfileModalStates.BEFORE_OPENING_BALANCE_STEP)
+            setStepHandler(ProfileModalStates.BEFORE_OPENING_BALANCE_STEP)
           }
         />
       )}
       {currentStep === ProfileModalStates.BEFORE_OPENING_BALANCE_STEP && (
         <ConfirmLogoutStep
           onCancel={setClose}
-          onClick={() => setStep(ProfileModalStates.OPENING_BALANCE_STEP)}
+          onClick={() =>
+            setStepHandler(ProfileModalStates.OPENING_BALANCE_STEP)
+          }
         >
           hello
         </ConfirmLogoutStep>
@@ -40,7 +43,7 @@ const ProfileModal = () => {
       {currentStep === ProfileModalStates.OPENING_BALANCE_STEP && (
         <OpeningBalanceStep
           onClose={setClose}
-          onClick={() => setStep(ProfileModalStates.LOGOUT)}
+          onClick={() => setStepHandler(ProfileModalStates.LOGOUT)}
         >
           hello
         </OpeningBalanceStep>
