@@ -18,7 +18,8 @@ import { setCurrentSavedOrderIdAction } from '../../store/cartSlice';
 const SavedOrders = () => {
   const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
-  const setCurrentSavedOrderId = (id) => dispatch(setCurrentSavedOrderIdAction(id));
+  const setCurrentSavedOrderId = (id) =>
+    dispatch(setCurrentSavedOrderIdAction(id));
   const [modalOpen, setModalOpen] = useState(false);
   const { data: savedOrders, isLoading } = useGetOrders(orderStatus.pending);
   const savedOrderLocale = locale.savedOrders;

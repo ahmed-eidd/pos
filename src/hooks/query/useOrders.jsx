@@ -12,9 +12,8 @@ export const useSaveOrder = () => {
   const posId = useSelector((state) => state.auth.posId);
   const shiftId = useSelector((state) => state.auth.sheet);
   const setShowSavedOrder = (payload) => {
-
     dispatch(setCartToShowSavedOrder(payload));
-  }
+  };
   // TODO: add queryClient.invalidateQuery
   const queryClient = useQueryClient();
   const [currentLang] = useCurrentLang();
@@ -76,9 +75,8 @@ export const useGetSavedOrder = () => {
     (state) => state.cart.currentSavedOrderId
   );
   const setShowSavedOrder = (payload) => {
-
     dispatch(setCartToShowSavedOrder(payload));
-  }
+  };
   return useQuery(
     [queryKeys.getSavedOrder, currentSavedOrderId],
     () => {

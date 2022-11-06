@@ -32,7 +32,7 @@ const ProfileModal = () => {
       )}
       {currentStep === ProfileModalStates.BEFORE_OPENING_BALANCE_STEP && (
         <ConfirmLogoutStep
-          onCancel={setClose}
+          onClose={setClose}
           onClick={() =>
             setStepHandler(ProfileModalStates.OPENING_BALANCE_STEP)
           }
