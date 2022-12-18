@@ -11,6 +11,7 @@ export const axiosInstance = (config = {}) => {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${JSON.parse(token)}`,
+      // Authorization: `Bearer ${token}`,
     },
     ...config,
   });

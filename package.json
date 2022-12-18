@@ -26,8 +26,8 @@
     "zustand": "^4.1.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "craco test",
     "eject": "craco eject"
   },
