@@ -1,0 +1,13 @@
+.PointsOfSalesForm {
+  &__Form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    &__Radios {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+.CounterBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(208, 213, 221, 0.19);
+  width: min-content;
+
+  &__IncrementBtn,
+  &__DecrementBtn {
+    width: 46px;
+    height: 39px;
+    background-color: #d0d5dd99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none !important;
+  }
+
+  &__IncrementBtn {
+    border-radius: 0px 4px 4px 0px !important;
+  }
+  &__DecrementBtn {
+    border-radius: 4px 0px 0px 4px !important;
+  }
+
+  &__Count {
+    padding: 8px 12px;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 42px;
+    height: 39px;
+    text-align: center;
+  }
+}

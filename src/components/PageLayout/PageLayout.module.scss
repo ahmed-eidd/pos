@@ -1,0 +1,17 @@
+@import '../../styles/index.scss';
+
+.PageLayout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px 0;
+  gap: 20px;
+
+  &__Content {
+    @include borderedWhiteBox;
+    height: 889px;
+    width: 100%;
+  }
+}

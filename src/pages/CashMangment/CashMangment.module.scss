@@ -1,0 +1,44 @@
+@import '../../styles/index.scss';
+
+.CashMangment {
+  // height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: flex-start;
+  // justify-content: flex-start;
+  // padding: 40px 0;
+  // gap: 20px;
+
+  :global {
+    .ant-form-item {
+      width: 352px;
+    }
+  }
+
+  &__Form {
+    // gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+  }
+  &__Comment {
+    height: 152px !important;
+  }
+
+  &__ActionBtns {
+    width: 352px;
+    display: flex;
+    gap: 15px;
+    margin-top: auto;
+  }
+
+  &__CashType {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 17px;
+    margin-bottom: 20px;
+  }
+}

@@ -1,0 +1,40 @@
+@import './index.scss';
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+*,
+*::after,
+*::before,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: $color-primary $color-grey;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: $color-grey-100;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $color-primary;
+  border-radius: 10px;
+  // border: 3px solid $color-grey;
+}

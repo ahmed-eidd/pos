@@ -1,0 +1,74 @@
+{
+  "sidebar": {
+    "menu": {
+      "categories": {
+        "en": "Categories",
+        "ar": "فئات",
+        "link": "categories"
+      },
+      "orders": {
+        "en": "Orders",
+        "ar": "الطلبات",
+        "link": "orders"
+      },
+      "hold": {
+        "en": "On hold",
+        "ar": "أوامر معلقة",
+        "link": "on-hold"
+      },
+      "money": {
+        "ar": "إدارة النقد",
+        "en": "Cash management",
+        "link": "cash-management"
+      },
+      "settings": {
+        "ar": "ملفي",
+        "en": "My profile",
+        "link": "my-profile"
+      }
+    }
+  },
+  "cart": {
+    "orderSavedSuccess": {
+      "ar": "تم حفظ الطلب",
+      "en": "Order saved successfully"
+    },
+    "title": {
+      "ar": "عربة التسوق",
+      "en": "Cart"
+    },
+    "count": {
+      "ar": "منتج",
+      "en": "Item"
+    },
+    "noitems": {
+      "ar": "لا توجد عناصر في سلة التسوق",
+      "en": "There is no items in cart"
+    },
+    "orderLables": {
+      "subtotal": {
+        "ar": "المجموع الفرعي",
+        "en": "Subtotal"
+      },
+      "vat": {
+        "en": "VAT",
+        "ar": "ضريبة القيمة المضافة"
+      },
+      "shipping": {
+        "en": "Shipping Fee",
+        "ar": "رسوم الشحن"
+      },
+      "total": {
+        "en": "Total Price",
+        "ar": "السعر الكلي"
+      }
+    },
+
+    "validation": {
+      "emptyCart": {
+        "ar": "الرجاء اضافة منتجات أولاٌ",
+        "en": "Please add products first"
+      }
+    }
+  }
+}

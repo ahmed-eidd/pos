@@ -1,0 +1,36 @@
+@import '../../../styles/index.scss';
+
+.PaymentTypeForm {
+  &__ReceivedMoney {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    :global {
+      .ant-radio-button-wrapper {
+        height: 71px;
+        width: 113px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: $radius-md;
+        border-left-width: 1px;
+        border-color: #e4e7ec;
+        font-weight: bold;
+        &::before {
+          display: none !important;
+        }
+      }
+      .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        border-color: $color-primary;
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__Form {
+    &__Label {
+      margin-bottom: 5px;
+    }
+  }
+}

@@ -1,0 +1,75 @@
+@import '../../styles/index.scss';
+
+.ItemAccordion {
+  :global {
+    .ant-collapse-content-box {
+      margin-top: 10px;
+    }
+
+    .ant-collapse-content-box,
+    .ant-collapse-header {
+      padding-left: 27px !important;
+    }
+
+    .ant-collapse-header[aria-expanded='false'] {
+      background-color: white;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .ant-collapse-borderless {
+      background-color: #f9fafb;
+    }
+    .ant-collapse-item {
+      border-bottom: none !important;
+    }
+  }
+
+  &__NoItems {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 100%;
+  }
+
+  &__Header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 17px;
+
+    &__Count {
+      width: 24px;
+      height: 24px;
+      background-color: $color-primary;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: $radius-xl;
+    }
+  }
+
+  &__Panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__CounterWrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+
+      &__Count {
+        color: $color-primary;
+      }
+
+      &__Delete {
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "welcome": {
+    "ar": "أهلاً بك",
+    "en": "Welcome"
+  },
+  "creditMainTitle": {
+    "ar": "برجاء إدخال الرصيد الافتتاحي",
+    "en": "Please enter the opening balance"
+  },
+
+  "creditTitle": {
+    "en": "You must enter the opening balance before entering the account ",
+    "ar": "يجب عليك إدخال الرصيد الافتتاحي قبل الدخول إلى الحساب"
+  },
+  "loginTitle": {
+    "ar": "برجاء إدخال بيانات حسابك",
+    "en": "Please fill the form"
+  },
+  "secretCodeTitle": {
+    "ar": "أهلاً بك",
+    "en": "Welcome"
+  },
+  "secretCodeSecondTitle": {
+    "en": "",
+    "ar": "برجاء إدخال الرقم السري"
+  },
+  "secretCodeLabel": {
+    "en": "Sercet code",
+    "ar": "الرقم السري"
+  },
+  "creditLabel": {
+    "en": "Main credit",
+    "ar": "الرصيد الافتتاحي"
+  },
+  "emailLabel": {
+    "ar": "البريد الإلكتروني",
+    "en": "Email"
+  },
+  "passwordLabel": {
+    "ar": "كلمة المرور",
+    "en": "Password"
+  },
+
+  "loginBtn": {
+    "ar": "تسجيل الدخول",
+    "en": "Log in"
+  },
+
+  "error": {
+    "pointOfSalesError": {
+      "ar": "يجب أختار فرع",
+      "en": "Please choose a branch"
+    }
+  }
+}

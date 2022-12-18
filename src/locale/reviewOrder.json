@@ -1,0 +1,68 @@
+{
+  "title": {
+    "en": "Order review",
+    "ar": "مراجعة الطلب"
+  },
+  "produtsOrder": {
+    "ar": "طلب بضاعة",
+    "en": "Products order"
+  },
+
+  "actions": {
+    "email": {
+      "ar": "إيصال البريد الإلكتروني",
+      "en": "Email"
+    },
+    "printCheck": {
+      "en": "Print Check",
+      "ar": "اطبع الايصال"
+    }
+  },
+
+  "check": {
+    "title": {
+      "ar": "تفاصيل الإيصال",
+      "en": "Check Details"
+    },
+    "orderDetail": {
+      "ar": "تفاصيل الدفع",
+      "en": "Order details"
+    },
+    "paid": {
+      "ar": "مدفوع",
+      "en": "Subtotal"
+    },
+    "onhold": {
+      "ar": "لا تزال قائمة",
+      "en": "On hold"
+    },
+    "changes": {
+      "ar": "يتغيرون ",
+      "en": "Changes"
+    },
+    "tax": {
+      "en": "Tax",
+      "ar": "ضريبة"
+    },
+    "discount": {
+      "ar": "تخفيض",
+      "en": "Discount"
+    },
+    "total": {
+      "en": "Total Price",
+      "ar": "السعر الكلي"
+    },
+    "shipping": {
+      "en": "Shipping",
+      "ar": "رسوم"
+    },
+    "cash": {
+      "en": "Cash",
+      "ar": "نقدي"
+    },
+    "credit": {
+      "en": "Credit Card",
+      "ar": "بطاقة الائتمان"
+    }
+  }
+}

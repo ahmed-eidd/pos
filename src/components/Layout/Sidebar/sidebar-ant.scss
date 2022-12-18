@@ -1,0 +1,13 @@
+@import '../../../styles/index.scss';
+
+.ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.ant-layout-sider-collapsed {
+  width: $sidebar-width-closed !important;
+  min-width: $sidebar-width-closed !important;
+  max-width: $sidebar-width-closed !important;
+}

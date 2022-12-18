@@ -1,0 +1,55 @@
+@import '../../styles/index.scss';
+
+.Card {
+  border: 1px solid $color-white-500;
+  border-radius: $radius-md;
+  width: 211px;
+  overflow: hidden;
+  font-weight: 500;
+  cursor: pointer;
+
+  &__Img {
+    height: 145px;
+    background-color: lightcoral;
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &__Icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 145px;
+    border-bottom: 1px solid $color-white-500;
+    i {
+      font-size: 60px;
+      color: $color-primary;
+      opacity: 0.5;
+    }
+  }
+
+  &__TextWrapper {
+    padding: 11px 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &__SingleText {
+    padding: 20px 0;
+    text-align: center;
+  }
+
+  &__Price {
+    color: $color-primary;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+}

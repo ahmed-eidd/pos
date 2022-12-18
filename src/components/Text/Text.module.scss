@@ -1,0 +1,42 @@
+@import '../../styles//index.scss';
+
+.base {
+  font-size: $text-base;
+}
+.medium {
+  font-size: $text-md;
+}
+.large {
+  font-size: $text-lg;
+}
+
+.xlargle {
+  font-size: $text-xl;
+}
+
+.primary {
+  color: $color-primary;
+}
+.black {
+  color: #000;
+}
+
+.normal {
+  font-weight: 400;
+}
+
+.semi-bold {
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.grey {
+  color: $color-grey;
+}
+
+.success {
+  color: $color-success;
+}

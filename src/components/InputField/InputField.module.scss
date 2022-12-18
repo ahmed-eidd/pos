@@ -1,0 +1,22 @@
+@import '../../styles/index';
+.InputField {
+  border-radius: $radius-xl;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.radius-md {
+  border-radius: $radius-md;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

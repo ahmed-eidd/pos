@@ -1,0 +1,72 @@
+@import '../../../styles/index.scss';
+
+.PaymentType {
+  @include borderedWhiteBox;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  &__Tabs {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+
+    :global {
+      .ant-radio-button-wrapper {
+        height: 150px !important;
+        width: 113px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: $radius-md;
+        border-left-width: 1px;
+        border-color: #e4e7ec;
+        font-weight: 600;
+        &::before {
+          display: none !important;
+        }
+      }
+      .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        border-color: $color-primary;
+        color: $color-primary;
+      }
+    }
+
+    &__Tab {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      height: 100%;
+    }
+  }
+
+  &__ReceivedMoney {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    :global {
+      .ant-radio-button-wrapper {
+        height: 71px;
+        width: 113px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: $radius-md;
+        border-left-width: 1px;
+        border-color: #e4e7ec;
+        font-weight: bold;
+        &::before {
+          display: none !important;
+        }
+      }
+      .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        border-color: $color-primary;
+        color: $color-primary;
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@import '../../../styles/index.scss';
+
+.OrderType {
+  height: 148px;
+  border-radius: 4px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  @include borderedWhiteBox;
+
+  :global {
+    .ant-radio-group-solid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 17px 0;
+    }
+    .ant-radio-button-wrapper {
+      font-weight: 600;
+      font-size: 14px;
+      padding: 9px 0;
+      height: auto !important;
+      border-radius: $radius-md;
+      border-left-width: 1px;
+      width: 113px;
+      text-align: center;
+
+      &::before {
+        display: none !important;
+      }
+    }
+  }
+}

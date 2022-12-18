@@ -1,0 +1,28 @@
+.ProfileDetails {
+  &__Title {
+    margin-bottom: 30px;
+  }
+  &__Wrapper {
+    display: grid;
+    grid-template-columns: 25px 1fr;
+    column-gap: 30px;
+    grid-template-rows: 25px 25px;
+    margin-bottom: 20px;
+
+    &__Icon {
+      grid-column: 1/2;
+      grid-row: 1/3;
+      align-self: center;
+    }
+
+    &__Label {
+      grid-column: 2/3;
+      grid-row: 1/2;
+    }
+
+    &__Text {
+      grid-column: 2/3;
+      grid-row: 2/3;
+    }
+  }
+}

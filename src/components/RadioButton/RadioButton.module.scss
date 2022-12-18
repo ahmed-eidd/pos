@@ -1,0 +1,18 @@
+@import '../../styles/index.scss';
+
+:global {
+  .ant-radio-button-wrapper {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 9px 0;
+    height: auto !important;
+    border-radius: $radius-md !important;
+    border-left-width: 1px;
+    width: 113px;
+    text-align: center;
+
+    &::before {
+      display: none !important;
+    }
+  }
+}

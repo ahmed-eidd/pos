@@ -1,0 +1,42 @@
+@import '../../styles/index.scss';
+
+
+.Tabs {
+  :global {
+    .ant-tabs-nav[role='tablist'] {
+      margin-bottom: 33px !important;
+    }
+    .ant-tabs-tab {
+      padding: 0 !important;
+    }
+    .ant-tabs-ink-bar {
+      display: none !important;
+    }
+  }
+}
+
+.Tab {
+  height: 70px;
+  background-color: #fcfcfd;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  width: 222px;
+  border-radius: $radius-md;
+  overflow: hidden;
+
+  &--active {
+    background-color: #cce1ff;
+    border: 1px solid #006aff;
+  }
+  &__Img {
+    width: 80px;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__Name {
+    font-weight: 500;
+  }
+}
