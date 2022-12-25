@@ -22,8 +22,9 @@ const PointsOfSalesForm = ({ onClick }) => {
   const [currentLang] = useCurrentLang();
   const checkPointOfSale = useCheckPointOfSales();
   const { data } = useGetPointsOfSales();
-  const setAuthPosId = (id) => dispatch(setPosId(id));
-  const setAuthSheet = (sheet) => dispatch(setSheet(sheet));
+  console.log('PointsOfSalesForm  data', data);
+  const setAuthPosId = id => dispatch(setPosId(id));
+  const setAuthSheet = sheet => dispatch(setSheet(sheet));
 
   const onSubmitHandler = () => {
     if (!posValue) {
@@ -31,7 +32,7 @@ const PointsOfSalesForm = ({ onClick }) => {
       return;
     }
     checkPointOfSale.mutate(posValue, {
-      onSuccess: (newData) => {
+      onSuccess: newData => {
         const startSheet = newData.data.item.start_sheet;
         const shiftId = newData.data.item.shift_id;
         setPointOfSale(posValue);
@@ -50,21 +51,21 @@ const PointsOfSalesForm = ({ onClick }) => {
     <div>
       <div className={classes.PointsOfSalesForm__Form}>
         <Radio.Group
-          name='pointsOfSale'
+          name="pointsOfSale"
           value={posValue}
-          onChange={(e) => {
+          onChange={e => {
             setPosValue(e.target.value);
           }}
           className={classes.PointsOfSalesForm__Form__Radios}
         >
-          {data?.data?.data?.pointOfSales.map((point) => (
+          {data?.data?.data?.pointOfSales.map(point => (
             <RadioButton key={point.id} value={point.id} label={point.name} />
           ))}
         </Radio.Group>
         <Button
           onClick={onSubmitHandler}
           large={false}
-          type='primary'
+          type="primary"
           fullwidth
           isLoading={checkPointOfSale.isLoading}
         >
