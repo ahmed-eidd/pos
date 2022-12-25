@@ -5,11 +5,12 @@ import { queryKeys } from '../../constants/queryKeys';
 import { axiosInstance } from '../../service/api';
 
 export const useAddToCart = () => {
-  const posId = useSelector((state) => state.auth.posId);
-  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
+  const posId = useSelector(state => state.auth.posId);
+  console.log('useAddToCart  posId', posId);
+  const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
   const queryClient = useQueryClient();
   return useMutation(
-    (data) => {
+    data => {
       const body = new FormData();
       body.append('Id', data?.id);
       body.append('type', data?.type);
@@ -22,7 +23,7 @@ export const useAddToCart = () => {
       return axiosInstance().post('/addToCart', body);
     },
     {
-      onSuccess: (newData) => {
+      onSuccess: newData => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -39,8 +40,8 @@ export const useAddToCart = () => {
   );
 };
 
-export const useGetCart = (selectPrice) => {
-  const posId = useSelector((state) => state.auth.posId);
+export const useGetCart = selectPrice => {
+  const posId = useSelector(state => state.auth.posId);
   return useQuery(
     [queryKeys.getCart],
     () => {
@@ -49,7 +50,7 @@ export const useGetCart = (selectPrice) => {
       return axiosInstance().post('/viewCart', body);
     },
     {
-      select: (products) => {
+      select: products => {
         // TODO: Add toFixed(2) to the total price property
         return products.data?.data?.cart;
       },
@@ -58,17 +59,17 @@ export const useGetCart = (selectPrice) => {
 };
 
 export const useIncreaseQuantity = () => {
-  const posId = useSelector((state) => state.auth.posId);
+  const posId = useSelector(state => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
-    (itemId) => {
+    itemId => {
       const body = new FormData();
       body.append('itemId', itemId);
       body.append('point_of_sale_id', posId);
       return axiosInstance().post('/increaseQuantity', body);
     },
     {
-      onSuccess: (newData) => {
+      onSuccess: newData => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -81,17 +82,17 @@ export const useIncreaseQuantity = () => {
 };
 
 export const useDecreaseQuantity = () => {
-  const posId = useSelector((state) => state.auth.posId);
+  const posId = useSelector(state => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
-    (itemId) => {
+    itemId => {
       const body = new FormData();
       body.append('itemId', itemId);
       body.append('point_of_sale_id', posId);
       return axiosInstance().post('/decreaseQuantity', body);
     },
     {
-      onSuccess: (newData) => {
+      onSuccess: newData => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -104,7 +105,7 @@ export const useDecreaseQuantity = () => {
 };
 
 export const useRemoveAllCartItems = () => {
-  const posId = useSelector((state) => state.auth.posId);
+  const posId = useSelector(state => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     () => {
@@ -113,7 +114,7 @@ export const useRemoveAllCartItems = () => {
       return axiosInstance().post('/deleteAllCart', body);
     },
     {
-      onSuccess: (newData) => {
+      onSuccess: newData => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -127,17 +128,17 @@ export const useRemoveAllCartItems = () => {
 };
 
 export const useRemoveCartItem = () => {
-  const posId = useSelector((state) => state.auth.posId);
+  const posId = useSelector(state => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
-    (itemId) => {
+    itemId => {
       const body = new FormData();
       body.append('itemId', itemId);
       body.append('point_of_sale_id', posId);
       return axiosInstance().post('/removeItem', body);
     },
     {
-      onSuccess: (newData) => {
+      onSuccess: newData => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);

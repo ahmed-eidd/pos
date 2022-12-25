@@ -17,6 +17,7 @@ const STEPS = {
 const AuthPage = () => {
   const [currentLang] = useCurrentLang();
   const [currentForm, setCurrentForm] = useState(STEPS.LOGIN_STEP);
+  console.log('AuthPage  currentForm', currentForm);
   const [currentTitles, setCurrentTitles] = useState({
     mainTitle: locale.authPage.welcome[currentLang],
     secondTitle: locale.authPage.loginTitle[currentLang],
@@ -24,6 +25,7 @@ const AuthPage = () => {
   const token = getToken();
   useEffect(() => {
     if (token) {
+      console.log('dddddd');
       setCurrentForm(STEPS.CHECKPOINTS_STEP);
     }
   }, [token]);
@@ -36,7 +38,9 @@ const AuthPage = () => {
           secondTitle: locale.authPage.loginTitle[currentLang],
         });
         return (
-          <LoginForm onSuccess={(data) => setCurrentForm(STEPS.CHECKPOINTS_STEP)} />
+          <LoginForm
+            onSuccess={data => setCurrentForm(STEPS.CHECKPOINTS_STEP)}
+          />
         );
       }
       case STEPS.CHECKPOINTS_STEP: {

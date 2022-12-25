@@ -11,32 +11,32 @@ const LoginForm = ({ onClick, onSuccess }) => {
   const { mutate, isLoading } = useLogin();
   return (
     <Form
-      onFinish={(values) => {
+      onFinish={values => {
         const body = new FormData();
         body.append('name', values.email);
         body.append('password', values.password);
         mutate(body, {
-          onSuccess: (newData) => {
+          onSuccess: newData => {
             if (newData.data.validation.length > 0) return;
             onSuccess();
           },
         });
       }}
-      layout='vertical'
+      layout="vertical"
       style={{
         width: '100%',
       }}
     >
-      <Form.Item name='email' label={locale.authPage.emailLabel[currentLang]}>
+      <Form.Item name="email" label={locale.authPage.emailLabel[currentLang]}>
         <InputField />
       </Form.Item>
       <Form.Item
-        name='password'
+        name="password"
         label={locale.authPage.passwordLabel[currentLang]}
       >
-        <InputField type='password' />
+        <InputField type="password" />
       </Form.Item>
-      <Button isLoading={isLoading} large={false} type='primary' fullwidth>
+      <Button isLoading={isLoading} large={false} type="primary" fullwidth>
         {locale.authPage.loginBtn[currentLang]}
       </Button>
     </Form>
