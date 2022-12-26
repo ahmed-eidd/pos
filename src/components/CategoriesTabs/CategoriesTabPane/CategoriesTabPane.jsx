@@ -15,7 +15,7 @@ const CategoriesTabPane = ({ activeKey, name, id, img }) => {
       })}
     >
       {img ? (
-        <img className={classes.CategoriesTabPane__Img} src={img} alt='name' />
+        <img className={classes.CategoriesTabPane__Img} src={img} alt="name" />
       ) : (
         <i
           className={classNames(

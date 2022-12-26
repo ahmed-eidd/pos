@@ -23,10 +23,9 @@ const Categories = () => {
   const [quantityModalVisible, setQuantityModalVisible] = useState(false);
 
   // zustand store
-  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
-  const activeCategory = useSelector(
-    (state) => state.categories.activeCategory
-  );
+  const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
+  const activeCategory = useSelector(state => state.categories.activeCategory);
+  // console.log('Categories  activeCategory', activeCategory);
 
   // locale
   const [currentLang] = useCurrentLang();
@@ -37,11 +36,13 @@ const Categories = () => {
   const { data: products, isLoading } = useGetProducts(
     activeCategory === 'all' ? '' : activeCategory
   );
+  // console.log('Categories  products', products);
   const addToCart = useAddToCart();
   const increaseQuantity = useIncreaseQuantity();
 
   // handlers
-  const onAddToCartHandler = (product) => {
+  const onAddToCartHandler = product => {
+    // console.log('onAddToCartHandler  product', product);
     if (showSavedOrder) {
       setQuantityModalVisible(true);
       setSelectedProduct(product);
@@ -73,7 +74,7 @@ const Categories = () => {
         order_id: savedOrder?.id,
       },
       {
-        onSuccess: (data) => {
+        onSuccess: data => {
           if (data.data.validation.length > 0) return;
 
           message.success(
@@ -85,7 +86,7 @@ const Categories = () => {
     );
   };
 
-  const onChangeQuantityHandler = (e) => {
+  const onChangeQuantityHandler = e => {
     setQuantity(e.target.value);
   };
 
@@ -103,17 +104,17 @@ const Categories = () => {
         footer={null}
         className={classes.Categories__QuantityModal}
       >
-        <Flex direction='column' align='flex-start' justify='center' gap='10px'>
+        <Flex direction="column" align="flex-start" justify="center" gap="10px">
           <Text>{selectedProduct?.name}</Text>
           <InputField
-            type='number'
+            type="number"
             placeholder={
               categoriesLocale.quantityModal.inputPlacehodler[currentLang]
             }
             onChange={onChangeQuantityHandler}
             value={quantity}
           />
-          <Flex justify='center' gap='10px'>
+          <Flex justify="center" gap="10px">
             <Button
               onClick={onQuantityModalOk}
               isLoading={addToCart.isLoading}
@@ -124,7 +125,7 @@ const Categories = () => {
             <Button
               isLoading={addToCart.isLoading}
               onClick={onCloseQuantityModal}
-              type='danger'
+              type="danger"
               fullwidth
             >
               {categoriesLocale.quantityModal.cancel[currentLang]}
@@ -132,7 +133,7 @@ const Categories = () => {
           </Flex>
           <Alert
             message={categoriesLocale.quantityModal.warning[currentLang]}
-            type='warning'
+            type="warning"
             style={{ width: '100%' }}
           />
         </Flex>
@@ -143,7 +144,7 @@ const Categories = () => {
         spinnerStyle={{ margin: '10px' }}
       />
       <div className={classes.Categories}>
-        {products?.data?.data?.items?.map((el) => (
+        {products?.data?.data?.items?.map(el => (
           <Card
             id={el?.id}
             name={el?.name}
@@ -155,14 +156,15 @@ const Categories = () => {
           />
         ))}
         {activeCategory === 'all' &&
-          products?.data?.data?.ingredients?.map((el) => (
+          products?.data?.data?.ingredients?.map(el => (
             <Card
               id={el?.id}
               name={el?.name}
               key={el?.id}
               img={el?.image}
               price={el?.cost}
-              onClick={() => onAddToCartHandler(el.id)}
+              // onClick={() => onAddToCartHandler(el.id)}
+              onClick={() => onAddToCartHandler(el)}
               isLoading={addToCart.isLoading || increaseQuantity.isLoading}
             />
           ))}

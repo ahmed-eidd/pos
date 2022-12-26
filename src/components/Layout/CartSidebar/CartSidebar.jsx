@@ -23,8 +23,8 @@ const CartSidebar = () => {
         style={{
           padding: '18px',
         }}
-        gap='17px'
-        direction='column'
+        gap="17px"
+        direction="column"
       >
         {/* <Flex justify='space-between'> */}
         {/* <Text>100 جنيه مصري</Text>
@@ -39,8 +39,8 @@ const CartSidebar = () => {
           <Text label>{orderlabels.shipping[currentLang]}</Text>
         </Flex> */}
         <Divider style={{ margin: '0' }} />
-        <Flex justify='space-between'>
-          <Text color='primary'>م. {currentCartItem?.total ?? 0}</Text>
+        <Flex justify="space-between">
+          <Text color="primary">م. {currentCartItem?.total ?? 0}</Text>
           <Text label>{orderlabels.total[currentLang]}</Text>
         </Flex>
       </Flex>

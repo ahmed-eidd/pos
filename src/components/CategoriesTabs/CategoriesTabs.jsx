@@ -14,9 +14,9 @@ const CategoriesTab = () => {
   const [currentLang] = useCurrentLang();
   const { data: tabsData } = useGetCategories();
   const dispatch = useDispatch();
-  const activeKey = useSelector((state) => state.categories.activeCategory);
+  const activeKey = useSelector(state => state.categories.activeCategory);
 
-  const onChange = (key) => {
+  const onChange = key => {
     dispatch(setActiveCategory(key));
   };
   return (
@@ -30,14 +30,14 @@ const CategoriesTab = () => {
         tab={
           <CategoriesTabPane
             img={allcategoriesIcon}
-            id='all'
+            id="all"
             name={locale.categoires.all[currentLang]}
             activeKey={activeKey}
           />
         }
-        key='all'
+        key="all"
       />
-      {tabsData?.data.data?.categories?.map((el) => (
+      {tabsData?.data.data?.categories?.map(el => (
         <TabPane
           tab={
             <CategoriesTabPane

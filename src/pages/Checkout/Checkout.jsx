@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { useCallback } from 'react';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
+// import { useDispatch } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
 import classes from './Checkout.module.scss';
@@ -11,7 +10,7 @@ import OrderType from './OrderType/OrderType';
 import PaymentType, { PAYMENT_TYPE } from './PaymentType/PaymentType';
 
 const Checkout = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [orderType, setOrderType] = useState('delivery');
   const [receivedValue, setReceivedValue] = useState('delivery');
   const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash);
@@ -21,11 +20,18 @@ const Checkout = () => {
     content: () => orderRef.current,
   });
   const { data: cart } = useCurrentCartItems();
+  // console.log('Checkout  cart', cart);
 
-  const setPrintedOrder = useCallback(
-    (payload) => dispatch(setPrintedOrder(payload)),
-    [dispatch]
-  );
+  // const setPrintedOrder = useCallback(
+  //   payload => {
+  //     dispatch(setPrintedOrder(payload));
+  //   },
+  //   [dispatch]
+  // );
+  // const setPrintedOrder = payload => {
+  //   dispatch(setPrintedOrder(payload));
+  // };
+
   const onChangeOrderType = ({ target: { value: val } }) => {
     setOrderType(val);
   };
@@ -36,11 +42,13 @@ const Checkout = () => {
     setReceivedValue(val);
   };
 
-  useEffect(() => {
-    if (cart?.items?.length > 0) {
-      setPrintedOrder(cart);
-    }
-  }, [cart, setPrintedOrder]);
+  // useEffect(() => {
+  // //   console.log('first', cart);
+  //   if (cart?.items?.length > 0) {
+  //     // setPrintedOrder(cart);
+  //     dispatch(setPrintedOrder(cart));
+  //   }
+  // }, []);
 
   return (
     <div className={classes.Checkout}>
