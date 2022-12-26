@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { Alert, message, Modal } from 'antd';
 import React from 'react';
 import { useState } from 'react';
@@ -9,6 +10,7 @@ import Flex from '../../components/Flex/Flex';
 import InputField from '../../components/InputField/InputField';
 import Spinner from '../../components/Spinner/Spinner';
 import Text from '../../components/Text/Text';
+import { queryKeys } from '../../constants/queryKeys';
 import { useAddToCart, useIncreaseQuantity } from '../../hooks/query/useCart';
 import { useGetProducts } from '../../hooks/query/useGetProducts';
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
@@ -17,10 +19,14 @@ import { locale } from '../../locale';
 import classes from './Categories.module.scss';
 
 const Categories = () => {
+  const client = useQueryClient();
   // state
   const [selectedProduct, setSelectedProduct] = useState(null); // selected product is a state for the current select product to add quantity to it in a saved order
   const [quantity, setQuantity] = useState(null);
   const [quantityModalVisible, setQuantityModalVisible] = useState(false);
+  const cartItems = client.getQueryData([queryKeys.getCart])?.data?.data?.cart
+    ?.items;
+  console.log('Categories  cartItems', cartItems);
 
   // zustand store
   const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
@@ -42,7 +48,7 @@ const Categories = () => {
 
   // handlers
   const onAddToCartHandler = product => {
-    // console.log('onAddToCartHandler  product', product);
+    console.log('onAddToCartHandler  product', product);
     if (showSavedOrder) {
       setQuantityModalVisible(true);
       setSelectedProduct(product);
@@ -55,7 +61,9 @@ const Categories = () => {
         quantity: 1,
       });
     } else {
-      increaseQuantity.mutate(product?.item_id);
+      const prodId = cartItems?.find(el => el?.itemId === product?.id)?.id;
+      if (!prodId) return null;
+      increaseQuantity.mutate(prodId);
     }
   };
 
