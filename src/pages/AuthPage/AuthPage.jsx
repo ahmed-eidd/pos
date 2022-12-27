@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useEffect } from 'react';
-import { getToken } from '../../helper/localStorage';
+// import { getToken } from '../../helper/localStorage';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import CreditForm from './CreditForm/CreditForm';
@@ -22,13 +22,13 @@ const AuthPage = () => {
     mainTitle: locale.authPage.welcome[currentLang],
     secondTitle: locale.authPage.loginTitle[currentLang],
   });
-  const token = getToken();
+  // const token = getToken();
   useEffect(() => {
-    if (token) {
-      console.log('dddddd');
-      setCurrentForm(STEPS.CHECKPOINTS_STEP);
-    }
-  }, [token]);
+    // if (token) {
+    //   setCurrentForm(STEPS.CHECKPOINTS_STEP);
+    // }
+    return () => setCurrentForm(STEPS.LOGIN_STEP);
+  }, []);
 
   const renderForm = useMemo(() => {
     switch (currentForm) {
@@ -45,8 +45,8 @@ const AuthPage = () => {
       }
       case STEPS.CHECKPOINTS_STEP: {
         setCurrentTitles({
-          mainTitle: locale.authPage.secretCodeTitle[currentLang],
-          secondTitle: locale.authPage.secretCodeSecondTitle[currentLang],
+          mainTitle: locale.authPage.welcome[currentLang],
+          secondTitle: locale.authPage.selectPointOfSalesTitle[currentLang],
         });
         return (
           <PointsOfSalesForm

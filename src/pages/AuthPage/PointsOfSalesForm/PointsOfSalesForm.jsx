@@ -43,7 +43,7 @@ const PointsOfSalesForm = ({ onClick }) => {
         }
         setShiftId(shiftId);
         setAuthSheet(shiftId);
-        navigate('/category');
+        navigate('/categories');
       },
     });
   };

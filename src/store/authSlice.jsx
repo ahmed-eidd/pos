@@ -18,12 +18,10 @@ const authSlice = createSlice({
       state.sheet = payload;
     },
     setPosId: (state, { payload }) => {
-      state.postId = payload;
+      state.posId = payload;
     },
   },
 });
 
-
-export const {setPosId,setSheet,setToken} = authSlice.actions
+export const { setPosId, setSheet, setToken } = authSlice.actions;
 export default authSlice.reducer;
-

@@ -19,7 +19,6 @@ const MenuItem = ({ to, text, icon, onClick, isButton }) => {
   const location = useLocation();
 
   /* A hook that is used to detect the current location of the user. */
-
   useEffect(() => {
     if (location.pathname.includes(to)) {
       setIsActive(true);
@@ -56,6 +55,7 @@ const NavMenu = () => {
   const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
   const localeSidebar = locale.sidebar.sidebar.menu;
+
   return (
     <div className={classes.NavMenu}>
       <MenuItem
@@ -73,11 +73,11 @@ const NavMenu = () => {
         to={localeSidebar.hold.link}
         icon={MenuBoxIcon}
       />
-      <MenuItem
+      {/* <MenuItem
         text={localeSidebar.money[currentLang]}
         to={localeSidebar.money.link}
         icon={MenuMoneyIcon}
-      />
+      /> */}
       <MenuItem
         text={localeSidebar.settings[currentLang]}
         to={localeSidebar.settings.link}

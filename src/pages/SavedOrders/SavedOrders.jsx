@@ -18,7 +18,7 @@ import { setCurrentSavedOrderIdAction } from '../../store/cartSlice';
 const SavedOrders = () => {
   const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
-  const setCurrentSavedOrderId = (id) =>
+  const setCurrentSavedOrderId = id =>
     dispatch(setCurrentSavedOrderIdAction(id));
   const [modalOpen, setModalOpen] = useState(false);
   const { data: savedOrders, isLoading } = useGetOrders(orderStatus.pending);
@@ -31,10 +31,10 @@ const SavedOrders = () => {
   };
   const onModalOk = () => {
     setCurrentSavedOrderId(savedOrderId);
-    navigate('/categories/');
+    navigate('/categories');
   };
 
-  const onSavedOrderClickHandler = (id) => {
+  const onSavedOrderClickHandler = id => {
     setModalOpen(true);
     setSavedOrderId(id);
   };
@@ -50,7 +50,7 @@ const SavedOrders = () => {
           {isLoading ? (
             <Spinner style={{ display: 'block' }} />
           ) : savedOrders?.length > 0 ? (
-            savedOrders?.map((order) => (
+            savedOrders?.map(order => (
               <SingleSavedOrder
                 key={order?.id}
                 date={order?.created_at}
@@ -83,7 +83,7 @@ const SavedOrders = () => {
           {savedOrderLocale.modalLabel[currentLang]}
         </p>
         <div className={classes.SavedOrders__Modal__Actions}>
-          <Button onClick={onModalClose} type='default' fullwidth>
+          <Button onClick={onModalClose} type="default" fullwidth>
             {savedOrderLocale.modalClose[currentLang]}
           </Button>
           <Button onClick={onModalOk} fullwidth>

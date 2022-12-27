@@ -40,7 +40,9 @@ const CartSidebar = () => {
         </Flex> */}
         <Divider style={{ margin: '0' }} />
         <Flex justify="space-between">
-          <Text color="primary">م. {currentCartItem?.total ?? 0}</Text>
+          <Text color="primary">
+            جم {(currentCartItem?.total ?? 0).toFixed(2)}
+          </Text>
           <Text label>{orderlabels.total[currentLang]}</Text>
         </Flex>
       </Flex>

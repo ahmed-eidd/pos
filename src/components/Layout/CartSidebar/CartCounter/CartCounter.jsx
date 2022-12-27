@@ -23,7 +23,7 @@ const CartCounter = ({ prices, count }) => {
           ` ${count ?? 0} ` +
           cartLocale.count[currentLang] +
           ' / ' +
-          `${prices ?? 0} ` +
+          `${(prices ?? 0).toFixed(2)} ` +
           locale.global.currency[currentLang]}
       </p>
     </Button>

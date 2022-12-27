@@ -11,15 +11,17 @@ import OpeningBalanceStep from './OpeningBalanceStep/OpeningBalanceStep';
 import FinalLogoutStep from './FinalLogoutStep/FinalLogoutStep';
 import { useLogOut } from '../../hooks/query/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileModal = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isOpen = useSelector((state) => state.profileModal.open);
-  const currentStep = useSelector((state) => state.profileModal.step);
+  const isOpen = useSelector(state => state.profileModal.open);
+  const currentStep = useSelector(state => state.profileModal.step);
   const setClose = () => {
     dispatch(setProfileModalClose());
   };
-  const setStepHandler = (step) => dispatch(setStep(step));
+  const setStepHandler = step => dispatch(setStep(step));
   const { mutate: logOut, isLoading } = useLogOut(() => {});
   return (
     <Modal visible={isOpen} footer={null} onCancel={setClose}>
@@ -54,6 +56,7 @@ const ProfileModal = () => {
           onClick={() => {
             logOut();
             setClose();
+            navigate('/login');
           }}
           loading={isLoading}
         >

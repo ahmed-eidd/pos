@@ -20,6 +20,10 @@
     "ar": "أهلاً بك",
     "en": "Welcome"
   },
+  "selectPointOfSalesTitle": {
+    "ar": "برجاء تحديد الفرع",
+    "en": "Please select the branch"
+  },
   "secretCodeSecondTitle": {
     "en": "",
     "ar": "برجاء إدخال الرقم السري"
