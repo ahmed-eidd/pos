@@ -12,6 +12,10 @@ import OrderPlaced from '../pages/OrderPlaced/OrderPlaced';
 import Orders from '../pages/Orders/Orders';
 import ReviewOrder from '../pages/ReviewOrder/ReviewOrder';
 import ReceiptDetails from '../pages/ReceiptDetails/ReceiptDetails';
+import StartApp from '../components/StartApp/StartApp';
+import { getToken } from '../helper/localStorage';
+
+const isToken = getToken();
 
 const Routes = () => {
   return (
@@ -20,7 +24,13 @@ const Routes = () => {
         <Route
           path={`/`}
           element={
-            <Navigate to={`/${locale.sidebar.sidebar.menu.categories.link}`} />
+            isToken ? (
+              <Navigate
+                to={`/${locale.sidebar.sidebar.menu.categories.link}`}
+              />
+            ) : (
+              <Navigate to={`/login`} />
+            )
           }
         />
         <Route
@@ -63,6 +73,7 @@ const Routes = () => {
       </Route>
 
       <Route path="/login" element={<AuthPage />} />
+      {/* <Route path={'*'} element={<StartApp />} /> */}
     </ReactRoutes>
   );
 };
