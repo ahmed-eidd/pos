@@ -16,20 +16,20 @@ const CartHeader = () => {
   const [currentLang] = useCurrentLang();
   const { isFetching: isCurrentCartFetching } = useCurrentCartItems();
   const cartLocale = locale.sidebar.cart;
-  const { mutate: removeAllItems } = useRemoveAllCartItems();
-  const { mutate: saveOrder } = useSaveOrder();
+  const { mutate: removeAllItems, isLoading } = useRemoveAllCartItems();
+  const { mutate: saveOrder, isLoading: saveOrderLod } = useSaveOrder();
   return (
     <div className={classes.CartHeader}>
       <Popconfirm
-        title='هل انت متاكد من مسح كل المنتجات'
-        okText='نعم'
-        cancelText='لا'
+        title="هل انت متاكد من مسح كل المنتجات"
+        okText="نعم"
+        cancelText="لا"
         onConfirm={removeAllItems}
       >
-        <img
-          className={classes.CartHeader__TrashImg}
-          src={TrashPng}
-          alt='delete'
+        <Button
+          type="link"
+          icon={<img src={TrashPng} alt="delete" width={24} />}
+          isLoading={isLoading}
         />
       </Popconfirm>
       <Flex gap={10}>
@@ -42,7 +42,11 @@ const CartHeader = () => {
           {cartLocale.title[currentLang]}
         </h3>
       </Flex>
-      <Button onClick={saveOrder} className={classes.CartHeader__SaveBtn}>
+      <Button
+        onClick={saveOrder}
+        isLoading={saveOrderLod}
+        className={classes.CartHeader__SaveBtn}
+      >
         حفظ
       </Button>
     </div>
