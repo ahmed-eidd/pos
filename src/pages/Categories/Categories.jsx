@@ -1,8 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Alert, message, Modal } from 'antd';
+import { Alert, Col, message, Modal, Row } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+// import useCartAdd from '../../api-hooks/cart/useCartAdd';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import CategoriesTab from '../../components/CategoriesTabs/CategoriesTabs';
@@ -26,7 +27,8 @@ const Categories = () => {
   const [quantityModalVisible, setQuantityModalVisible] = useState(false);
   const cartItems = client.getQueryData([queryKeys.getCart])?.data?.data?.cart
     ?.items;
-  console.log('Categories  cartItems', cartItems);
+  // const { cartAdd, cartAddLod } = useCartAdd();
+  // console.log('Categories  cartItems', cartItems);
 
   // zustand store
   const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
@@ -50,17 +52,26 @@ const Categories = () => {
   const onAddToCartHandler = product => {
     console.log('onAddToCartHandler  product', product);
     if (showSavedOrder) {
+      console.log('onAddToCartHandler  showSavedOrder', showSavedOrder);
       setQuantityModalVisible(true);
       setSelectedProduct(product);
       return;
     }
     if (product?.in_cart === 0) {
+      // const data = {
+      //   id: product?.id,
+      //   type: product.type,
+      //   quantity: 1,
+      // };
+      // cartAdd({ data });
       addToCart.mutate({
         id: product?.id,
         type: product.type,
         quantity: 1,
       });
+      console.log('onAddToCartHandler  ADD');
     } else {
+      console.log('onAddToCartHandler  InCREASE');
       const prodId = cartItems?.find(el => el?.itemId === product?.id)?.id;
       if (!prodId) return null;
       increaseQuantity.mutate(prodId);
@@ -151,7 +162,35 @@ const Categories = () => {
         spinning={isLoading}
         spinnerStyle={{ margin: '10px' }}
       />
-      <div className={classes.Categories}>
+      <Row gutter={[10, 10]}>
+        {products?.data?.data?.items?.map(el => (
+          <Col key={el?.id}>
+            <Card
+              id={el?.id}
+              name={el?.name}
+              img={el?.image}
+              price={el?.cost}
+              onClick={() => onAddToCartHandler(el)}
+              isLoading={addToCart.isLoading || increaseQuantity.isLoading}
+            />
+          </Col>
+        ))}
+        {activeCategory === 'all' &&
+          products?.data?.data?.ingredients?.map(el => (
+            <Col key={el?.id}>
+              <Card
+                id={el?.id}
+                name={el?.name}
+                img={el?.image}
+                price={el?.cost}
+                // onClick={() => onAddToCartHandler(el.id)}
+                onClick={() => onAddToCartHandler(el)}
+                isLoading={addToCart.isLoading || increaseQuantity.isLoading}
+              />
+            </Col>
+          ))}
+      </Row>
+      {/* <div className={classes.Categories}>
         {products?.data?.data?.items?.map(el => (
           <Card
             id={el?.id}
@@ -176,7 +215,7 @@ const Categories = () => {
               isLoading={addToCart.isLoading || increaseQuantity.isLoading}
             />
           ))}
-      </div>
+      </div> */}
     </div>
   );
 };

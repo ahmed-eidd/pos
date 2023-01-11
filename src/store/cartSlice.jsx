@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   showSavedOrder: false,
   currentSavedOrderId: null,
+  cart: null,
 };
 
 const cartSlice = createSlice({
@@ -15,9 +16,15 @@ const cartSlice = createSlice({
     setCartToShowSavedOrder: (state, { payload }) => {
       state.showSavedOrder = payload;
     },
+    setCart: (state, { payload }) => {
+      state.cart = payload;
+    },
   },
 });
 
-export const { setCartToShowSavedOrder, setCurrentSavedOrderIdAction } =
-  cartSlice.actions;
+export const {
+  setCartToShowSavedOrder,
+  setCurrentSavedOrderIdAction,
+  setCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

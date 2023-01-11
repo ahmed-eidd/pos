@@ -24,15 +24,15 @@ const ReviewOrder = () => {
             />
           </div>
           <div className={classes.ReviewOrder__Wrapper__Content__Check}>
-            <Flex direction='column' gap='15px' align='flex-end'>
+            <Flex direction="column" gap="15px" align="flex-end">
               <Text label>{reviewOrderLocale.check.title[currentLang]}</Text>
-              <Flex justify='space-between'>
-                <Text color='primary'>
+              <Flex justify="space-between">
+                <Text color="primary">
                   {locale.global.currencyWithEgyptian[currentLang]} 150{' '}
                 </Text>
                 <Text label>{reviewOrderLocale.check.total[currentLang]}</Text>
               </Flex>
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Text>
                   {locale.global.currencyWithEgyptian[currentLang]} 150{' '}
                 </Text>
@@ -40,12 +40,12 @@ const ReviewOrder = () => {
                   {reviewOrderLocale.check.shipping[currentLang]}
                 </Text>
               </Flex>
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Text>12%</Text>
                 <Text label>{reviewOrderLocale.check.tax[currentLang]}</Text>
               </Flex>
-              <Flex justify='space-between'>
-                <Text color='success'>
+              <Flex justify="space-between">
+                <Text color="success">
                   {locale.global.currencyWithEgyptian[currentLang]} 150{' '}
                 </Text>
                 <Text label>
@@ -58,23 +58,23 @@ const ReviewOrder = () => {
                 marginBottom: '15px !important',
               }}
             />
-            <Flex direction='column' gap='15px' align='flex-end'>
+            <Flex direction="column" gap="15px" align="flex-end">
               <Text label>
                 {reviewOrderLocale.check.orderDetail[currentLang]}
               </Text>
-              <Flex justify='space-between'>
-                <Text color='primary'>
+              <Flex justify="space-between">
+                <Text color="primary">
                   {locale.global.currencyWithEgyptian[currentLang]} 150{' '}
                 </Text>
                 <Text label>{reviewOrderLocale.check.cash[currentLang]}</Text>
               </Flex>
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Text>
                   {locale.global.currencyWithEgyptian[currentLang]} 150{' '}
                 </Text>
                 <Text label>{reviewOrderLocale.check.credit[currentLang]}</Text>
               </Flex>
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Text>
                   {locale.global.currencyWithEgyptian[currentLang]} 150{' '}
                 </Text>
@@ -86,10 +86,10 @@ const ReviewOrder = () => {
           </div>
         </div>
         <div className={classes.ReviewOrder__Wrapper__Actions}>
-          <Button type='primary' fullwidth>
+          <Button type="primary" fullwidth>
             {reviewOrderLocale.actions.printCheck[currentLang]}
           </Button>
-          <Button type='primary' fullwidth>
+          <Button type="primary" fullwidth>
             {reviewOrderLocale.actions.email[currentLang]}
           </Button>
         </div>

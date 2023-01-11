@@ -1,4 +1,4 @@
-import { Collapse } from 'antd';
+import { Button, Collapse } from 'antd';
 import React from 'react';
 import classes from './ItemAccordion.module.scss';
 import ArrowIcon from '../../assets/chevron-right.png';
@@ -8,6 +8,7 @@ import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
 import { locale } from '../../locale';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
 import Spinner from '../Spinner/Spinner';
+import { currencyFormat } from '../../services/utils';
 
 const { Panel } = Collapse;
 
@@ -34,7 +35,7 @@ const ItemAccordion = ({
   onIncrement,
   onDecrement,
   loading,
-  actionsLoading = [],
+  actionsLoading,
   readOnly,
 }) => {
   const [currentLang] = useCurrentLang();
@@ -54,7 +55,8 @@ const ItemAccordion = ({
     <>
       {items.length > 0 ? (
         <Collapse
-          expandIconPosition='end'
+          accordion
+          expandIconPosition="end"
           collapsible={readOnly && 'disabled'}
           expandIcon={({ isActive }) => (
             <div>
@@ -64,56 +66,55 @@ const ItemAccordion = ({
                   transition: 'transform .2s ease-in-out',
                 }}
                 src={ArrowIcon}
-                alt='arrow'
+                alt="arrow"
               />
             </div>
           )}
           bordered={false}
           className={classes.ItemAccordion}
         >
-          {items.map((item) => {
-            return (
-              <Panel
-                key={item.id}
-                header={
-                  <>
-                    <Header
-                      // loading={actionsLoading.some((el) => el === true)}
-                      loading={actionsLoading?.some((el) => el === true)}
-                      text={item.productName}
-                      count={item.quantity}
-                    />
-                  </>
-                }
-              >
-                <div className={classes.ItemAccordion__Panel}>
-                  <div className={classes.ItemAccordion__Panel__CounterWrapper}>
-                    <CounterBtns
-                      onIncrement={() => onIncrement(item?.id)}
-                      onDecrement={() => onDecrement(item?.id)}
-                      count={+item.quantity}
-                      disableDecBtn={+item.quantity < 2}
-                    />
-                    <p
-                      className={
-                        classes.ItemAccordion__Panel__CounterWrapper__Count
-                      }
-                    >
-                      {`${item.quantity}x${item.price * item.quantity}EGP`}
-                    </p>
-                  </div>
-                  <img
-                    className={
-                      classes.ItemAccordion__Panel__CounterWrapper__Delete
-                    }
-                    src={TrashIcon}
-                    alt='delete'
-                    onClick={() => onDelete(item?.id)}
+          {items.map(item => (
+            <Panel
+              key={item.id}
+              header={
+                <>
+                  <Header
+                    // loading={actionsLoading?.some(el => el === true)}
+                    loading={false}
+                    text={item.productName}
+                    count={item.quantity}
                   />
+                </>
+              }
+            >
+              <div className={classes.ItemAccordion__Panel}>
+                <div className={classes.ItemAccordion__Panel__CounterWrapper}>
+                  <CounterBtns
+                    onIncrement={() => onIncrement(item?.id)}
+                    onDecrement={() => onDecrement(item?.id)}
+                    count={+item.quantity}
+                    disableDecBtn={+item.quantity < 2}
+                    actionsLoading={actionsLoading}
+                  />
+                  <p
+                    className={
+                      classes.ItemAccordion__Panel__CounterWrapper__Count
+                    }
+                  >
+                    {`${item.quantity}x${currencyFormat(
+                      item?.price * item.quantity
+                    )}EGP`}
+                  </p>
                 </div>
-              </Panel>
-            );
-          })}
+                <Button
+                  type="link"
+                  icon={<img src={TrashIcon} alt="delete" width={24} />}
+                  onClick={() => onDelete(item?.id)}
+                  loading={actionsLoading?.remove}
+                />
+              </div>
+            </Panel>
+          ))}
         </Collapse>
       ) : (
         <div className={classes.ItemAccordion__NoItems}>

@@ -14,22 +14,23 @@ const Sidebar = ({ style }) => {
     <Sider
       className={classes.Sidebar}
       collapsible
-      theme='light'
+      theme="light"
       collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
+      onCollapse={value => setCollapsed(value)}
       style={{ height: '100vh', ...style }}
-      // collapsedWidth={93}
+      collapsedWidth={45}
       trigger={null}
+      width={130}
     >
       <div className={classes.Sidebar__Wrapper}>
-        <img src={Logo} className={classes.Sidebar__Wrapper__Logo} alt='logo' />
+        <img src={Logo} className={classes.Sidebar__Wrapper__Logo} alt="logo" />
         {!collapsed && <NavMenu />}
       </div>
       <img
         className={classes.Sidebar__Wrapper__Burger}
         onClick={() => setCollapsed(!collapsed)}
         src={Burger}
-        alt='burger menu'
+        alt="burger menu"
       />
     </Sider>
   );

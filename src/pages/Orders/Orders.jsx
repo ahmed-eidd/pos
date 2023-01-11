@@ -1,4 +1,4 @@
-import { Divider, Form, Radio } from 'antd';
+import { Col, Divider, Form, Radio, Row } from 'antd';
 import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 import InputField from '../../components/InputField/InputField';
@@ -24,13 +24,13 @@ const Orders = () => {
     orderType
   );
 
-  const onSearchFieldEmpty = (e) => {
+  const onSearchFieldEmpty = e => {
     if (e.target.value === '') {
       setSearchValue('');
     }
   };
 
-  const onSearchFormSubmit = (values) => {
+  const onSearchFormSubmit = values => {
     setSearchValue(values.search);
   };
   const onResetFilter = () => {
@@ -38,7 +38,7 @@ const Orders = () => {
     setOrderType(null);
   };
 
-  const onChangeSearchBy = (e) => {
+  const onChangeSearchBy = e => {
     setSearchBy(e.target.value);
   };
 
@@ -48,44 +48,45 @@ const Orders = () => {
       title={orderLocale.title[currentLang]}
     >
       <div className={classes.Orders__Radios}>
-        <div className={classes.Orders__Radios__OrderType}>
-          <Text label>{orderLocale.orderType[currentLang]}</Text>
-          <Radio.Group
-            defaultValue={orderLocale.orderTypeLabelDelivery.en}
-            className={classes.Orders__Radios__OrderType__RadioContainer}
-            buttonStyle='solid'
-            onChange={(e) => setOrderType(e.target.value)}
-            value={orderType}
-          >
-            <RadioButton value={'delivery'} label='توصيل'></RadioButton>
-            <RadioButton value={'restaurant'} label='في المطعم'></RadioButton>
-            {/* <RadioButton
-              value={orderLocale.orderTypeLabelDelivery.en}
-              label={orderLocale.orderTypeLabelDelivery[currentLang]}
-            />
-            <RadioButton
-              value={orderLocale.orderTypeLabelRestaurant.en}
-              label={orderLocale.orderTypeLabelRestaurant[currentLang]}
-            /> */}
-          </Radio.Group>
-        </div>
-        <div className={classes.Orders__Radios__SortBy}>
-          <Text label>{orderLocale.sortBy[currentLang]}</Text>
-          <Radio.Group
-            defaultValue={orderLocale.sortBy.en}
-            className={classes.Orders__Radios__SortBy__RadioContainer}
-            buttonStyle='solid'
-          >
-            <RadioButton
-              value={orderLocale.orderTypeLabelDelivery.en}
-              label={orderLocale.orderTypeLabelDelivery[currentLang]}
-            />
-            <RadioButton
-              value={orderLocale.orderTypeLabelRestaurant.en}
-              label={orderLocale.orderTypeLabelRestaurant[currentLang]}
-            />
-          </Radio.Group>
-        </div>
+        <Row gutter={[30, 20]} justify="space-between">
+          <Col>
+            <div className={classes.Orders__Radios__OrderType}>
+              <Text label>{orderLocale.orderType[currentLang]}</Text>
+              <Radio.Group
+                defaultValue={orderLocale.orderTypeLabelDelivery.en}
+                className={classes.Orders__Radios__OrderType__RadioContainer}
+                buttonStyle="solid"
+                onChange={e => setOrderType(e.target.value)}
+                value={orderType}
+              >
+                <RadioButton value={'delivery'} label="توصيل"></RadioButton>
+                <RadioButton
+                  value={'restaurant'}
+                  label="في المطعم"
+                ></RadioButton>
+              </Radio.Group>
+            </div>
+          </Col>
+          <Col>
+            <div className={classes.Orders__Radios__SortBy}>
+              <Text label>{orderLocale.sortBy[currentLang]}</Text>
+              <Radio.Group
+                defaultValue={orderLocale.sortBy.en}
+                className={classes.Orders__Radios__SortBy__RadioContainer}
+                buttonStyle="solid"
+              >
+                <RadioButton
+                  value={orderLocale.orderTypeLabelDelivery.en}
+                  label={orderLocale.orderTypeLabelDelivery[currentLang]}
+                />
+                <RadioButton
+                  value={orderLocale.orderTypeLabelRestaurant.en}
+                  label={orderLocale.orderTypeLabelRestaurant[currentLang]}
+                />
+              </Radio.Group>
+            </div>
+          </Col>
+        </Row>
       </div>
       <div className={classes.Orders__SearchForm}>
         <Text label>{orderLocale.searchForOrders[currentLang]}</Text>
@@ -94,11 +95,11 @@ const Orders = () => {
           onFinish={onSearchFormSubmit}
           className={classes.Orders__SearchForm__BtnWrapper}
         >
-          <Form.Item name='search' noStyle>
+          <Form.Item name="search" noStyle>
             <InputField
               type={searchBy === 'orderId' ? 'number' : 'text'}
               placeholder={orderLocale.searchForOrdersPlaceholder[currentLang]}
-              radius='md'
+              radius="md"
               value={searchValue}
               onChange={onSearchFieldEmpty}
             />
@@ -122,14 +123,14 @@ const Orders = () => {
         </div>
         <Divider
           className={classes.Orders__SearchWrapper__Divider}
-          type='vertical'
+          type="vertical"
         />
         <div className={classes.Orders__SearchWrapper__SearchResults}>
           <Text label>{orderLocale.searchResult[currentLang]}</Text>
           <OrderResultsList isLoading={isLoading} orders={ordersData} />
         </div>
       </div>
-      <Button type='danger' onClick={onResetFilter}>
+      <Button type="danger" onClick={onResetFilter}>
         الغاء
       </Button>
     </PageLayout>

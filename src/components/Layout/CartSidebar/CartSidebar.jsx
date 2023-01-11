@@ -9,12 +9,20 @@ import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
 import CartItems from './CartItems/CartItems';
 import { useCurrentCartItems } from '../../../hooks/useCurrentCartItems';
+import { currencyFormat } from '../../../services/utils';
+import useCartInfo from '../../../api-hooks/cart/useCartInfo';
 
 const CartSidebar = () => {
   const [currentLang] = useCurrentLang();
   const orderlabels = locale.sidebar.cart.orderLables;
+
   const { data: currentCartItem, isLoading: cartIsLoading } =
     useCurrentCartItems();
+  console.log('CartSidebar  currentCartItem>>>>>>>>>>>>', currentCartItem);
+  // const { cartInfo: currentCartItem, cartInfoLod: cartIsLoading } =
+  //   useCartInfo();
+  // console.log('CartSidebar  cartInfo', currentCartItem);
+
   return (
     <div className={classes.CartSidebar}>
       <CartHeader />
@@ -26,22 +34,10 @@ const CartSidebar = () => {
         gap="17px"
         direction="column"
       >
-        {/* <Flex justify='space-between'> */}
-        {/* <Text>100 جنيه مصري</Text>
-          <Text label>{orderlabels.subtotal[currentLang]}</Text>
-        </Flex>
-        <Flex justify='space-between'>
-          <Text>جنيه مصري 5.5</Text>
-          <Text label>{orderlabels.vat[currentLang]}</Text>
-        </Flex>
-        <Flex justify='space-between'>
-          <Text>جنيه مصري 50</Text>
-          <Text label>{orderlabels.shipping[currentLang]}</Text>
-        </Flex> */}
         <Divider style={{ margin: '0' }} />
         <Flex justify="space-between">
           <Text color="primary">
-            جم {(currentCartItem?.total ?? 0).toFixed(2)}
+            جم {currencyFormat(currentCartItem?.total ?? 0)}
           </Text>
           <Text label>{orderlabels.total[currentLang]}</Text>
         </Flex>

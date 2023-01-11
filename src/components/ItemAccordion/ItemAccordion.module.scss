@@ -2,9 +2,9 @@
 
 .ItemAccordion {
   :global {
-    .ant-collapse-content-box {
-      margin-top: 10px;
-    }
+    // .ant-collapse-content-box {
+    //   // margin-top: 10px;
+    // }
 
     .ant-collapse-content-box,
     .ant-collapse-header {
@@ -20,6 +20,7 @@
     .ant-collapse-borderless {
       background-color: #f9fafb;
     }
+
     .ant-collapse-item {
       border-bottom: none !important;
     }

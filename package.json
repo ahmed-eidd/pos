@@ -2,10 +2,10 @@
   "name": "pos-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost/pos/",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.5",
+    "@emotion/css": "^11.10.5",
     "@reduxjs/toolkit": "^1.8.6",
     "@tanstack/react-query": "^4.6.0",
     "@tanstack/react-query-devtools": "^4.6.0",

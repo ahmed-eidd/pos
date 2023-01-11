@@ -9,6 +9,7 @@ import {
 } from '../../../hooks/query/useCart';
 import { Collapse } from 'antd';
 import Spinner from '../../Spinner/Spinner';
+import { currencyFormat } from '../../../services/utils';
 
 const { Panel } = Collapse;
 
@@ -18,7 +19,7 @@ const Header = ({ text, count, loading }) => {
       <p className={classes.ItemAccordion__Header__Count}>{count}</p>
       <p className={classes.ItemAccordion__Header__Text}>{text}</p>
       <Spinner
-        spinning={loading}
+        spinning={false}
         style={{
           marginLeft: 'auto',
           marginRight: '10px',
@@ -29,29 +30,19 @@ const Header = ({ text, count, loading }) => {
   );
 };
 
-const SingleCartItem = ({ item }) => {
-  const removeItem = useRemoveCartItem();
-  const increaseQuantity = useIncreaseQuantity();
-  const decreaseQuantity = useDecreaseQuantity();
+const SingleCartItem = ({ item, onDelete, onIncrement, onDecrement }) => {
+  // const removeItem = useRemoveCartItem();
+  // const increaseQuantity = useIncreaseQuantity();
+  // const decreaseQuantity = useDecreaseQuantity();
 
-  const actionsLoading = useMemo(() => {
-    return [
-      removeItem.isLoading,
-      increaseQuantity.isLoading,
-      decreaseQuantity.isLoading,
-    ];
-  }, [
-    removeItem.isLoading,
-    increaseQuantity.isLoading,
-    decreaseQuantity.isLoading,
-  ]);
   return (
     <Panel
-      key={item?.id}
+      key={item.id}
+      showArrow={true}
       header={
         <>
           <Header
-            loading={actionsLoading.some((el) => el === true)}
+            // loading={actionsLoading?.some(el => el === true)}
             text={item.productName}
             count={item.quantity}
           />
@@ -61,20 +52,22 @@ const SingleCartItem = ({ item }) => {
       <div className={classes.ItemAccordion__Panel}>
         <div className={classes.ItemAccordion__Panel__CounterWrapper}>
           <CounterBtns
-            onIncrement={() => increaseQuantity.mutate(item?.id)}
-            onDecrement={() => decreaseQuantity.mutate(item?.id)}
+            onIncrement={() => onIncrement(item?.id)}
+            onDecrement={() => onDecrement(item?.id)}
             count={+item.quantity}
             disableDecBtn={+item.quantity < 2}
           />
           <p className={classes.ItemAccordion__Panel__CounterWrapper__Count}>
-            {`${item.quantity}x${item.price * item.quantity}EGP`}
+            {`${item.quantity}x${currencyFormat(
+              item?.price * item.quantity
+            )}EGP`}
           </p>
         </div>
         <img
           className={classes.ItemAccordion__Panel__CounterWrapper__Delete}
           src={TrashIcon}
-          alt='delete'
-          onClick={() => removeItem.mutate(item?.id)}
+          alt="delete"
+          onClick={() => onDelete(item?.id)}
         />
       </div>
     </Panel>

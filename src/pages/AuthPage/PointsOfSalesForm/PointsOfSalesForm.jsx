@@ -33,8 +33,8 @@ const PointsOfSalesForm = ({ onClick }) => {
     }
     checkPointOfSale.mutate(posValue, {
       onSuccess: newData => {
-        const startSheet = newData.data.item.start_sheet;
         const shiftId = newData.data.item.shift_id;
+        const startSheet = newData.data.item.start_sheet;
         setPointOfSale(posValue);
         setAuthPosId(posValue);
         if (startSheet === 1) {

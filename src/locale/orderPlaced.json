@@ -10,5 +10,9 @@
   "newOrder": {
     "ar": "طلب جديد",
     "en": "New order"
+  },
+  "printInvoice": {
+    "ar": "اطبع فاتورة",
+    "en": "print invoice"
   }
 }

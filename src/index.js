@@ -5,13 +5,22 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
+// (function () {
+//   if (!sessionStorage.getItem('firstLoad')) {
+//     sessionStorage.setItem('firstLoad', true);
+//     window.location.reload();
+//   }
+// })();
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter basename="/pos">
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter
+  // basename="/pos"
+  >
+    <App />
+  </BrowserRouter>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

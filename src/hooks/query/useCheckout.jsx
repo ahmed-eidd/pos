@@ -7,14 +7,14 @@ import { axiosInstance } from '../../service/api';
 
 export const usePayOrder = () => {
   const navigate = useNavigate();
-  const posId = useSelector((state) => state.auth.posId);
-  const sheetId = useSelector((state) => state.auth.sheet);
+  const posId = useSelector(state => state.auth.posId);
+  const sheetId = useSelector(state => state.auth.sheet);
   const currentSavedOrderId = useSelector(
-    (state) => state.cart.currentSavedOrderId
+    state => state.cart.currentSavedOrderId
   );
   const queryClient = useQueryClient();
   return useMutation(
-    (data) => {
+    data => {
       const body = new FormData();
       body.append('point_of_sale_id', posId);
       body.append('point_of_sale_order_sheet_id', sheetId);
@@ -27,12 +27,14 @@ export const usePayOrder = () => {
       return axiosInstance().post('/payOrder', body);
     },
     {
-      onSuccess: (data) => {
+      onSuccess: data => {
+        console.log('usePayOrder  data', data);
         if (data.data.validation.length > 0) {
           message.error(data.data.validation[0]);
           return;
         }
-        navigate('/order-placed');
+        const invoice = data?.data?.data?.items;
+        navigate('/order-placed', { state: { invoice } });
         queryClient.invalidateQueries([queryKeys.getCart]);
         queryClient.invalidateQueries([queryKeys.getProducts]);
       },

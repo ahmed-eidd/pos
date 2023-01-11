@@ -1,4 +1,4 @@
-import { Radio } from 'antd';
+import { Col, Radio, Row } from 'antd';
 import React from 'react';
 import classes from './PaymentType.module.scss';
 import WalletIcon from '../../../assets/checkout/empty-wallet.png';
@@ -11,7 +11,8 @@ import PaymentTypeForm from './PaymentTypeForm';
 // payment type constants
 export const PAYMENT_TYPE = {
   cash: 'cash',
-  creditCard: 'creditCard',
+  visa: 'visa',
+  creditCard: 'credit',
   hotel: 'hotel',
   employee: 'employee',
 };
@@ -27,37 +28,56 @@ const PaymentType = ({
 }) => {
   return (
     <div className={classes.PaymentType}>
-      <Flex align='flex-start' gap='20px' direction='column'>
+      <Flex align="flex-start" gap="20px" direction="column">
         <h3>نوع الدفع</h3>
         <Radio.Group
-          onChange={(value) => onChangePaymentType(value)}
+          onChange={value => onChangePaymentType(value)}
           defaultValue={PAYMENT_TYPE.cash}
           className={classes.PaymentType__Tabs}
         >
-          <Radio.Button value={PAYMENT_TYPE.cash}>
-            <div className={classes.PaymentType__Tabs__Tab}>
-              <img src={WalletIcon} alt='wallet' />
-              <p>نقدي</p>
-            </div>
-          </Radio.Button>
-          <Radio.Button value={PAYMENT_TYPE.creditCard}>
-            <div className={classes.PaymentType__Tabs__Tab}>
-              <img src={CardIcon} alt='card' />
-              <p>بطاقة الائتمان</p>
-            </div>
-          </Radio.Button>
-          <Radio.Button value={PAYMENT_TYPE.hotel}>
-            <div className={classes.PaymentType__Tabs__Tab}>
-              <img src={GiftIcon} alt='gift' />
-              <p>غرفة الفندق </p>
-            </div>
-          </Radio.Button>
-          <Radio.Button value={PAYMENT_TYPE.employee}>
-            <div className={classes.PaymentType__Tabs__Tab}>
-              <img src={UsersIcon} alt='gift' />
-              <p>الموظفين</p>
-            </div>
-          </Radio.Button>
+          <Row gutter={[15, 15]}>
+            <Col>
+              <Radio.Button value={PAYMENT_TYPE.cash}>
+                <div className={classes.PaymentType__Tabs__Tab}>
+                  <img src={WalletIcon} alt="wallet" />
+                  <p>نقدي</p>
+                </div>
+              </Radio.Button>
+            </Col>
+            <Col>
+              <Radio.Button value={PAYMENT_TYPE.visa}>
+                <div className={classes.PaymentType__Tabs__Tab}>
+                  <img src={CardIcon} alt="wallet" />
+                  <p>visa</p>
+                </div>
+              </Radio.Button>
+            </Col>
+            <Col>
+              <Radio.Button value={PAYMENT_TYPE.creditCard}>
+                <div className={classes.PaymentType__Tabs__Tab}>
+                  <img src={CardIcon} alt="card" />
+                  <p>بطاقة الائتمان</p>
+                </div>
+              </Radio.Button>
+            </Col>
+            <Col>
+              {' '}
+              <Radio.Button value={PAYMENT_TYPE.hotel}>
+                <div className={classes.PaymentType__Tabs__Tab}>
+                  <img src={GiftIcon} alt="gift" />
+                  <p>غرفة الفندق </p>
+                </div>
+              </Radio.Button>
+            </Col>
+            <Col>
+              <Radio.Button value={PAYMENT_TYPE.employee}>
+                <div className={classes.PaymentType__Tabs__Tab}>
+                  <img src={UsersIcon} alt="gift" />
+                  <p>الموظفين</p>
+                </div>
+              </Radio.Button>
+            </Col>
+          </Row>
         </Radio.Group>
       </Flex>
       <PaymentTypeForm

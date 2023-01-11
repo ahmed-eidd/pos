@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { queryKeys } from '../../constants/queryKeys';
 import { axiosInstance } from '../../service/api';
+import { setCart } from '../../store/cartSlice';
 
 export const useAddToCart = () => {
   const posId = useSelector(state => state.auth.posId);
-  console.log('useAddToCart  posId', posId);
+  // console.log('useAddToCart  posId', posId);
   const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
   const queryClient = useQueryClient();
   return useMutation(
@@ -24,6 +25,7 @@ export const useAddToCart = () => {
     },
     {
       onSuccess: newData => {
+        console.log('useAddToCart  newData', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -31,9 +33,11 @@ export const useAddToCart = () => {
         }
         if (showSavedOrder) {
           queryClient.invalidateQueries([queryKeys.getSavedOrder]);
-        } else {
-          queryClient.invalidateQueries([queryKeys.getCart]);
         }
+
+        queryClient.setQueryData([queryKeys.getCart], newData);
+        // console.log('>>>>>>>>>>>>>>>>>>>>');
+        // queryClient.invalidateQueries([queryKeys.getCart]);
         queryClient.invalidateQueries([queryKeys.getProducts]);
       },
     }
@@ -42,17 +46,24 @@ export const useAddToCart = () => {
 
 export const useGetCart = selectPrice => {
   const posId = useSelector(state => state.auth.posId);
+  const dispatch = useDispatch();
   return useQuery(
     [queryKeys.getCart],
-    () => {
+    async () => {
       const body = new FormData();
       body.append('point_of_sale_id', posId);
-      return axiosInstance().post('/viewCart', body);
+      // return axiosInstance().post('/viewCart', body);
+
+      const res = await axiosInstance().post('/viewCart', body);
+      // console.log('useGetCart  res>>>>>>>>', res);
+      return res;
     },
     {
-      select: products => {
-        // TODO: Add toFixed(2) to the total price property
-        return products.data?.data?.cart;
+      select: res => {
+        // console.log('useGetCart  res', res);
+        const cart = res.data?.data?.cart;
+        dispatch(setCart(cart));
+        return cart;
       },
     }
   );
@@ -70,12 +81,15 @@ export const useIncreaseQuantity = () => {
     },
     {
       onSuccess: newData => {
+        console.log('useIncreaseQuantity  newData', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
           return;
         }
-        queryClient.invalidateQueries([queryKeys.getCart]);
+        queryClient.setQueryData([queryKeys.getCart], newData);
+
+        // queryClient.invalidateQueries([queryKeys.getCart]);
       },
     }
   );
@@ -98,7 +112,9 @@ export const useDecreaseQuantity = () => {
           message.error(error[0]);
           return;
         }
-        queryClient.invalidateQueries([queryKeys.getCart]);
+        queryClient.setQueryData([queryKeys.getCart], newData);
+
+        // queryClient.invalidateQueries([queryKeys.getCart]);
       },
     }
   );
@@ -120,7 +136,9 @@ export const useRemoveAllCartItems = () => {
           message.error(error[0]);
           return;
         }
-        queryClient.invalidateQueries([queryKeys.getCart]);
+        queryClient.setQueryData([queryKeys.getCart], newData);
+
+        // queryClient.invalidateQueries([queryKeys.getCart]);
         queryClient.invalidateQueries([queryKeys.getProducts]);
       },
     }
@@ -144,7 +162,9 @@ export const useRemoveCartItem = () => {
           message.error(error[0]);
           return;
         }
-        queryClient.invalidateQueries([queryKeys.getCart]);
+        queryClient.setQueryData([queryKeys.getCart], newData);
+
+        // queryClient.invalidateQueries([queryKeys.getCart]);
       },
     }
   );

@@ -7,4 +7,6 @@ export const queryKeys = {
   getCart: 'getCart',
   getOrders: 'getOrders',
   getSavedOrder: 'getSavedOrder',
+  //
+  cartInfo: 'cart-info',
 };

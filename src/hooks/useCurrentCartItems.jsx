@@ -4,7 +4,7 @@ import { useGetCart } from './query/useCart';
 import { useGetSavedOrder } from './query/useOrders';
 
 export const useCurrentCartItems = () => {
-  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
+  const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
   const cartItems = useGetCart();
   const savedOrderItems = useGetSavedOrder();
 
@@ -13,4 +13,6 @@ export const useCurrentCartItems = () => {
   }, [showSavedOrder, savedOrderItems, cartItems]);
 
   return currentCartItem;
+
+  // return showSavedOrder ? savedOrderItems : cartItems;
 };

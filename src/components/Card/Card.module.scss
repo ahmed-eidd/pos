@@ -1,19 +1,25 @@
 @import '../../styles/index.scss';
 
 .Card {
+  // width: 211px;
+  width: 180px;
+  min-height: 210px;
   border: 1px solid $color-white-500;
-  border-radius: $radius-md;
-  width: 211px;
+  border-radius: 5px;
+
   overflow: hidden;
   font-weight: 500;
   cursor: pointer;
 
   &__Img {
-    height: 145px;
+    height: 130px;
     background-color: lightcoral;
+
     img {
       height: 100%;
       width: 100%;
+      object-fit: fill;
+      // object-fit: cover;
     }
   }
 
@@ -21,8 +27,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 145px;
+    height: 130px;
     border-bottom: 1px solid $color-white-500;
+
     i {
       font-size: 60px;
       color: $color-primary;
@@ -39,17 +46,22 @@
     gap: 10px;
   }
 
-  &__SingleText {
-    padding: 20px 0;
+  &__Text {
+    // padding: 20px 0;
+    width: 100%;
     text-align: center;
   }
 
   &__Price {
-    color: $color-primary;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
     justify-content: center;
     gap: 2px;
+
+    &__clr {
+      color: $color-primary;
+      padding: 0 2px;
+    }
   }
 }

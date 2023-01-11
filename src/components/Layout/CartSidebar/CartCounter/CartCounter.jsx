@@ -4,6 +4,7 @@ import { locale } from '../../../../locale';
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 import { Button, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { currencyFormat } from '../../../../services/utils';
 
 const CartCounter = ({ prices, count }) => {
   const [currentLang] = useCurrentLang();
@@ -23,7 +24,7 @@ const CartCounter = ({ prices, count }) => {
           ` ${count ?? 0} ` +
           cartLocale.count[currentLang] +
           ' / ' +
-          `${(prices ?? 0).toFixed(2)} ` +
+          `${currencyFormat(prices)} ` +
           locale.global.currency[currentLang]}
       </p>
     </Button>
