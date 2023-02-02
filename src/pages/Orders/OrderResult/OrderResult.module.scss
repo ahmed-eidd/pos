@@ -5,7 +5,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  gap: 8px;
+  gap: 3px;
+
   &__Details {
     display: flex;
     align-items: center;
@@ -13,9 +14,10 @@
     $detailGap: 28px;
     gap: $detailGap;
 
-    // &__OrderNumber {
+    &__OrderNumber {
       // margin-left: calc(62px - #{$detailGap});
-    // }
+      font-size: 12px;
+    }
   }
 
   &__Link {

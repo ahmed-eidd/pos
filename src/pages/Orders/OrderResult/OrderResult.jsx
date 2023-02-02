@@ -6,26 +6,33 @@ import { locale } from '../../../locale';
 import OrderStatus, { NOTFOUND_ORDER } from '../OrderStatus/OrderStatus';
 import classes from './OrderResult.module.scss';
 
-const OrderResult = ({ status, type, id, date }) => {
+const OrderResult = ({ order }) => {
   const [currentLang] = useCurrentLang();
   const orderLocale = locale.orders;
   return (
     <div className={classes.OrderResult}>
       <div className={classes.OrderResult__Details}>
-        <OrderStatus status={status} />
-        <Text>{type?.toUpperCase()}</Text>
+        <OrderStatus status={order?.status} />
+        <Text>{order?.order_payment?.toUpperCase()}</Text>
         <Text
           className={classes.OrderResult__Details__OrderNumber}
-          color='grey'
+          size="small"
+          color="grey"
         >
-          الطلب رقم {id}
+          الطلب رقم {order?.id} طاوله {order?.table_number}
         </Text>
       </div>
 
-      {status !== NOTFOUND_ORDER && (
+      {order?.status !== NOTFOUND_ORDER && (
         <>
-          <Text>{date ?? '10/05/2022 10:30 مساءً'}</Text>
-          <Link to={`/order/${id}`} className={classes.OrderResult__Link}>
+          <Text size="small">{order?.type}</Text>
+          <Text size="small">
+            {order?.created_at + ' ' + order?.opening_time}
+          </Text>
+          <Link
+            to={`/order/${order?.id}`}
+            className={classes.OrderResult__Link}
+          >
             {orderLocale.orderDetailsBtn[currentLang]}
           </Link>
         </>

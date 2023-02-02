@@ -5,6 +5,7 @@ import { NOTFOUND_ORDER } from '../OrderStatus/OrderStatus';
 import classes from './OrderResultsList.module.scss';
 
 const OrderResultsList = ({ orders, isLoading }) => {
+  // console.log('OrderResultsList  orders', orders);
   if (isLoading) {
     return (
       <Spinner
@@ -20,14 +21,8 @@ const OrderResultsList = ({ orders, isLoading }) => {
   }
   return (
     <div className={classes.OrderResultsList}>
-      {orders?.map((el) => (
-        <OrderResult
-          key={el?.id}
-          id={el?.id}
-          status={el?.status}
-          type={el?.order_payment}
-          date={el?.created_at}
-        />
+      {orders?.map(el => (
+        <OrderResult key={el?.id} order={el} />
       ))}
     </div>
   );
