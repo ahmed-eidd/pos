@@ -25,6 +25,7 @@ const PaymentType = ({
   onChangeReceivedMoney,
   total,
   onSuccessOrder,
+  checkoutOrder,
 }) => {
   return (
     <div className={classes.PaymentType}>
@@ -61,7 +62,6 @@ const PaymentType = ({
               </Radio.Button>
             </Col>
             <Col>
-              {' '}
               <Radio.Button value={PAYMENT_TYPE.hotel}>
                 <div className={classes.PaymentType__Tabs__Tab}>
                   <img src={GiftIcon} alt="gift" />
@@ -87,6 +87,7 @@ const PaymentType = ({
         orderType={orderType}
         total={total}
         onSuccess={onSuccessOrder}
+        checkoutOrder={checkoutOrder}
       />
     </div>
   );

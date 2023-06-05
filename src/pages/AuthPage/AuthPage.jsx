@@ -23,12 +23,12 @@ const AuthPage = () => {
     secondTitle: locale.authPage.loginTitle[currentLang],
   });
   // const token = getToken();
-  useEffect(() => {
-    // if (token) {
-    //   setCurrentForm(STEPS.CHECKPOINTS_STEP);
-    // }
-    return () => setCurrentForm(STEPS.LOGIN_STEP);
-  }, []);
+  // useEffect(() => {
+  //   // if (token) {
+  //   //   setCurrentForm(STEPS.CHECKPOINTS_STEP);
+  //   // }
+  //   return () => setCurrentForm(STEPS.LOGIN_STEP);
+  // }, []);
 
   const renderForm = useMemo(() => {
     switch (currentForm) {
@@ -39,7 +39,11 @@ const AuthPage = () => {
         });
         return (
           <LoginForm
-            onSuccess={data => setCurrentForm(STEPS.CHECKPOINTS_STEP)}
+            onSuccess={data => {
+              console.log('LoginForm  data:', data);
+
+              setCurrentForm(STEPS.CHECKPOINTS_STEP);
+            }}
           />
         );
       }

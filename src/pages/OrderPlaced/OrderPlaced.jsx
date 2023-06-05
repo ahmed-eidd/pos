@@ -22,7 +22,7 @@ const OrderPlaced = () => {
   });
 
   const invoice = state?.invoice;
-  // console.log('OrderPlaced  invoice', invoice);
+  console.log('OrderPlaced  invoice', invoice);
   const onNewOrderHandler = () => {
     navigate('/categories');
   };

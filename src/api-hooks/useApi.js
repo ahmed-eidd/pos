@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 //  ENDPOINT
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -15,12 +16,14 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 //  START FUNCTION
 function useApi(config = {}) {
   const token = localStorage.getItem('token');
+  const organizationId = useSelector(s => s.auth?.organizationId);
 
   const axiosInstance = axios.create({
     baseURL: baseURL,
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${JSON.parse(token)}`,
+      organizationId,
       withCredentials: true,
     },
     ...config,

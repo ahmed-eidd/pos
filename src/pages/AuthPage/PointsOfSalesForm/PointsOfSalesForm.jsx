@@ -33,6 +33,7 @@ const PointsOfSalesForm = ({ onClick }) => {
     }
     checkPointOfSale.mutate(posValue, {
       onSuccess: newData => {
+        // console.log('onSubmitHandler  newData:>>>>>>', newData);
         const shiftId = newData.data.item.shift_id;
         const startSheet = newData.data.item.start_sheet;
         setPointOfSale(posValue);

@@ -18,11 +18,13 @@ const Orders = () => {
   const [searchValue, setSearchValue] = useState(null);
   const [orderType, setOrderType] = useState(null);
   const orderLocale = locale.orders;
-  const { data: ordersData, isLoading } = useGetOrders(
+  const { data, isLoading } = useGetOrders(
     null, // for orders type ex: pending, ...etc, set to null to get all orders
     searchValue,
     orderType
   );
+
+  const ordersData = data?.orders;
 
   const onSearchFieldEmpty = e => {
     if (e.target.value === '') {

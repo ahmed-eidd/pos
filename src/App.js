@@ -8,6 +8,10 @@ import { Provider } from 'react-redux';
 import store from './services/store';
 import QueryProvider from './services/react-query';
 import ScrollToTop from './components/ScrollToTop';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+
+const persistor = persistStore(store);
 
 function App() {
   // TODO: add offline support
@@ -32,10 +36,12 @@ function App() {
   return (
     <QueryProvider>
       <Provider store={store}>
-        <CurrentLangProvider>
-          <Routes />
-          <ScrollToTop />
-        </CurrentLangProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <CurrentLangProvider>
+            <Routes />
+            <ScrollToTop />
+          </CurrentLangProvider>
+        </PersistGate>
       </Provider>
     </QueryProvider>
   );

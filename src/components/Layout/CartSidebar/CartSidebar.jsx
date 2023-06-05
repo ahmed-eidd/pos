@@ -17,7 +17,7 @@ const CartSidebar = () => {
 
   const { data: currentCartItem, isLoading: cartIsLoading } =
     useCurrentCartItems();
-  // console.log('CartSidebar  currentCartItem>>>>>>>>>>>>', currentCartItem);
+  console.log('CartSidebar  currentCartItem>>>>>', currentCartItem);
   // const { cartInfo: currentCartItem, cartInfoLod: cartIsLoading } =
   //   useCartInfo();
   // console.log('CartSidebar  cartInfo', currentCartItem);
@@ -25,7 +25,7 @@ const CartSidebar = () => {
   return (
     <div className={classes.CartSidebar}>
       <CartHeader />
-      <CartItems cartIsloading={cartIsLoading} data={currentCartItem} />
+      <CartItems />
       <Flex
         style={{
           padding: '18px',

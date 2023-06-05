@@ -16,7 +16,9 @@ import { currencyFormat } from '../../services/utils';
 const ReceiptDetails = () => {
   const [currentLang] = useCurrentLang();
   const { id } = useParams();
-  const { data: orderData = [], isFetching } = useGetOrders(null, id);
+  const { data, isFetching } = useGetOrders(null, id);
+  const orderData = data?.orders || [];
+
   console.log('ReceiptDetails  orderData', orderData);
   const reviewOrderLocale = locale.reviewOrder;
   const currentOrderData = orderData[0];

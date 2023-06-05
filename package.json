@@ -22,9 +22,9 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-to-print": "^2.14.7",
+    "redux-persist": "^6.0.0",
     "sass": "^1.54.5",
-    "web-vitals": "^2.1.4",
-    "zustand": "^4.1.1"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "craco start",

@@ -11,8 +11,9 @@ const FormLayout = ({ children, mainTitle, secondTitle = '' }) => {
         onClick={() => setCurrentLang(currentLang === 'en' ? 'ar' : 'en')}
         className={classes.AuthPage__Image}
       >
-        <img src={AuthImage} alt='login' />
+        <img src={AuthImage} alt="login" />
       </div>
+
       <div className={classes.AuthPage__Form}>
         <div className={classes.AuthPage__Form__Content}>
           <div className={classes.AuthPage__Form__Content__Titles}>

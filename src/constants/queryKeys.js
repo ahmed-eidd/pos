@@ -9,4 +9,5 @@ export const queryKeys = {
   getSavedOrder: 'getSavedOrder',
   //
   cartInfo: 'cart-info',
+  placesList: 'places-list',
 };

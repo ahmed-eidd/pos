@@ -20,6 +20,7 @@ export const useAddToCart = () => {
       body.append('point_of_sale_id', posId);
       if (showSavedOrder) {
         body.append('order_id', data?.order_id);
+        return axiosInstance().post('/addItemsToOrder', body);
       }
       return axiosInstance().post('/addToCart', body);
     },

@@ -5,6 +5,7 @@ const initialState = {
   token: getToken(),
   sheet: getShiftId(),
   posId: getPointOfSale(),
+  organizationId: null,
 };
 
 const authSlice = createSlice({
@@ -20,8 +21,13 @@ const authSlice = createSlice({
     setPosId: (state, { payload }) => {
       state.posId = payload;
     },
+    setOrganizationId: (state, { payload }) => {
+      state.organizationId = payload;
+    },
   },
 });
 
-export const { setPosId, setSheet, setToken } = authSlice.actions;
+export const { setPosId, setSheet, setToken, setOrganizationId } =
+  authSlice.actions;
+
 export default authSlice.reducer;

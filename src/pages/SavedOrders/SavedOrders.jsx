@@ -5,23 +5,30 @@ import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import SingleSavedOrder from './SingleSavedOrder/SingleSavedOrder';
 import classes from './SavedOrders.module.scss';
-import { Modal } from 'antd';
+import { Modal, Pagination } from 'antd';
 import Button from '../../components/Button/Button';
 import { useGetOrders } from '../../hooks/query/useOrders';
 import { orderStatus } from '../../constants/orderStatus';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
 import Spinner from '../../components/Spinner/Spinner';
 import { useDispatch } from 'react-redux';
 import { setCurrentSavedOrderIdAction } from '../../store/cartSlice';
 
 const SavedOrders = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
   const setCurrentSavedOrderId = id =>
     dispatch(setCurrentSavedOrderIdAction(id));
   const [modalOpen, setModalOpen] = useState(false);
-  const { data: savedOrders, isLoading } = useGetOrders(orderStatus.pending);
+  const { data, isLoading } = useGetOrders(orderStatus.pending);
+  const savedOrders = data?.orders;
+  const pagination = data?.pagination;
+  console.log('SavedOrders  pagination:', pagination);
+
+  console.log('SavedOrders  savedOrders:', savedOrders);
   const savedOrderLocale = locale.savedOrders;
   const [savedOrderId, setSavedOrderId] = useState(null);
 
@@ -42,25 +49,40 @@ const SavedOrders = () => {
   return (
     <>
       <PageLayout title={savedOrderLocale.title[currentLang]}>
-        <div className={classes.SavedOrders}>
-          <Text className={classes.SavedOrders__Title}>
-            {savedOrderLocale.chooseSavedOrder[currentLang]}
-          </Text>
-
+        <div className={classes.SavedOrders} style={{ direction: 'rtl' }}>
           {isLoading ? (
             <Spinner style={{ display: 'block' }} />
           ) : savedOrders?.length > 0 ? (
-            savedOrders?.map(order => (
-              <SingleSavedOrder
-                key={order?.id}
-                date={order?.created_at}
-                onClick={() => {
-                  onSavedOrderClickHandler(order?.id);
-                }}
+            <>
+              <Text className={classes.SavedOrders__Title}>
+                لديك {savedOrders?.length} طلبات جاريه
+              </Text>
+              <div
+                style={{ display: 'flex', flexDirection: 'column', gap: 20 }}
+              >
+                {savedOrders?.map(order => (
+                  <SingleSavedOrder
+                    key={order?.id}
+                    order={order}
+                    onClick={() => {
+                      onSavedOrderClickHandler(order?.id);
+                    }}
+                  />
+                ))}
+              </div>
+              <Pagination
+                current={pagination?.current}
+                total={pagination?.total}
+                pageSize={pagination?.size}
+                onChange={page => setSearchParams({ page })}
+                hideOnSinglePage
               />
-            ))
+            </>
           ) : (
-            <div className={classes.SavedOrders__NoItems}>
+            <div
+              className={classes.SavedOrders__NoItems}
+              style={{ margin: '50px auto' }}
+            >
               <CartIcon style={{ width: '50px', height: '50px' }} />
               <p>{locale.savedOrders.noItems[currentLang]}</p>
             </div>
