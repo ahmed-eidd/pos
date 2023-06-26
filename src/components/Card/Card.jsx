@@ -1,11 +1,42 @@
+import { css } from '@emotion/css';
 import React from 'react';
-import { useCurrentLang } from '../../hooks/useCurrentLang';
-import { locale } from '../../locale';
-import { currencyFormat } from '../../services/utils';
-import classes from './Card.module.scss';
 
-const Card = ({ img, name, id, price, onClick, isLoading }) => {
-  const [currentLang] = useCurrentLang();
+const Card = ({ name, id, price, onClick, isLoading }) => {
+  const CardStyles = css`
+    width: 112px;
+    padding: 10px;
+    height: 100%;
+    min-height: 100px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    transition: 0.1s ease-in;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+    &:active {
+      transform: translateY(3px);
+      box-shadow: none;
+    }
+
+    .name {
+      font-weight: 600;
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+    .price {
+      font-weight: 700;
+      font-size: 16px;
+      color: #006aff;
+    }
+  `;
   return (
     <div
       aria-disabled={true}
@@ -14,31 +45,10 @@ const Card = ({ img, name, id, price, onClick, isLoading }) => {
         onClick();
       }}
       key={id}
-      className={classes.Card}
+      className={CardStyles}
     >
-      {img ? (
-        <div className={classes.Card__Img}>
-          <img src={img} alt="product" />
-        </div>
-      ) : (
-        <div className={classes.Card__Icon}>
-          <i className={'fa-solid fa-pizza-slice'}></i>
-        </div>
-      )}
-
-      {price ? (
-        <div className={classes.Card__TextWrapper}>
-          <p className={classes.Card__Text}>{name}</p>
-          <p className={classes.Card__Price}>
-            <span className={classes.Card__Price__clr}>
-              {currencyFormat(price)}
-            </span>
-            {` ${locale.global.currencyWithEgyptian[currentLang]}`}{' '}
-          </p>
-        </div>
-      ) : (
-        <p className={classes.Card__SingleText}>{name}</p>
-      )}
+      <p className="name">{name}</p>
+      {price && <p className="price">{price}</p>}
     </div>
   );
 };

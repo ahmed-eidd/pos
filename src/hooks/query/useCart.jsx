@@ -82,7 +82,7 @@ export const useIncreaseQuantity = () => {
     },
     {
       onSuccess: newData => {
-        console.log('useIncreaseQuantity  newData', newData);
+        // console.log('useIncreaseQuantity  newData', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);

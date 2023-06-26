@@ -22,7 +22,7 @@ const OrderPlaced = () => {
   });
 
   const invoice = state?.invoice;
-  console.log('OrderPlaced  invoice', invoice);
+  // console.log('OrderPlaced  invoice', invoice);
   const onNewOrderHandler = () => {
     navigate('/categories');
   };
@@ -70,7 +70,7 @@ const OrderPlaced = () => {
         </div>
       </div>
       <div ref={orderRef}>
-        <InvoiceCopy invoice={invoice} />
+        <InvoiceCopy invoice={invoice} paymentReccived />
       </div>
     </>
   );

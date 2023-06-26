@@ -43,7 +43,7 @@ export default new QueryClient({
       // refetchOnReconnect: false,
       // retry: 2,
       onSuccess: res => {
-        console.log('onSuccess Global queries', res);
+        // console.log('onSuccess Global queries', res);
         if (res?.code !== 200) {
           // toast(res?.message);
         }
@@ -58,7 +58,7 @@ export default new QueryClient({
     },
     mutations: {
       onSuccess: res => {
-        console.log('onSuccess Global mutations', res);
+        // console.log('onSuccess Global mutations', res);
         if (res?.code === 200) {
           // toast.success(res?.message);
         }

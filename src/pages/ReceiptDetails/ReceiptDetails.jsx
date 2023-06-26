@@ -19,7 +19,7 @@ const ReceiptDetails = () => {
   const { data, isFetching } = useGetOrders(null, id);
   const orderData = data?.orders || [];
 
-  console.log('ReceiptDetails  orderData', orderData);
+  // console.log('ReceiptDetails  orderData', orderData);
   const reviewOrderLocale = locale.reviewOrder;
   const currentOrderData = orderData[0];
   return (

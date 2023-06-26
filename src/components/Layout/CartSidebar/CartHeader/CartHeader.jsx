@@ -5,11 +5,9 @@ import { locale } from '../../../../locale';
 import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 import { useRemoveAllCartItems } from '../../../../hooks/query/useCart';
 import Flex from '../../../Flex/Flex';
-
 import Spinner from '../../../Spinner/Spinner';
 import { Popconfirm, Button as ButtonAnt } from 'antd';
 import Button from '../../../Button/Button';
-import { useSaveOrder } from '../../../../hooks/query/useOrders';
 import { useCurrentCartItems } from '../../../../hooks/useCurrentCartItems';
 import { useSelector } from 'react-redux';
 import { axiosInstance } from '../../../../service/api';
@@ -18,27 +16,26 @@ import { currencyFormat } from '../../../../services/utils';
 const CartHeader = () => {
   const [currentLang] = useCurrentLang();
   const { sheet } = useSelector(s => s.auth);
-  const { showSavedOrder } = useSelector(s => s.cart);
+  const showSavedOrder = useSelector(s => s?.cart?.showSavedOrder);
   const { isFetching: isCurrentCartFetching } = useCurrentCartItems();
   const cartLocale = locale.sidebar.cart;
   const { mutate: removeAllItems, isLoading } = useRemoveAllCartItems();
-  // const { mutate: saveOrder, isLoading: saveOrderLod } = useSaveOrder();
   const [currentBalance, setCurrentBalance] = useState(null);
   const [getBalanceLod, setGetBalanceLod] = useState(false);
 
   const handelShowCurrentBalance = async () => {
+    console.log('first');
     const body = new FormData();
     body.append('point_of_sale_order_sheet_id', sheet);
     setGetBalanceLod(true);
     try {
       const { data } = await axiosInstance().post('/checkLockerBalance', body);
       if (data?.code === 200) {
-        setCurrentBalance(data?.data?.amount);
+        setCurrentBalance(data?.data?.amount || '0');
         setTimeout(() => {
           setCurrentBalance(null);
         }, 1000 * 10);
       }
-      console.log('handelShowCurrentBalance  data:', data);
     } catch (error) {
       console.log('handelShowCurrentBalance  error:', error);
     }
@@ -77,23 +74,19 @@ const CartHeader = () => {
       <ButtonAnt
         onClick={handelShowCurrentBalance}
         loading={getBalanceLod}
-        // className={classes.CartHeader__SaveBtn}
         size="large"
-        disabled={currentBalance}
-        style={currentBalance && { color: '#fff', backgroundColor: '#12b76a' }}
+        disabled={!!currentBalance}
+        style={
+          !!currentBalance
+            ? { color: '#fff', backgroundColor: '#12b76a' }
+            : undefined
+        }
         type="primary"
       >
-        {currentBalance
+        {!!currentBalance
           ? `جم ${currencyFormat(currentBalance)}`
           : ' الرصيد الحالي'}
       </ButtonAnt>
-      {/* <Button
-        onClick={saveOrder}
-        isLoading={saveOrderLod}
-        className={classes.CartHeader__SaveBtn}
-      >
-        حفظ
-      </Button> */}
     </div>
   );
 };

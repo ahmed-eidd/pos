@@ -22,7 +22,7 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
   const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
 
   const { data: cartItems, isLoading: cartItemsLod } = useGetCart();
-  console.log('CartItems  cartItems:', cartItems);
+  // console.log('CartItems  cartItems:', cartItems);
   const { data: savedOrderItems, isLoading: savedOrderItemsLod } =
     useGetSavedOrder();
 

@@ -5,46 +5,45 @@ import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import SingleSavedOrder from './SingleSavedOrder/SingleSavedOrder';
 import classes from './SavedOrders.module.scss';
-import { Modal, Pagination } from 'antd';
-import Button from '../../components/Button/Button';
+import { Pagination } from 'antd';
+// import Button from '../../components/Button/Button';
 import { useGetOrders } from '../../hooks/query/useOrders';
 import { orderStatus } from '../../constants/orderStatus';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
 import Spinner from '../../components/Spinner/Spinner';
-import { useDispatch } from 'react-redux';
-import { setCurrentSavedOrderIdAction } from '../../store/cartSlice';
+// import { useDispatch } from 'react-redux';
+// import { setCurrentSavedOrderIdAction } from '../../store/cartSlice';
+import ModalShowCanceldOrder from '../../components/ModalShowCanceldOrder';
 
 const SavedOrders = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
-  const setCurrentSavedOrderId = id =>
-    dispatch(setCurrentSavedOrderIdAction(id));
-  const [modalOpen, setModalOpen] = useState(false);
+  // const setCurrentSavedOrderId = id =>
+  //   dispatch(setCurrentSavedOrderIdAction(id));
+  // const [modalOpen, setModalOpen] = useState(false);
   const { data, isLoading } = useGetOrders(orderStatus.pending);
+  const [cancelOrderItems, setCancelOrderItems] = useState(null);
+  console.log('SavedOrders  cancelOrderItems:', cancelOrderItems);
+
   const savedOrders = data?.orders;
   const pagination = data?.pagination;
-  console.log('SavedOrders  pagination:', pagination);
+  // console.log('SavedOrders  pagination:', pagination);
 
-  console.log('SavedOrders  savedOrders:', savedOrders);
+  // console.log('SavedOrders  savedOrders:', savedOrders);
   const savedOrderLocale = locale.savedOrders;
-  const [savedOrderId, setSavedOrderId] = useState(null);
+  // const [savedOrderId, setSavedOrderId] = useState(null);
 
-  const navigate = useNavigate();
-  const onModalClose = () => {
-    setModalOpen(false);
-  };
-  const onModalOk = () => {
-    setCurrentSavedOrderId(savedOrderId);
-    navigate('/categories');
-  };
-
-  const onSavedOrderClickHandler = id => {
-    setModalOpen(true);
-    setSavedOrderId(id);
-  };
+  // const navigate = useNavigate();
+  // const onModalClose = () => {
+  //   setModalOpen(false);
+  // };
+  // const onModalOk = () => {
+  //   setCurrentSavedOrderId(savedOrderId);
+  //   navigate('/categories');
+  // };
 
   return (
     <>
@@ -64,9 +63,7 @@ const SavedOrders = () => {
                   <SingleSavedOrder
                     key={order?.id}
                     order={order}
-                    onClick={() => {
-                      onSavedOrderClickHandler(order?.id);
-                    }}
+                    setCancelOrderItems={setCancelOrderItems}
                   />
                 ))}
               </div>
@@ -90,7 +87,7 @@ const SavedOrders = () => {
         </div>
       </PageLayout>
 
-      <Modal
+      {/* <Modal
         onCancel={onModalClose}
         destroyOnClose
         footer={null}
@@ -112,7 +109,15 @@ const SavedOrders = () => {
             {savedOrderLocale.modalOk[currentLang]}
           </Button>
         </div>
-      </Modal>
+      </Modal> */}
+
+      <ModalShowCanceldOrder
+        open={!!cancelOrderItems}
+        onCancel={() => {
+          setCancelOrderItems(null);
+        }}
+        orderItems={cancelOrderItems}
+      />
     </>
   );
 };

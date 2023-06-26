@@ -24,13 +24,14 @@ function useSaveOrder() {
 
   const { mutate, isLoading } = useMutation(http, {
     onSuccess: res => {
-      console.log('useSaveOrder  res:', res);
+      // console.log('useSaveOrder  res:', res);
       if (res?.code !== 200) {
         res?.validation?.forEach(msg => message.error(msg));
         return;
       }
 
       client.invalidateQueries([queryKeys?.cartInfo]);
+      client.invalidateQueries([queryKeys?.placesList]);
       navigate('/on-hold');
     },
   });

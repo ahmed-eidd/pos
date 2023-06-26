@@ -1,4 +1,4 @@
-import { Col, Divider, Form, Radio, Row } from 'antd';
+import { Checkbox, Col, Divider, Form, Radio, Row } from 'antd';
 import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 import InputField from '../../components/InputField/InputField';
@@ -18,10 +18,12 @@ const Orders = () => {
   const [searchValue, setSearchValue] = useState(null);
   const [orderType, setOrderType] = useState(null);
   const orderLocale = locale.orders;
+  const [isCanceldOrders, setIsCanceldOrders] = useState(false);
   const { data, isLoading } = useGetOrders(
     null, // for orders type ex: pending, ...etc, set to null to get all orders
     searchValue,
-    orderType
+    orderType,
+    isCanceldOrders
   );
 
   const ordersData = data?.orders;
@@ -87,6 +89,15 @@ const Orders = () => {
                 />
               </Radio.Group>
             </div>
+          </Col>
+          <Col span={24}>
+            <Checkbox
+              style={{ fontSize: 18 }}
+              checked={isCanceldOrders}
+              onChange={({ target }) => setIsCanceldOrders(target.checked)}
+            >
+              الطلبات الملغاة
+            </Checkbox>
           </Col>
         </Row>
       </div>

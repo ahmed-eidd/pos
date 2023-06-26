@@ -1,4 +1,4 @@
-import { Form, Radio } from 'antd';
+import { Form, InputNumber, Radio } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -47,13 +47,13 @@ const PaymentTypeForm = ({
     const data = {
       order_type: orderType,
       payment_type: paymentValue,
-      paidAmount: values.paidAmount,
+      // paidAmount: values.paidAmount,
     };
     if (checkoutOrder) {
       data.order_id = checkoutOrder?.id;
       data.table_number = checkoutOrder?.tableNumber;
     }
-    console.log('onFinishOrderHandler  data', data);
+    // console.log('onFinishOrderHandler  data', data);
     // return null;
     payOrder.mutate(
       {
@@ -81,7 +81,7 @@ const PaymentTypeForm = ({
           dir={currentLang === 'ar' ? 'rtl' : 'ltr'}
         >
           <Flex align="flex-start" direction="column" gap="20px">
-            <h3>المبلغ المستلم</h3>
+            {/* <h3>المبلغ المستلم</h3> */}
             {/* <Form.Item name="radioAmount">
               <Radio.Group
                 onChange={value => onChangeReceivedMoney(value)}
@@ -96,29 +96,24 @@ const PaymentTypeForm = ({
                 </Radio.Button>
               </Radio.Group>
             </Form.Item> */}
-            <Form.Item
-              name="paidAmount"
-              rules={[{ required: true, message: 'الرجاء ادخال المبلغ' }]}
-              style={{
-                width: '100%',
-                marginBottom: 0,
-              }}
-            >
-              <InputField
-                radius="md"
-                type="number"
-                placeholder="ادخال المبلغ"
-              />
-            </Form.Item>
             {/* <Form.Item
-              name="table_number"
-              rules={[{ required: true, message: 'ادخل رقم الطاوله' }]}
+              name="paidAmount"
+              // rules={[{ required: true, message: 'الرجاء ادخال المبلغ' }]}
               style={{
                 width: '100%',
                 marginBottom: 0,
               }}
             >
-              <InputField radius="md" type="number" placeholder="رقم الطاوله" />
+
+              <InputNumber
+                style={{ width: '100%', height: 50, borderRadius: 10 }}
+                controls={false}
+                inputMode="numeric"
+                placeholder="ادخال المبلغ"
+                type="text"
+                pattern="\d*"
+                // pattern="[0-9]*"
+              />
             </Form.Item> */}
 
             <Flex

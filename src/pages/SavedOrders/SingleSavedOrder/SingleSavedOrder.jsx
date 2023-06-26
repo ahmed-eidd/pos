@@ -1,25 +1,26 @@
+import { SwapOutlined } from '@ant-design/icons';
 import { css } from '@emotion/css';
-import { Button, Descriptions, Space } from 'antd';
-import React, { useRef } from 'react';
+import { Button, Descriptions, Popconfirm, Space } from 'antd';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
+import useCancelOrder from '../../../api-hooks/useCancelOrder';
 import InvoiceCopy from '../../../components/InvoiceCopy/InvoiceCopy';
+import ModalSelectTable from '../../../components/ModalSelectTable';
 import { currencyFormat } from '../../../services/utils';
 import {
   setCartToShowSavedOrder,
   setCurrentSavedOrderIdAction,
 } from '../../../store/cartSlice';
 
-const SingleSavedOrder = ({ onClick, order }) => {
-  console.log('SingleSavedOrder  order:', order);
+const SingleSavedOrder = ({ order, setCancelOrderItems }) => {
   const SingleSavedOrderStyles = css`
     border-radius: 4px;
     direction: rtl;
     &:not(:first-child) {
       padding-top: 20px;
       border-top: 1px solid #ddd;
-      /* border-top: none; */
     }
 
     .ant-descriptions-item-label {
@@ -38,10 +39,26 @@ const SingleSavedOrder = ({ onClick, order }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { cancelOrder, cancelOrderLod } = useCancelOrder();
+  const [isSelectTableModal, setIsSelectTableModal] = useState(false);
+  const [selectedTable, setSelectedTable] = useState(null);
+
   const orderRef = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => orderRef.current,
   });
+
+  const handleCancelOrder = () => {
+    const fd = new FormData();
+    fd.append('order_id', order?.id);
+
+    cancelOrder({
+      fd,
+      onSuc: res => {
+        setCancelOrderItems(res?.data?.order_items);
+      },
+    });
+  };
 
   return (
     <>
@@ -52,6 +69,11 @@ const SingleSavedOrder = ({ onClick, order }) => {
           </Descriptions.Item>
           <Descriptions.Item label="رقم الطاوله" className="big">
             {String(order?.table_number)}
+            <Button
+              type="link"
+              icon={<SwapOutlined />}
+              onClick={() => setIsSelectTableModal(true)}
+            />
           </Descriptions.Item>
           <Descriptions.Item label="الوقت">
             {order?.opening_time}
@@ -69,7 +91,7 @@ const SingleSavedOrder = ({ onClick, order }) => {
           <Button
             type="primary"
             size="large"
-            style={{ minWidth: 100 }}
+            style={{ minWidth: 'auto' }}
             onClick={() => {
               dispatch(setCartToShowSavedOrder(true));
               dispatch(setCurrentSavedOrderIdAction(order?.id));
@@ -87,9 +109,9 @@ const SingleSavedOrder = ({ onClick, order }) => {
           </Button>
           <Button
             type="primary"
-            ghost
             size="large"
-            style={{ minWidth: 100 }}
+            style={{ minWidth: 'auto' }}
+            ghost
             onClick={() => {
               dispatch(setCartToShowSavedOrder(true));
               dispatch(setCurrentSavedOrderIdAction(order?.id));
@@ -100,11 +122,27 @@ const SingleSavedOrder = ({ onClick, order }) => {
           <Button
             type="primary"
             size="large"
-            style={{ minWidth: 100 }}
+            style={{ minWidth: 'auto' }}
             onClick={handlePrint}
           >
             اطبع
           </Button>
+          <Popconfirm
+            title="هل تريد حذف الطلب؟"
+            okText="نعم"
+            cancelText="لا"
+            onConfirm={handleCancelOrder}
+          >
+            <Button
+              type="primary"
+              size="large"
+              danger
+              style={{ minWidth: 'auto' }}
+              loading={cancelOrderLod}
+            >
+              الغاء
+            </Button>
+          </Popconfirm>
         </Space>
       </div>
       <div style={{ position: 'fixed', zIndex: -9 }}>
@@ -112,6 +150,13 @@ const SingleSavedOrder = ({ onClick, order }) => {
           <InvoiceCopy invoice={order} />
         </div>
       </div>
+      <ModalSelectTable
+        open={isSelectTableModal}
+        onCancel={() => setIsSelectTableModal(false)}
+        orderId={order?.id}
+        selectedTable={selectedTable}
+        setSelectedTable={setSelectedTable}
+      />
     </>
   );
 };

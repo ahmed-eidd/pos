@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { getPointOfSale, getShiftId, getToken } from '../helper/localStorage';
 
 const initialState = {
+  currentUser: null,
   token: getToken(),
   sheet: getShiftId(),
   posId: getPointOfSale(),
@@ -12,6 +13,9 @@ const authSlice = createSlice({
   name: 'authSlice',
   initialState,
   reducers: {
+    setCurrentUser: (state, { payload }) => {
+      state.currentUser = payload;
+    },
     setToken: (state, { payload }) => {
       state.token = payload;
     },
@@ -27,7 +31,12 @@ const authSlice = createSlice({
   },
 });
 
-export const { setPosId, setSheet, setToken, setOrganizationId } =
-  authSlice.actions;
+export const {
+  setCurrentUser,
+  setPosId,
+  setSheet,
+  setToken,
+  setOrganizationId,
+} = authSlice.actions;
 
 export default authSlice.reducer;

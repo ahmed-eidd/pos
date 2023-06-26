@@ -37,7 +37,7 @@ export const useSaveOrder = () => {
   );
 };
 
-export const useGetOrders = (orderStatus, id, type) => {
+export const useGetOrders = (orderStatus, id, type, isCanceldOrders) => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
 
@@ -45,7 +45,14 @@ export const useGetOrders = (orderStatus, id, type) => {
   // TODO: add queryClient.invalidateQuery
   const queryClient = useQueryClient();
   return useQuery(
-    [queryKeys.getOrders, page, orderStatus ?? '', id ?? '', type ?? ''],
+    [
+      queryKeys.getOrders,
+      page,
+      orderStatus ?? '',
+      id ?? '',
+      type ?? '',
+      isCanceldOrders,
+    ],
     () => {
       const body = new FormData();
       body.append('point_of_sale_id', posId);
@@ -59,6 +66,8 @@ export const useGetOrders = (orderStatus, id, type) => {
       if (type) {
         body.append('type', type);
       }
+
+      body.append('canceled', isCanceldOrders ? 1 : 0);
       return axiosInstance().post(`/orders?page=${page}`, body);
     },
     {

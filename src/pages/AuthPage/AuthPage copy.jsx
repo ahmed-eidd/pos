@@ -17,7 +17,7 @@ const STEPS = {
 const AuthPage = () => {
   const [currentLang] = useCurrentLang();
   const [currentForm, setCurrentForm] = useState(STEPS.LOGIN_STEP);
-  console.log('AuthPage  currentForm', currentForm);
+  // console.log('AuthPage  currentForm', currentForm);
   const [currentTitles, setCurrentTitles] = useState({
     mainTitle: locale.authPage.welcome[currentLang],
     secondTitle: locale.authPage.loginTitle[currentLang],

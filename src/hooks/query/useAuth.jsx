@@ -8,6 +8,7 @@ import {
 } from '../../helper/localStorage';
 import { axiosInstance } from '../../service/api';
 import {
+  setCurrentUser,
   setOrganizationId,
   setPosId,
   setSheet,
@@ -26,13 +27,14 @@ export const useLogin = () => {
     body => axiosInstance().post('/adminLogin', body),
     {
       onSuccess: newData => {
-        console.log('useLogin  newData:', newData);
+        // console.log('useLogin  newData:', newData);
         if (newData.data.validation.length > 0) {
           message.error(newData.data.validation[0]);
           return;
         }
 
         setAuthToken(newData?.data.message);
+        dispatch(setCurrentUser(newData.data?.data?.organization_admin));
         dispatch(
           setOrganizationId(
             newData.data?.data?.organization_admin?.organization_id
@@ -77,6 +79,7 @@ export const useLogOut = () => {
         setCartSavedOrder(false);
         setCurrentSavedOrderId(null);
         // dispatch(setOrganizationId(null));
+        dispatch(setCurrentUser(null));
       },
     }
   );

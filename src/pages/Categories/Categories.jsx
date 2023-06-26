@@ -50,9 +50,9 @@ const Categories = () => {
 
   // handlers
   const onAddToCartHandler = product => {
-    console.log('onAddToCartHandler  product', product);
+    // console.log('onAddToCartHandler  product', product);
     if (showSavedOrder) {
-      console.log('onAddToCartHandler  showSavedOrder', showSavedOrder);
+      // console.log('onAddToCartHandler  showSavedOrder', showSavedOrder);
       setQuantityModalVisible(true);
       setSelectedProduct(product);
       return;
@@ -69,9 +69,9 @@ const Categories = () => {
         type: product.type,
         quantity: 1,
       });
-      console.log('onAddToCartHandler  ADD');
+      // console.log('onAddToCartHandler  ADD');
     } else {
-      console.log('onAddToCartHandler  InCREASE');
+      // console.log('onAddToCartHandler  InCREASE');
       const prodId = cartItems?.find(el => el?.itemId === product?.id)?.id;
       if (!prodId) return null;
       increaseQuantity.mutate(prodId);
@@ -96,6 +96,11 @@ const Categories = () => {
         onSuccess: data => {
           if (data.data.validation.length > 0) return;
 
+          client.invalidateQueries([
+            queryKeys.getSavedOrder,
+            data?.data?.data?.order_id,
+          ]);
+
           message.success(
             categoriesLocale.quantityModal.notifation.addSucess[currentLang]
           );
@@ -117,6 +122,41 @@ const Categories = () => {
   return (
     <div>
       <CategoriesTab />
+
+      <Spinner
+        fullWidth
+        spinning={isLoading}
+        spinnerStyle={{ margin: '10px' }}
+      />
+      <Row gutter={[10, 10]}>
+        {products?.data?.data?.items?.map(el => (
+          <Col key={el?.id}>
+            <Card
+              id={el?.id}
+              name={el?.name}
+              img={el?.image}
+              price={el?.cost}
+              onClick={() => onAddToCartHandler(el)}
+              isLoading={addToCart.isLoading || increaseQuantity.isLoading}
+            />
+          </Col>
+        ))}
+        {activeCategory === 'all' &&
+          products?.data?.data?.ingredients?.map(el => (
+            <Col key={el?.id}>
+              <Card
+                id={el?.id}
+                name={el?.name}
+                img={el?.image}
+                price={el?.cost}
+                // onClick={() => onAddToCartHandler(el.id)}
+                onClick={() => onAddToCartHandler(el)}
+                isLoading={addToCart.isLoading || increaseQuantity.isLoading}
+              />
+            </Col>
+          ))}
+      </Row>
+
       <Modal
         visible={quantityModalVisible}
         onCancel={onCloseQuantityModal}
@@ -157,65 +197,6 @@ const Categories = () => {
           />
         </Flex>
       </Modal>
-      <Spinner
-        fullWidth
-        spinning={isLoading}
-        spinnerStyle={{ margin: '10px' }}
-      />
-      <Row gutter={[10, 10]}>
-        {products?.data?.data?.items?.map(el => (
-          <Col key={el?.id}>
-            <Card
-              id={el?.id}
-              name={el?.name}
-              img={el?.image}
-              price={el?.cost}
-              onClick={() => onAddToCartHandler(el)}
-              isLoading={addToCart.isLoading || increaseQuantity.isLoading}
-            />
-          </Col>
-        ))}
-        {activeCategory === 'all' &&
-          products?.data?.data?.ingredients?.map(el => (
-            <Col key={el?.id}>
-              <Card
-                id={el?.id}
-                name={el?.name}
-                img={el?.image}
-                price={el?.cost}
-                // onClick={() => onAddToCartHandler(el.id)}
-                onClick={() => onAddToCartHandler(el)}
-                isLoading={addToCart.isLoading || increaseQuantity.isLoading}
-              />
-            </Col>
-          ))}
-      </Row>
-      {/* <div className={classes.Categories}>
-        {products?.data?.data?.items?.map(el => (
-          <Card
-            id={el?.id}
-            name={el?.name}
-            key={el?.id}
-            img={el?.image}
-            price={el?.cost}
-            onClick={() => onAddToCartHandler(el)}
-            isLoading={addToCart.isLoading || increaseQuantity.isLoading}
-          />
-        ))}
-        {activeCategory === 'all' &&
-          products?.data?.data?.ingredients?.map(el => (
-            <Card
-              id={el?.id}
-              name={el?.name}
-              key={el?.id}
-              img={el?.image}
-              price={el?.cost}
-              // onClick={() => onAddToCartHandler(el.id)}
-              onClick={() => onAddToCartHandler(el)}
-              isLoading={addToCart.isLoading || increaseQuantity.isLoading}
-            />
-          ))}
-      </div> */}
     </div>
   );
 };

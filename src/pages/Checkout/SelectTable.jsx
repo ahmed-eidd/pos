@@ -1,7 +1,8 @@
 import { css, cx } from '@emotion/css';
+import { Skeleton } from 'antd';
 import usePlacesList from '../../api-hooks/usePlacesList';
 
-function SelectTable({ placeId, setPlaceId, tableId, setTableId }) {
+function SelectTable({ selectedTable, setSelectedTable }) {
   const SelectTableStyles = css`
     margin: 20px 0;
     padding: 10px 20px;
@@ -62,40 +63,48 @@ function SelectTable({ placeId, setPlaceId, tableId, setTableId }) {
     }
   `;
   const { placesList, placesListLod } = usePlacesList();
-  console.log('SelectTable  placesList:', placesList);
 
   const handleSelectTable = (placeId, tableId) => {
-    console.log('handleSelectTable  placeId, tableId:', placeId, tableId);
-
-    setPlaceId(placeId);
-    setTableId(tableId);
+    const table = {
+      tableId,
+      placeId,
+    };
+    setSelectedTable(table);
   };
 
   return (
     <div className={SelectTableStyles}>
       <h2 className="title">:اختر الطاوله</h2>
       <div className="content-wrapper">
-        {placesList?.map(place => (
-          <div key={place?.id} className="place-wrapper">
-            <h4 className="lable">{place?.name}</h4>
-            <div className="tables-wrapper">
-              {place?.tables?.map(table => (
-                <div
-                  key={table?.id}
-                  className={cx('table', {
-                    empty: table?.isEmpty,
-                    selected: tableId === table?.id,
-                  })}
-                  onClick={() =>
-                    table?.isEmpty && handleSelectTable(place?.id, table?.id)
-                  }
-                >
-                  {table?.table_number}
-                </div>
-              ))}
-            </div>
+        {placesListLod ? (
+          <div style={{ display: 'flex', gap: 5 }}>
+            <Skeleton.Input active size="large" />
+            <Skeleton.Button active size="large" />
+            <Skeleton.Button active size="large" />
           </div>
-        ))}
+        ) : (
+          placesList?.map(place => (
+            <div key={place?.id} className="place-wrapper">
+              <h4 className="lable">{place?.name}</h4>
+              <div className="tables-wrapper">
+                {place?.tables?.map(table => (
+                  <div
+                    key={table?.id}
+                    className={cx('table', {
+                      empty: table?.isEmpty,
+                      selected: selectedTable?.tableId === table?.id,
+                    })}
+                    onClick={() =>
+                      table?.isEmpty && handleSelectTable(place?.id, table?.id)
+                    }
+                  >
+                    {table?.table_number}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

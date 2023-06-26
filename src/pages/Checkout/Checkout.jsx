@@ -21,12 +21,14 @@ const Checkout = () => {
   `;
   const { state } = useLocation();
   const checkoutOrder = state?.checkoutOrder;
-  console.log('Checkout  checkoutOrder:', checkoutOrder);
+  // console.log('Checkout  checkoutOrder:', checkoutOrder);
   const navigate = useNavigate();
   const [orderType, setOrderType] = useState('restaurant');
-  const [placeId, setPlaceId] = useState(null);
-  const [tableId, setTableId] = useState(null);
-  console.log('Checkout  orderType:', orderType);
+  // const [placeId, setPlaceId] = useState(null);
+  // const [tableId, setTableId] = useState(null);
+  const [selectedTable, setSelectedTable] = useState(null);
+
+  // console.log('Checkout  orderType:', orderType);
   const [receivedValue, setReceivedValue] = useState('delivery');
   const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash);
   const { saveOrder, saveOrderLod } = useSaveOrder();
@@ -44,11 +46,9 @@ const Checkout = () => {
   };
 
   const handleSaveOrder = () => {
-    if (!placeId || !tableId)
-      return message.warning('برجاء اختيار الطاوله اولا');
+    if (!selectedTable) return message.warning('برجاء اختيار الطاوله اولا');
 
-    const data = { placeId, tableId };
-    saveOrder({ data });
+    saveOrder({ data: selectedTable });
   };
 
   return (
@@ -72,10 +72,12 @@ const Checkout = () => {
             ) : (
               <div>
                 <SelectTable
-                  placeId={placeId}
-                  setPlaceId={setPlaceId}
-                  tableId={tableId}
-                  setTableId={setTableId}
+                  // placeId={placeId}
+                  // setPlaceId={setPlaceId}
+                  // tableId={tableId}
+                  // setTableId={setTableId}
+                  selectedTable={selectedTable}
+                  setSelectedTable={setSelectedTable}
                 />
                 <Space
                   style={{
