@@ -10,4 +10,5 @@ export const queryKeys = {
   //
   cartInfo: 'cart-info',
   placesList: 'places-list',
+  sheetReport: 'sheet-report',
 };

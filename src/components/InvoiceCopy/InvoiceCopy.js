@@ -1,7 +1,8 @@
 import { css } from '@emotion/css';
 import { Col, Row } from 'antd';
+import { useSelector } from 'react-redux';
 import { currencyFormat } from '../../services/utils';
-import logo from '../../assets/pos-logo.jpeg';
+// import logo from '../../assets/pos-logo.jpeg';
 
 function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
   // console.log('InvoiceCopy  invoice', invoice);
@@ -18,7 +19,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
     flex-direction: column;
     gap: 1rem;
 
-    font-size: 1.1rem;
+    font-size: 12px;
     text-transform: capitalize;
     line-height: 1.4;
     color: rgba(0, 0, 0, 0.95);
@@ -43,7 +44,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
       margin-bottom: 0.5rem;
 
       img {
-        width: 7rem;
+        max-width: 7rem;
       }
     }
     .basic-info {
@@ -52,12 +53,14 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
     }
   `;
 
+  const currentUser = useSelector(s => s?.auth?.currentUser);
+
   return (
     <div className={InvoiceCopyStyles} {...rest}>
       <div className="float">copy</div>
       <div className="title">
-        <img src={logo} alt="POS" />
-        <span>نادي السرايا</span>
+        {!!currentUser?.logo && <img src={currentUser?.logo} alt="POS" />}
+        {/* <span>نادي السرايا</span> */}
       </div>
       <div className="basic-info">
         <Row gutter={[10, 0]}>
@@ -192,7 +195,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                 {paymentReccived ? (
                   <>
                     <p>Payment recived, thank you.</p>
-                    <p style={{ fontSize: 12 }}>
+                    <p>
                       Having you at our place was a real pleasure and we hope to
                       see you again soon 😉
                     </p>

@@ -42,7 +42,8 @@
     gap: 17px;
 
     &__Count {
-      width: 24px;
+      min-width: 24px;
+      padding: 2px 6px;
       height: 24px;
       background-color: $color-primary;
       color: white;

@@ -5,6 +5,7 @@ export const ProfileModalStates = {
   BEFORE_OPENING_BALANCE_STEP: 'BEFORE_OPENING_BALANCE',
   OPENING_BALANCE_STEP: 'OPENING_BALANCE_STEP',
   LOGOUT: 'LOGOUT',
+  SHOW_SHEET_REPORT: 'SHOW_SHEET_REPORT',
 };
 
 const initialState = {
@@ -20,11 +21,11 @@ const profileModalSlice = createSlice({
     setStep: (state, { payload }) => {
       state.step = payload;
     },
-    setProfileModalOpen: (state) => {
+    setProfileModalOpen: state => {
       state.open = true;
     },
 
-    setProfileModalClose: (state) => {
+    setProfileModalClose: state => {
       state.step = ProfileModalStates.PROFILE;
       state.open = false;
     },

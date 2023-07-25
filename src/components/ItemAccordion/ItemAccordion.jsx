@@ -34,6 +34,7 @@ const ItemAccordion = ({
   onDelete,
   onIncrement,
   onDecrement,
+  onChangeCount,
   loading,
   actionsLoading,
   readOnly,
@@ -92,6 +93,7 @@ const ItemAccordion = ({
                   <CounterBtns
                     onIncrement={() => onIncrement(item?.id)}
                     onDecrement={() => onDecrement(item?.id)}
+                    onChangeCount={count => onChangeCount(item?.id, count)}
                     count={+item.quantity}
                     disableDecBtn={+item.quantity < 2}
                     actionsLoading={actionsLoading}

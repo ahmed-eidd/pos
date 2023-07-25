@@ -70,6 +70,35 @@ export const useGetCart = selectPrice => {
   );
 };
 
+export const useChangeQuantity = () => {
+  const posId = useSelector(state => state.auth.posId);
+  const queryClient = useQueryClient();
+  return useMutation(
+    ({ itemId, qty }) => {
+      console.log('useChangeQuantity  itemId, qty:', itemId, qty);
+      // return;
+      const body = new FormData();
+      body.append('itemId', itemId);
+      body.append('quantity', qty);
+      body.append('point_of_sale_id', posId);
+      return axiosInstance().post('/updateQuantity', body);
+    },
+    {
+      onSuccess: newData => {
+        // console.log('useIncreaseQuantity  newData', newData);
+        const error = newData?.data?.validation;
+        if (error?.length > 0) {
+          message.error(error[0]);
+          return;
+        }
+        queryClient.setQueryData([queryKeys.getCart], newData);
+
+        // queryClient.invalidateQueries([queryKeys.getCart]);
+      },
+    }
+  );
+};
+
 export const useIncreaseQuantity = () => {
   const posId = useSelector(state => state.auth.posId);
   const queryClient = useQueryClient();

@@ -12,6 +12,7 @@ import FinalLogoutStep from './FinalLogoutStep/FinalLogoutStep';
 import { useLogOut } from '../../hooks/query/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import ShowSheetReportStep from './ShowSheetReportStep/ShowSheetReportStep';
 
 const ProfileModal = () => {
   const navigate = useNavigate();
@@ -45,18 +46,25 @@ const ProfileModal = () => {
       {currentStep === ProfileModalStates.OPENING_BALANCE_STEP && (
         <OpeningBalanceStep
           onClose={setClose}
-          onClick={() => setStepHandler(ProfileModalStates.LOGOUT)}
+          onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)}
         >
           hello
         </OpeningBalanceStep>
+      )}
+      {currentStep === ProfileModalStates.SHOW_SHEET_REPORT && (
+        <ShowSheetReportStep
+          onClose={setClose}
+          onClick={() => setStepHandler(ProfileModalStates.LOGOUT)}
+          loading={isLoading}
+        />
       )}
       {currentStep === ProfileModalStates.LOGOUT && (
         <FinalLogoutStep
           onClose={setClose}
           onClick={() => {
             logOut();
-            setClose();
             navigate('/login');
+            setClose();
           }}
           loading={isLoading}
         >

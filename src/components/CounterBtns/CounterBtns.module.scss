@@ -34,4 +34,16 @@
     // height: 39px;
     text-align: center;
   }
+  &__Count_input {
+    width: 54px;
+    height: 35px;
+    input {
+      padding: 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+      // min-width: 42px;
+      // height: 39px;
+      text-align: center;
+    }
+  }
 }
