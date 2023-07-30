@@ -10,6 +10,7 @@
 
 # production
 /build
+/print_ticket.blade
 
 # misc
 .DS_Store

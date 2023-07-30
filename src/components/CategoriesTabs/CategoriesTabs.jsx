@@ -58,12 +58,12 @@ function CategoriesTab() {
 
   return (
     <ul className={CategoriesTabStyles}>
-      <li
+      {/* <li
         className={cx({ active: activeKey === 'all' })}
         onClick={() => handleChangeTab('all')}
       >
         الكل
-      </li>
+      </li> */}
       {tabsData?.data.data?.categories?.map(el => (
         <li
           key={el?.id}

@@ -5,3 +5,7 @@ export function currencyFormat(num = 0) {
   if (formatedNum === 'NaN') return 0;
   return formatedNum;
 }
+
+export function isObject(item) {
+  return typeof item === 'object' && !Array.isArray(item) && item !== null;
+}
