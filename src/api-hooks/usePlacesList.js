@@ -14,7 +14,7 @@ function usePlacesList() {
   };
 
   const { data, isLoading } = useQuery([queryKeys.placesList], http, {
-    staleTime: Infinity,
+    // staleTime: Infinity,
     // onSuccess: ()=>{
     // },
   });

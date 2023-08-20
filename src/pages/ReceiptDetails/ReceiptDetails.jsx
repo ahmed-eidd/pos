@@ -8,7 +8,7 @@ import CartItems from '../../components/Layout/CartSidebar/CartItems/CartItems';
 import Flex from '../../components/Flex/Flex';
 import { locale } from '../../locale';
 import { useCurrentLang } from '../../hooks/useCurrentLang';
-import FramerIcon from '../../assets/receipt-details/Frame.png';
+// import FramerIcon from '../../assets/receipt-details/Frame.png';
 import { useGetOrders } from '../../hooks/query/useOrders';
 import OrderStatus from '../Orders/OrderStatus/OrderStatus';
 import { currencyFormat } from '../../services/utils';

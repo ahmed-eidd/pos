@@ -1,4 +1,4 @@
-import { Form, InputNumber, Radio } from 'antd';
+import { Form } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -44,15 +44,24 @@ const PaymentTypeForm = ({
     setDiscountValue(e.target.value);
   };
   const onFinishOrderHandler = values => {
+    // console.log('onFinishOrderHandler  values:', values);
+    // console.log('onFinishOrderHandler  paymentValue:', paymentValue);
+    // return;
     const data = {
       order_type: orderType,
       payment_type: paymentValue,
+      ...values,
       // paidAmount: values.paidAmount,
     };
     if (checkoutOrder) {
       data.order_id = checkoutOrder?.id;
       data.table_number = checkoutOrder?.tableNumber;
     }
+    if (paymentValue === 'hotel') {
+      data.room_num = values?.room_num;
+      data.customer_id = values?.customer_id;
+    }
+
     // console.log('onFinishOrderHandler  data', data);
     // return null;
     payOrder.mutate(
@@ -158,14 +167,23 @@ const PaymentTypeForm = ({
             onFinishOrderHandler({
               payment_type: orderType,
               paidAmount: cart?.total,
-              room_num: +values.room_num,
+              room_num: values.room_num,
+              customer_id: values.customer_id,
             })
           }
+          layout="vertical"
         >
-          <h3 className={classes.PaymentTypeForm__Form__Label}>رقم الغرفة</h3>
           <Form.Item
             name="room_num"
-            rules={[{ required: true, message: 'الرجاء ادخال رقم الموظف' }]}
+            label="رقم الغرفة"
+            rules={[{ required: true, message: 'الرجاء ادخال رقم الغرفة' }]}
+          >
+            <InputField type="number" radius="md" />
+          </Form.Item>
+          <Form.Item
+            label="رقم العميل"
+            name="customer_id"
+            rules={[{ required: true, message: 'الرجاء ادخال رقم العميل' }]}
           >
             <InputField type="number" radius="md" />
           </Form.Item>

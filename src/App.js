@@ -2,7 +2,7 @@ import './App.less';
 import './styles/global.scss';
 import Routes from './services/routes';
 import { CurrentLangProvider } from './context/currentLang';
-import { message } from 'antd';
+import { ConfigProvider, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import store from './services/store';
@@ -37,10 +37,12 @@ function App() {
     <QueryProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <CurrentLangProvider>
-            <Routes />
-            <ScrollToTop />
-          </CurrentLangProvider>
+          <ConfigProvider form={{ requiredMark: false }}>
+            <CurrentLangProvider>
+              <Routes />
+              <ScrollToTop />
+            </CurrentLangProvider>
+          </ConfigProvider>
         </PersistGate>
       </Provider>
     </QueryProvider>

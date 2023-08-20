@@ -2,7 +2,7 @@ import { css, cx } from '@emotion/css';
 import { Skeleton } from 'antd';
 import usePlacesList from '../../api-hooks/usePlacesList';
 
-function SelectTable({ selectedTable, setSelectedTable }) {
+function SelectTable({ selectedTable, setSelectedTable, onHold }) {
   const SelectTableStyles = css`
     margin: 20px 0;
     padding: 10px 20px;
@@ -52,6 +52,8 @@ function SelectTable({ selectedTable, setSelectedTable }) {
           }
           &.empty {
             background-color: #12b76a;
+          }
+          &.clickable {
             cursor: pointer;
           }
           &.selected {
@@ -92,11 +94,19 @@ function SelectTable({ selectedTable, setSelectedTable }) {
                     key={table?.id}
                     className={cx('table', {
                       empty: table?.isEmpty,
-                      selected: selectedTable?.tableId === table?.id,
+                      clickable: onHold ? !table?.isEmpty : !!table?.isEmpty,
+                      selected:
+                        table?.isEmpty && selectedTable?.tableId === table?.id,
                     })}
-                    onClick={() =>
-                      table?.isEmpty && handleSelectTable(place?.id, table?.id)
-                    }
+                    onClick={() => {
+                      if (!onHold) {
+                        table?.isEmpty &&
+                          handleSelectTable(place?.id, table?.id);
+                      } else {
+                        !table?.isEmpty &&
+                          handleSelectTable(place?.id, table?.id);
+                      }
+                    }}
                   >
                     {table?.table_number}
                   </div>

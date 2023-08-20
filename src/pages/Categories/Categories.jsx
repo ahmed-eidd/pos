@@ -3,7 +3,6 @@ import { Alert, Col, message, Modal, Row } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-// import useCartAdd from '../../api-hooks/cart/useCartAdd';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import CategoriesTab from '../../components/CategoriesTabs/CategoriesTabs';
@@ -27,13 +26,10 @@ const Categories = () => {
   const [quantityModalVisible, setQuantityModalVisible] = useState(false);
   const cartItems = client.getQueryData([queryKeys.getCart])?.data?.data?.cart
     ?.items;
-  // const { cartAdd, cartAddLod } = useCartAdd();
-  // console.log('Categories  cartItems', cartItems);
 
   // zustand store
   const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
   const activeCategory = useSelector(state => state.categories.activeCategory);
-  // console.log('Categories  activeCategory', activeCategory);
 
   // locale
   const [currentLang] = useCurrentLang();
@@ -44,34 +40,23 @@ const Categories = () => {
   const { data: products, isLoading } = useGetProducts(
     activeCategory === 'all' ? '' : activeCategory
   );
-  // console.log('Categories  products', products);
   const addToCart = useAddToCart();
   const increaseQuantity = useIncreaseQuantity();
 
   // handlers
   const onAddToCartHandler = product => {
-    // console.log('onAddToCartHandler  product', product);
     if (showSavedOrder) {
-      // console.log('onAddToCartHandler  showSavedOrder', showSavedOrder);
       setQuantityModalVisible(true);
       setSelectedProduct(product);
       return;
     }
     if (product?.in_cart === 0) {
-      // const data = {
-      //   id: product?.id,
-      //   type: product.type,
-      //   quantity: 1,
-      // };
-      // cartAdd({ data });
       addToCart.mutate({
         id: product?.id,
         type: product.type,
         quantity: 1,
       });
-      // console.log('onAddToCartHandler  ADD');
     } else {
-      // console.log('onAddToCartHandler  InCREASE');
       const prodId = cartItems?.find(el => el?.itemId === product?.id)?.id;
       if (!prodId) return null;
       increaseQuantity.mutate(prodId);

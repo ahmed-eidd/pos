@@ -199,3 +199,27 @@ export const useRemoveCartItem = () => {
     }
   );
 };
+export const useRemoveSavedItem = () => {
+  const posId = useSelector(state => state.auth.posId);
+  const queryClient = useQueryClient();
+  return useMutation(
+    ({ itemId, password }) => {
+      const body = new FormData();
+      body.append('orderItemId', itemId);
+      body.append('password', password);
+      body.append('point_of_sale_id', posId);
+      return axiosInstance().post('/removeItemFromOrder', body);
+    },
+    {
+      onSuccess: newData => {
+        const error = newData?.data?.validation;
+        if (error?.length > 0) {
+          message.error(error[0]);
+          return;
+        }
+        // queryClient.setQueryData([queryKeys.getCart], newData);
+        queryClient.invalidateQueries([queryKeys?.getSavedOrder]);
+      },
+    }
+  );
+};

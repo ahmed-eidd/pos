@@ -1,6 +1,6 @@
 import { SwapOutlined } from '@ant-design/icons';
 import { css } from '@emotion/css';
-import { Button, Descriptions, Popconfirm, Space } from 'antd';
+import { Button, Descriptions, Input, message, Popconfirm, Space } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ import {
   setCurrentSavedOrderIdAction,
 } from '../../../store/cartSlice';
 
-const SingleSavedOrder = ({ order, setCancelOrderItems }) => {
+const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
   const SingleSavedOrderStyles = css`
     border-radius: 4px;
     direction: rtl;
@@ -42,22 +42,33 @@ const SingleSavedOrder = ({ order, setCancelOrderItems }) => {
   const { cancelOrder, cancelOrderLod } = useCancelOrder();
   const [isSelectTableModal, setIsSelectTableModal] = useState(false);
   const [selectedTable, setSelectedTable] = useState(null);
+  const [password, setPassword] = useState('');
+
+  const handleCancelOrder = () => {
+    console.log('password:', password);
+    if (!password) return message.warning('الرجاء إدخال كلمة مرور');
+
+    const fd = new FormData();
+    fd.append('order_id', order?.id);
+    fd.append('password', password);
+
+    cancelOrder({
+      fd,
+      onSuc: res => {
+        setCancelOrderItems(res?.data?.order_items);
+        handleCloseModal();
+      },
+    });
+    setPassword('');
+  };
 
   const orderRef = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => orderRef.current,
   });
 
-  const handleCancelOrder = () => {
-    const fd = new FormData();
-    fd.append('order_id', order?.id);
-
-    cancelOrder({
-      fd,
-      onSuc: res => {
-        setCancelOrderItems(res?.data?.order_items);
-      },
-    });
+  const handleCloseModal = () => {
+    if (closeModal) closeModal();
   };
 
   return (
@@ -95,6 +106,7 @@ const SingleSavedOrder = ({ order, setCancelOrderItems }) => {
             onClick={() => {
               dispatch(setCartToShowSavedOrder(true));
               dispatch(setCurrentSavedOrderIdAction(order?.id));
+              handleCloseModal();
               navigate('/checkout', {
                 state: {
                   checkoutOrder: {
@@ -115,6 +127,7 @@ const SingleSavedOrder = ({ order, setCancelOrderItems }) => {
             onClick={() => {
               dispatch(setCartToShowSavedOrder(true));
               dispatch(setCurrentSavedOrderIdAction(order?.id));
+              handleCloseModal();
             }}
           >
             وضع الطلب للتعديل
@@ -123,12 +136,24 @@ const SingleSavedOrder = ({ order, setCancelOrderItems }) => {
             type="primary"
             size="large"
             style={{ minWidth: 'auto' }}
-            onClick={handlePrint}
+            onClick={() => {
+              handlePrint();
+              handleCloseModal();
+            }}
           >
             اطبع
           </Button>
           <Popconfirm
-            title="هل تريد حذف الطلب؟"
+            title={
+              <div>
+                <h4 style={{ marginBottom: 4 }}>هل تريد حذف الطلب؟</h4>
+                <Input.Password
+                  value={password}
+                  onChange={({ target }) => setPassword(target?.value)}
+                  placeholder="أدخل كلمة المرور"
+                />
+              </div>
+            }
             okText="نعم"
             cancelText="لا"
             onConfirm={handleCancelOrder}
@@ -145,7 +170,8 @@ const SingleSavedOrder = ({ order, setCancelOrderItems }) => {
           </Popconfirm>
         </Space>
       </div>
-      <div style={{ position: 'fixed', zIndex: -9 }}>
+      {/* <div style={{ position: 'fixed', zIndex: -9 }}> */}
+      <div style={{ position: 'fixed', zIndex: -9, visibility: 'hidden' }}>
         <div ref={orderRef}>
           <InvoiceCopy invoice={order} />
         </div>

@@ -2,7 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
+import { orderStatus } from '../../constants/orderStatus';
 import { queryKeys } from '../../constants/queryKeys';
+
 import { locale } from '../../locale';
 import { axiosInstance } from '../../service/api';
 import { setCartToShowSavedOrder } from '../../store/cartSlice';
@@ -37,7 +39,7 @@ export const useSaveOrder = () => {
   );
 };
 
-export const useGetOrders = (orderStatus, id, type, isCanceldOrders) => {
+export const useGetOrders = (status, id, type, isCanceldOrders) => {
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
 
@@ -48,7 +50,7 @@ export const useGetOrders = (orderStatus, id, type, isCanceldOrders) => {
     [
       queryKeys.getOrders,
       page,
-      orderStatus ?? '',
+      status ?? '',
       id ?? '',
       type ?? '',
       isCanceldOrders,
@@ -56,8 +58,11 @@ export const useGetOrders = (orderStatus, id, type, isCanceldOrders) => {
     () => {
       const body = new FormData();
       body.append('point_of_sale_id', posId);
-      if (orderStatus) {
-        body.append('status', orderStatus);
+      if (status) {
+        body.append('status', status);
+        if (status === orderStatus.pending) {
+          body.append('all', 1);
+        }
       }
       if (id) {
         body.append('id', id);

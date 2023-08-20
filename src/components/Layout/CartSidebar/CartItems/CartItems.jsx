@@ -9,6 +9,7 @@ import {
   useGetCart,
   useIncreaseQuantity,
   useRemoveCartItem,
+  useRemoveSavedItem,
 } from '../../../../hooks/query/useCart';
 // import { useCurrentCartItems } from '../../../../hooks/useCurrentCartItems';
 import { useSelector } from 'react-redux';
@@ -16,6 +17,7 @@ import { useGetSavedOrder } from '../../../../hooks/query/useOrders';
 
 const CartItems = ({ className, readOnlyData, isFetching }) => {
   const removeItem = useRemoveCartItem();
+  const removeSavedItem = useRemoveSavedItem();
   const increaseQuantity = useIncreaseQuantity();
   const decreaseQuantity = useDecreaseQuantity();
   const changeQuantity = useChangeQuantity();
@@ -36,9 +38,16 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
     >
       {showSavedOrder ? (
         <ItemAccordion
-          readOnly
+          // readOnly
+          savedOrder
           items={readOnlyData ? readOnlyData : savedOrderItems?.items}
           loading={savedOrderItemsLod}
+          onDelete={(itemId, password) =>
+            removeSavedItem.mutate({ itemId, password })
+          }
+          actionsLoading={{
+            remove: removeSavedItem.isLoading,
+          }}
         />
       ) : readOnlyData ? (
         <ItemAccordion

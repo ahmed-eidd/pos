@@ -3,7 +3,6 @@ import { Button, Col, message, Row, Space } from 'antd';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useSaveOrder from '../../api-hooks/useSaveOrder';
-
 import { useCurrentCartItems } from '../../hooks/useCurrentCartItems';
 import CheckoutItems from './CheckoutItems/CheckoutItems';
 import CheckoutTotal from './CheckoutTotal/CheckoutTotal';
@@ -21,14 +20,9 @@ const Checkout = () => {
   `;
   const { state } = useLocation();
   const checkoutOrder = state?.checkoutOrder;
-  // console.log('Checkout  checkoutOrder:', checkoutOrder);
   const navigate = useNavigate();
   const [orderType, setOrderType] = useState('restaurant');
-  // const [placeId, setPlaceId] = useState(null);
-  // const [tableId, setTableId] = useState(null);
   const [selectedTable, setSelectedTable] = useState(null);
-
-  // console.log('Checkout  orderType:', orderType);
   const [receivedValue, setReceivedValue] = useState('delivery');
   const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash);
   const { saveOrder, saveOrderLod } = useSaveOrder();
@@ -72,10 +66,6 @@ const Checkout = () => {
             ) : (
               <div>
                 <SelectTable
-                  // placeId={placeId}
-                  // setPlaceId={setPlaceId}
-                  // tableId={tableId}
-                  // setTableId={setTableId}
                   selectedTable={selectedTable}
                   setSelectedTable={setSelectedTable}
                 />
