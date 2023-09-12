@@ -10,10 +10,13 @@ import QueryProvider from './services/react-query';
 import ScrollToTop from './components/ScrollToTop';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import usePrinters from './hooks/usePrinters';
 
 const persistor = persistStore(store);
 
 function App() {
+  const { printers } = usePrinters();
+  console.log('App  printers:', printers);
   // TODO: add offline support
   // eslint-disable-next-line no-unused-vars
   const [status, setStatus] = useState(true);

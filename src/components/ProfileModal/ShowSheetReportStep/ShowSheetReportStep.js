@@ -1,9 +1,9 @@
 import { css } from '@emotion/css';
 import { Button, Descriptions, Space, Spin } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import useSheetReport from '../../../api-hooks/useSheetReport';
-import { currencyFormat, isObject } from '../../../services/utils';
+import { currencyFormat } from '../../../services/utils';
 
 function ShowSheetReportStep({ onClick }) {
   const ShowSheetReportStepStyles = css`
@@ -39,39 +39,12 @@ function ShowSheetReportStep({ onClick }) {
     }
   `;
   const { sheetReport, sheetReportLod } = useSheetReport();
-  const [categorylist, setCategorylist] = useState([]);
-  console.log('ShowSheetReportStep  categorylist:', categorylist);
-  console.log('ShowSheetReportStep  sheetReport:', sheetReport);
 
   const sheetReportRef = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => sheetReportRef.current,
   });
 
-  useEffect(() => {
-    if (!sheetReport?.categories) return;
-    // const categories = Object.keys(sheetReport?.categories)?.filter(key => {
-    //   if (!!sheetReport?.categories?.[key])
-    //     return sheetReport?.categories?.[key];
-    //   return false;
-    // });
-    const categoryKeys = Object.keys(sheetReport?.categories)?.filter(key =>
-      isObject(sheetReport?.categories?.[key])
-    );
-    const categoryList = categoryKeys.map((key, i) => ({
-      name: key,
-      id: key + i,
-      children: Object.entries(sheetReport?.categories?.[key])?.map(
-        ([name, value], i) => ({
-          id: name + i,
-          name,
-          ...value,
-        })
-      ),
-    }));
-    // console.log('categories  categoryKeys:', categoryKeys);
-    setCategorylist(categoryList);
-  }, [sheetReport?.categories]);
   if (sheetReportLod)
     return (
       <Spin
@@ -117,34 +90,45 @@ function ShowSheetReportStep({ onClick }) {
           <Descriptions.Item label="فيزا">
             {currencyFormat(sheetReport?.visa)}
           </Descriptions.Item>
+          <Descriptions.Item label="الخصم">
+            {currencyFormat(sheetReport?.deduction)}
+          </Descriptions.Item>
           <Descriptions.Item label="المستحق">
             {currencyFormat(sheetReport?.end_balance)}
           </Descriptions.Item>
           <Descriptions.Item label="العجز" style={{ color: 'red' }}>
             {currencyFormat(sheetReport?.deficit)}
           </Descriptions.Item>
+          <Descriptions.Item label="مؤجل">
+            {currencyFormat(sheetReport?.deferred)}
+          </Descriptions.Item>
+          <Descriptions.Item label="قيمة الطلبات">
+            {currencyFormat(sheetReport?.ordersAmount)}
+          </Descriptions.Item>
           <Descriptions.Item label="الرصيد الحالي">
             {currencyFormat(sheetReport?.total)}
           </Descriptions.Item>
           <Descriptions.Item label="الاصناف المباعه">
-            {categorylist?.map(cat => (
-              <div key={cat?.id}>
-                <h4>{cat?.name}</h4>
-                <ul style={{ fontSize: 12 }}>
-                  {cat?.children?.map(item => (
-                    <li key={item?.id}>
-                      <Space size="large">
-                        <span>{item?.name}</span>
-                        <span>×{item?.quantity}</span>
-                        <span>{currencyFormat(item?.amount)}</span>
-                      </Space>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            {sheetReport?.categories
+              ?.filter(cat => cat?.items?.length)
+              ?.map((cat, i) => (
+                <div key={cat?.name + i} className="even-color">
+                  <h4>{cat?.name}</h4>
+                  <ul style={{ fontSize: 12 }}>
+                    {cat?.items?.map((item, i) => (
+                      <li key={item?.name + i}>
+                        <Space size="large">
+                          <span>{item?.name}</span>
+                          <span>×{item?.quantity}</span>
+                          <span>{currencyFormat(item?.amount)}</span>
+                        </Space>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
           </Descriptions.Item>
-        </Descriptions>{' '}
+        </Descriptions>
       </div>
 
       <div className="actions">

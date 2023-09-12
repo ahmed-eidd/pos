@@ -102,6 +102,13 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
               </Col>
             </Row>
           </Col>
+          <Col span={24}>
+            <Row gutter={20} justify="space-between">
+              <Col>
+                <div>Serials number: {invoice?.multi_serials || '-'}</div>
+              </Col>
+            </Row>
+          </Col>
           {/* <Col span={24}>
             <div className="alin-right">
               taken by: {invoice?.organization_admin}

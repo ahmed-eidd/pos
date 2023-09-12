@@ -1,4 +1,4 @@
-import { Form } from 'antd';
+import { Form, Input } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -36,6 +36,8 @@ const PaymentTypeForm = ({
   const [isDiscount, setIsDiscount] = useState(false);
   const [discountType, setDiscountType] = useState(DISCOUNT_TYPE.percentage);
   const [discountValue, setDiscountValue] = useState('');
+  const [passwordDiscount, setPasswordDiscount] = useState('');
+
   const onDiscoutTypChange = e => {
     setDiscountType(e.target.value);
     setDiscountValue('');
@@ -68,7 +70,11 @@ const PaymentTypeForm = ({
       {
         ...data,
         ...(isDiscount
-          ? { discount_type: discountType, discount: discountValue }
+          ? {
+              discount_type: discountType,
+              discount: discountValue,
+              password: passwordDiscount,
+            }
           : {}),
       },
       {
@@ -86,6 +92,7 @@ const PaymentTypeForm = ({
         paymentValue === PAYMENT_TYPE.visa ||
         paymentValue === PAYMENT_TYPE.creditCard) && (
         <Form
+          layout="vertical"
           onFinish={onFinishOrderHandler}
           dir={currentLang === 'ar' ? 'rtl' : 'ltr'}
         >
@@ -113,8 +120,7 @@ const PaymentTypeForm = ({
                 marginBottom: 0,
               }}
             >
-
-              <InputNumber
+              <Input
                 style={{ width: '100%', height: 50, borderRadius: 10 }}
                 controls={false}
                 inputMode="numeric"
@@ -157,7 +163,24 @@ const PaymentTypeForm = ({
             onDiscountValueChange={onDiscountValueChange}
             onDiscoutTypeChange={onDiscoutTypChange}
             setIsDiscount={setIsDiscount}
+            password={passwordDiscount}
+            setPassword={setPasswordDiscount}
           />
+          <Flex style={{ marginBottom: '10px' }} gap="15px" direction="column">
+            <Form.Item
+              name="multi_serials"
+              label="الرقم التسلسلي"
+              style={{
+                width: '100%',
+                marginBottom: 0,
+              }}
+            >
+              <Input
+                style={{ width: '100%', height: 50, borderRadius: 10 }}
+                placeholder=" الرقم التسلسلي (اختياري)"
+              />
+            </Form.Item>
+          </Flex>
           <FormButtons isLoading={payOrder.isLoading} hideCancel />
         </Form>
       )}
@@ -194,7 +217,10 @@ const PaymentTypeForm = ({
             onDiscountValueChange={onDiscountValueChange}
             onDiscoutTypeChange={onDiscoutTypChange}
             setIsDiscount={setIsDiscount}
+            password={passwordDiscount}
+            setPassword={setPasswordDiscount}
           />
+
           <FormButtons isLoading={payOrder.isLoading} />
         </Form>
       )}
@@ -223,6 +249,8 @@ const PaymentTypeForm = ({
             onDiscountValueChange={onDiscountValueChange}
             onDiscoutTypeChange={onDiscoutTypChange}
             setIsDiscount={setIsDiscount}
+            password={passwordDiscount}
+            setPassword={setPasswordDiscount}
           />
         </Form>
       )}

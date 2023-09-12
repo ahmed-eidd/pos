@@ -42,9 +42,11 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
           savedOrder
           items={readOnlyData ? readOnlyData : savedOrderItems?.items}
           loading={savedOrderItemsLod}
-          onDelete={(itemId, password) =>
-            removeSavedItem.mutate({ itemId, password })
-          }
+          onDelete={(itemId, password) => {
+            console.log('onDelete  itemId, password:', itemId, password);
+            // return {};
+            removeSavedItem.mutate({ itemId, password });
+          }}
           actionsLoading={{
             remove: removeSavedItem.isLoading,
           }}

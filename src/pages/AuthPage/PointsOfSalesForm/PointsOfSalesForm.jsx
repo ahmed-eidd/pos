@@ -1,4 +1,4 @@
-import { message, Radio } from 'antd';
+import { Col, message, Radio, Row } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -59,9 +59,20 @@ const PointsOfSalesForm = ({ onClick }) => {
           }}
           className={classes.PointsOfSalesForm__Form__Radios}
         >
-          {data?.data?.data?.pointOfSales.map(point => (
-            <RadioButton key={point.id} value={point.id} label={point.name} />
-          ))}
+          <Row gutter={[10, 10]}>
+            {data?.data?.data?.pointOfSales.map(point => (
+              <Col key={point.id} span={12}>
+                <RadioButton
+                  value={point.id}
+                  label={point.name}
+                  style={{
+                    width: '100%',
+                    padding: 5,
+                  }}
+                />
+              </Col>
+            ))}
+          </Row>
         </Radio.Group>
         <Button
           onClick={onSubmitHandler}

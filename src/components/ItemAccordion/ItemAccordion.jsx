@@ -47,6 +47,7 @@ const ItemAccordion = ({
   const handleDelteSavedItem = itemId => {
     console.log('password:', password);
     if (!password) return message.warning('الرجاء إدخال كلمة مرور');
+    console.log('handleDelteSavedItem  itemId, password:', itemId, password);
     onDelete(itemId, password);
     setPassword('');
   };
@@ -85,10 +86,9 @@ const ItemAccordion = ({
           className={classes.ItemAccordion}
         >
           {items.map(item => {
-            const itemId = !!item?.is_saved ? item?.itemId : item?.id;
             return (
               <Panel
-                key={itemId}
+                key={item?.id}
                 header={
                   <>
                     <Header
@@ -104,9 +104,9 @@ const ItemAccordion = ({
                   <div className={classes.ItemAccordion__Panel__CounterWrapper}>
                     {!item?.is_saved && (
                       <CounterBtns
-                        onIncrement={() => onIncrement(itemId)}
-                        onDecrement={() => onDecrement(itemId)}
-                        onChangeCount={count => onChangeCount(itemId, count)}
+                        onIncrement={() => onIncrement(item?.id)}
+                        onDecrement={() => onDecrement(item?.id)}
+                        onChangeCount={count => onChangeCount(item?.id, count)}
                         count={+item.quantity}
                         disableDecBtn={+item.quantity < 2}
                         actionsLoading={actionsLoading}
@@ -139,13 +139,13 @@ const ItemAccordion = ({
                       }
                       okText="نعم"
                       cancelText="لا"
-                      onConfirm={() => handleDelteSavedItem(itemId)}
+                      onConfirm={() => handleDelteSavedItem(item?.id)}
                       onOpenChange={() => console.log('open change')}
                     >
                       <Button
                         type="link"
                         icon={<img src={TrashIcon} alt="delete" width={24} />}
-                        // onClick={() => onDelete(itemId)}
+                        // onClick={() => onDelete(item?.id)}
                         loading={actionsLoading?.remove}
                       />
                     </Popconfirm>
@@ -153,7 +153,7 @@ const ItemAccordion = ({
                     <Button
                       type="link"
                       icon={<img src={TrashIcon} alt="delete" width={24} />}
-                      onClick={() => onDelete(itemId)}
+                      onClick={() => onDelete(item?.id)}
                       loading={actionsLoading?.remove}
                     />
                   )}

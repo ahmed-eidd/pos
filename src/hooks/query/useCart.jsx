@@ -204,6 +204,8 @@ export const useRemoveSavedItem = () => {
   const queryClient = useQueryClient();
   return useMutation(
     ({ itemId, password }) => {
+      console.log('useRemoveSavedItem  itemId, password:', itemId, password);
+      // return;
       const body = new FormData();
       body.append('orderItemId', itemId);
       body.append('password', password);
@@ -212,6 +214,7 @@ export const useRemoveSavedItem = () => {
     },
     {
       onSuccess: newData => {
+        console.log('useRemoveSavedItem  newData:', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);

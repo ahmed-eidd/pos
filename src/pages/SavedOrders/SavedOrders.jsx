@@ -38,7 +38,10 @@ const SavedOrders = () => {
 
   return (
     <>
-      <PageLayout title={savedOrderLocale.title[currentLang]}>
+      <PageLayout
+        title={savedOrderLocale.title[currentLang]}
+        style={{ padding: '20px 10px' }}
+      >
         <div className={classes.SavedOrders} style={{ direction: 'rtl' }}>
           {isLoading ? (
             <Spinner style={{ display: 'block' }} />
