@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd';
+import { Form, Input, message } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,23 +11,13 @@ import { usePayOrder } from '../../../hooks/query/useCheckout';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
 import { currencyFormat } from '../../../services/utils';
-import {
-  setCartToShowSavedOrder,
-  setCurrentSavedOrderIdAction,
-} from '../../../store/cartSlice';
+import { setCartToShowSavedOrder, setCurrentSavedOrderIdAction } from '../../../store/cartSlice';
 import DiscountInputs, { DISCOUNT_TYPE } from './DiscountInput';
 import { PAYMENT_TYPE } from './PaymentType';
 import classes from './PaymentTypeForm.module.scss';
 
-const PaymentTypeForm = ({
-  paymentValue,
-  onChangeReceivedMoney,
-  receivedValue,
-  orderType,
-  total,
-  onSuccess,
-  checkoutOrder,
-}) => {
+const PaymentTypeForm = ({ paymentValue, onChangeReceivedMoney, receivedValue, orderType, total, onSuccess, checkoutOrder }) => {
+  const [form] = Form.useForm();
   const [currentLang] = useCurrentLang();
   const payOrder = usePayOrder();
   const { data: cart } = useGetCart();
@@ -42,9 +32,12 @@ const PaymentTypeForm = ({
     setDiscountType(e.target.value);
     setDiscountValue('');
   };
-  const onDiscountValueChange = e => {
-    setDiscountValue(e.target.value);
+  const onDiscountValueChange = value => {
+    setDiscountValue(value);
   };
+  // const onDiscountValueChange = e => {
+  //   setDiscountValue(e.target.value);
+  // };
   const onFinishOrderHandler = values => {
     // console.log('onFinishOrderHandler  values:', values);
     // console.log('onFinishOrderHandler  paymentValue:', paymentValue);
@@ -64,94 +57,72 @@ const PaymentTypeForm = ({
       data.customer_id = values?.customer_id;
     }
 
+    if (isDiscount) {
+      data.discount_type = discountType;
+      data.discount = discountValue;
+      data.password = passwordDiscount;
+    }
+
     // console.log('onFinishOrderHandler  data', data);
     // return null;
-    payOrder.mutate(
-      {
-        ...data,
-        ...(isDiscount
-          ? {
-              discount_type: discountType,
-              discount: discountValue,
-              password: passwordDiscount,
-            }
-          : {}),
+    payOrder.mutate(data, {
+      onSuccess: res => {
+        dispatch(setCartToShowSavedOrder(false));
+        dispatch(setCurrentSavedOrderIdAction(null));
+        onSuccess && onSuccess(res);
       },
-      {
-        onSuccess: res => {
-          dispatch(setCartToShowSavedOrder(false));
-          dispatch(setCurrentSavedOrderIdAction(null));
-          onSuccess && onSuccess(res);
-        },
-      }
-    );
+    });
+  };
+
+  const onHospitality = () => {
+    const values = form.getFieldsValue();
+    // console.log('onHospitality  values:', values);
+    const data = {
+      order_type: orderType,
+      payment_type: paymentValue,
+      ...values,
+      // paidAmount: values.paidAmount,
+    };
+    if (checkoutOrder) {
+      data.order_id = checkoutOrder?.id;
+      data.table_number = checkoutOrder?.tableNumber;
+    }
+    if (paymentValue === 'hotel') {
+      data.room_num = values?.room_num;
+      data.customer_id = values?.customer_id;
+    }
+
+    data.discount_type = 'percentage';
+    data.discount = 100;
+    // data.password = passwordDiscount;
+    data.password = prompt('برجاء أدخل كلمة المرور');
+    if (!data.password) return message.error('برجاء أدخل كلمة المرور بصورة صحيحة');
+    console.log('onHospitality  data', data);
+    // return null;
+    payOrder.mutate(data, {
+      onSuccess: res => {
+        dispatch(setCartToShowSavedOrder(false));
+        dispatch(setCurrentSavedOrderIdAction(null));
+        onSuccess && onSuccess(res);
+      },
+    });
   };
   return (
     <>
-      {(paymentValue === PAYMENT_TYPE.cash ||
-        paymentValue === PAYMENT_TYPE.visa ||
-        paymentValue === PAYMENT_TYPE.creditCard) && (
-        <Form
-          layout="vertical"
-          onFinish={onFinishOrderHandler}
-          dir={currentLang === 'ar' ? 'rtl' : 'ltr'}
-        >
+      {(paymentValue === PAYMENT_TYPE.cash || paymentValue === PAYMENT_TYPE.visa || paymentValue === PAYMENT_TYPE.creditCard) && (
+        <Form form={form} layout="vertical" onFinish={onFinishOrderHandler} dir={currentLang === 'ar' ? 'rtl' : 'ltr'}>
           <Flex align="flex-start" direction="column" gap="20px">
-            {/* <h3>المبلغ المستلم</h3> */}
-            {/* <Form.Item name="radioAmount">
-              <Radio.Group
-                onChange={value => onChangeReceivedMoney(value)}
-                value={receivedValue}
-                className={classes.PaymentTypeForm__ReceivedMoney}
-              >
-                <Radio.Button value={'150'}>
-                  <p>150ج</p>
-                </Radio.Button>
-                <Radio.Button value={'120'}>
-                  <p>120ج</p>
-                </Radio.Button>
-              </Radio.Group>
-            </Form.Item> */}
-            {/* <Form.Item
-              name="paidAmount"
-              // rules={[{ required: true, message: 'الرجاء ادخال المبلغ' }]}
-              style={{
-                width: '100%',
-                marginBottom: 0,
-              }}
-            >
-              <Input
-                style={{ width: '100%', height: 50, borderRadius: 10 }}
-                controls={false}
-                inputMode="numeric"
-                placeholder="ادخال المبلغ"
-                type="text"
-                pattern="\d*"
-                // pattern="[0-9]*"
-              />
-            </Form.Item> */}
-
-            <Flex
-              style={{ marginBottom: '10px' }}
-              gap="15px"
-              direction="column"
-            >
+            <Flex style={{ marginBottom: '10px' }} gap="15px" direction="column">
               <Flex justify="space-between">
-                <Text label>
-                  {locale.checkout.orderTotal.paid[currentLang]}
-                </Text>
+                <Text label>{locale.checkout.orderTotal.paid[currentLang]}</Text>
                 <Text>{currencyFormat(total)} جنيه مصري</Text>
               </Flex>
               <Flex justify="space-between">
-                <Text label>
-                  {locale.checkout.orderTotal.onhold[currentLang]}
-                </Text>
+                <Text label>{locale.checkout.orderTotal.onhold[currentLang]}</Text>
                 <Text>{currencyFormat(total)} جنيه مصري</Text>
               </Flex>
               <Flex justify="space-between">
-                <Text label>
-                  {locale.checkout.orderTotal.nochange[currentLang]}
-                </Text>
+                <Text label>{locale.checkout.orderTotal.nochange[currentLang]}</Text>
                 <Text color="success">{currencyFormat(total)} جنيه مصري</Text>
               </Flex>
             </Flex>
@@ -173,19 +144,16 @@ const PaymentTypeForm = ({
               style={{
                 width: '100%',
                 marginBottom: 0,
-              }}
-            >
-              <Input
-                style={{ width: '100%', height: 50, borderRadius: 10 }}
-                placeholder=" الرقم التسلسلي (اختياري)"
-              />
+              }}>
+              <Input style={{ width: '100%', height: 50, borderRadius: 10 }} placeholder=" الرقم التسلسلي (اختياري)" />
             </Form.Item>
           </Flex>
-          <FormButtons isLoading={payOrder.isLoading} hideCancel />
+          <FormButtons isLoading={payOrder.isLoading} hideCancel onHospitality={onHospitality} />
         </Form>
       )}
       {paymentValue === PAYMENT_TYPE.hotel && (
         <Form
+          form={form}
           onFinish={values =>
             onFinishOrderHandler({
               payment_type: orderType,
@@ -194,20 +162,11 @@ const PaymentTypeForm = ({
               customer_id: values.customer_id,
             })
           }
-          layout="vertical"
-        >
-          <Form.Item
-            name="room_num"
-            label="رقم الغرفة"
-            rules={[{ required: true, message: 'الرجاء ادخال رقم الغرفة' }]}
-          >
+          layout="vertical">
+          <Form.Item name="room_num" label="رقم الغرفة" rules={[{ required: true, message: 'الرجاء ادخال رقم الغرفة' }]}>
             <InputField type="number" radius="md" />
           </Form.Item>
-          <Form.Item
-            label="رقم العميل"
-            name="customer_id"
-            rules={[{ required: true, message: 'الرجاء ادخال رقم العميل' }]}
-          >
+          <Form.Item label="رقم العميل" name="customer_id" rules={[{ required: true, message: 'الرجاء ادخال رقم العميل' }]}>
             <InputField type="number" radius="md" />
           </Form.Item>
           <DiscountInputs
@@ -221,24 +180,21 @@ const PaymentTypeForm = ({
             setPassword={setPasswordDiscount}
           />
 
-          <FormButtons isLoading={payOrder.isLoading} />
+          <FormButtons isLoading={payOrder.isLoading} onHospitality={onHospitality} />
         </Form>
       )}
       {paymentValue === PAYMENT_TYPE.employee && (
         <Form
+          form={form}
           onFinish={values =>
             onFinishOrderHandler({
               payment_type: orderType,
               paidAmount: cart?.total,
               customer_id: +values.values.customer_id,
             })
-          }
-        >
+          }>
           <h3 className={classes.PaymentTypeForm__Form__Label}>رقم الموظف</h3>
-          <Form.Item
-            name="customer_id"
-            rules={[{ required: true, message: 'الرجاء ادخال رقم الموظف' }]}
-          >
+          <Form.Item name="customer_id" rules={[{ required: true, message: 'الرجاء ادخال رقم الموظف' }]}>
             <InputField type="number" radius="md" />
           </Form.Item>
           <DiscountInputs />
@@ -260,27 +216,19 @@ const PaymentTypeForm = ({
 
 export default PaymentTypeForm;
 
-const FormButtons = ({ onCancel, isLoading, hideCancel }) => {
+const FormButtons = ({ onCancel, isLoading, hideCancel, onHospitality }) => {
   const [currentLang] = useCurrentLang();
   return (
     <Flex gap="20px">
-      <Button
-        type="primary"
-        htmlType="submit"
-        fullwidth
-        size="lg"
-        isLoading={isLoading}
-      >
+      <Button type="primary" htmlType="submit" fullwidth size="lg" isLoading={isLoading}>
         {locale.checkout.orderTotal.order[currentLang]}
       </Button>
+
+      <Button type="primary" ghost htmlType="button" fullwidth size="lg" isLoading={isLoading} onClick={onHospitality}>
+        ضيافة
+      </Button>
       {!hideCancel && (
-        <Button
-          type="danger"
-          htmlType="button"
-          size="lg"
-          onClick={onCancel}
-          fullwidth
-        >
+        <Button type="danger" htmlType="button" size="lg" onClick={onCancel} fullwidth>
           {locale.checkout.orderTotal.canelOrder[currentLang]}
         </Button>
       )}

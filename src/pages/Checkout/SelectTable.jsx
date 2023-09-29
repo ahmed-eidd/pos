@@ -27,6 +27,7 @@ function SelectTable({ selectedTable, setSelectedTable, onHold }) {
       .lable {
         font-size: 16px;
         font-weight: 600;
+        /* white-space: nowrap; */
       }
       .tables-wrapper {
         display: flex;
@@ -95,19 +96,15 @@ function SelectTable({ selectedTable, setSelectedTable, onHold }) {
                     className={cx('table', {
                       empty: table?.isEmpty,
                       clickable: onHold ? !table?.isEmpty : !!table?.isEmpty,
-                      selected:
-                        table?.isEmpty && selectedTable?.tableId === table?.id,
+                      selected: table?.isEmpty && selectedTable?.tableId === table?.id,
                     })}
                     onClick={() => {
                       if (!onHold) {
-                        table?.isEmpty &&
-                          handleSelectTable(place?.id, table?.id);
+                        table?.isEmpty && handleSelectTable(place?.id, table?.id);
                       } else {
-                        !table?.isEmpty &&
-                          handleSelectTable(place?.id, table?.id);
+                        !table?.isEmpty && handleSelectTable(place?.id, table?.id);
                       }
-                    }}
-                  >
+                    }}>
                     {table?.table_number}
                   </div>
                 ))}

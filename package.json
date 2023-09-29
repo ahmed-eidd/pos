@@ -2,6 +2,7 @@
   "name": "pos-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://localhost/pos/",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.5",
