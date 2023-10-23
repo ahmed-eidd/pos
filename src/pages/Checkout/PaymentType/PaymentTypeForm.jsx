@@ -1,4 +1,4 @@
-import { Form, Input, message } from 'antd';
+import { Form, Input, message, Popconfirm } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -94,8 +94,9 @@ const PaymentTypeForm = ({ paymentValue, onChangeReceivedMoney, receivedValue, o
 
     data.discount_type = 'percentage';
     data.discount = 100;
-    // data.password = passwordDiscount;
-    data.password = prompt('برجاء أدخل كلمة المرور');
+    data.password = passwordDiscount;
+
+    // data.password = prompt('برجاء أدخل كلمة المرور');
     if (!data.password) return message.error('برجاء أدخل كلمة المرور بصورة صحيحة');
     console.log('onHospitality  data', data);
     // return null;
@@ -148,7 +149,7 @@ const PaymentTypeForm = ({ paymentValue, onChangeReceivedMoney, receivedValue, o
               <Input style={{ width: '100%', height: 50, borderRadius: 10 }} placeholder=" الرقم التسلسلي (اختياري)" />
             </Form.Item>
           </Flex>
-          <FormButtons isLoading={payOrder.isLoading} hideCancel onHospitality={onHospitality} />
+          <FormButtons isLoading={payOrder.isLoading} hideCancel onHospitality={onHospitality} password={passwordDiscount} setPassword={setPasswordDiscount} />
         </Form>
       )}
       {paymentValue === PAYMENT_TYPE.hotel && (
@@ -180,7 +181,7 @@ const PaymentTypeForm = ({ paymentValue, onChangeReceivedMoney, receivedValue, o
             setPassword={setPasswordDiscount}
           />
 
-          <FormButtons isLoading={payOrder.isLoading} onHospitality={onHospitality} />
+          <FormButtons isLoading={payOrder.isLoading} onHospitality={onHospitality} password={passwordDiscount} setPassword={setPasswordDiscount} />
         </Form>
       )}
       {paymentValue === PAYMENT_TYPE.employee && (
@@ -216,7 +217,7 @@ const PaymentTypeForm = ({ paymentValue, onChangeReceivedMoney, receivedValue, o
 
 export default PaymentTypeForm;
 
-const FormButtons = ({ onCancel, isLoading, hideCancel, onHospitality }) => {
+const FormButtons = ({ onCancel, isLoading, hideCancel, onHospitality, password, setPassword }) => {
   const [currentLang] = useCurrentLang();
   return (
     <Flex gap="20px">
@@ -224,9 +225,27 @@ const FormButtons = ({ onCancel, isLoading, hideCancel, onHospitality }) => {
         {locale.checkout.orderTotal.order[currentLang]}
       </Button>
 
-      <Button type="primary" ghost htmlType="button" fullwidth size="lg" isLoading={isLoading} onClick={onHospitality}>
-        ضيافة
-      </Button>
+      <Popconfirm
+        title={
+          <div>
+            <h4 style={{ marginBottom: 5 }}>برجاء أدخل كلمة المرور</h4>
+            <Input.Password value={password} onChange={({ target }) => setPassword(target?.value)} placeholder="أدخل كلمة المرور" className="InputNumber" />
+          </div>
+        }
+        description={
+          <Input.Password
+            size="large"
+            value={password}
+            onChange={({ target }) => setPassword(target?.value)}
+            placeholder="أدخل كلمة المرور"
+            className="InputNumber"
+          />
+        }
+        onConfirm={onHospitality}>
+        <Button type="primary" ghost htmlType="button" fullwidth size="lg" isLoading={isLoading}>
+          ضيافة
+        </Button>
+      </Popconfirm>
       {!hideCancel && (
         <Button type="danger" htmlType="button" size="lg" onClick={onCancel} fullwidth>
           {locale.checkout.orderTotal.canelOrder[currentLang]}

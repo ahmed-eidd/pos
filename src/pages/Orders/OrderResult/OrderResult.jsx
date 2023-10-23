@@ -6,7 +6,8 @@ import { locale } from '../../../locale';
 import OrderStatus, { NOTFOUND_ORDER } from '../OrderStatus/OrderStatus';
 import classes from './OrderResult.module.scss';
 
-const OrderResult = ({ order }) => {
+const OrderResult = ({ order, canceledOrders }) => {
+  console.log('OrderResult  canceledOrders:', canceledOrders);
   const [currentLang] = useCurrentLang();
   const orderLocale = locale.orders;
   return (
@@ -14,11 +15,7 @@ const OrderResult = ({ order }) => {
       <div className={classes.OrderResult__Details}>
         <OrderStatus status={order?.status} />
         <Text>{order?.order_payment?.toUpperCase()}</Text>
-        <Text
-          className={classes.OrderResult__Details__OrderNumber}
-          size="small"
-          color="grey"
-        >
+        <Text className={classes.OrderResult__Details__OrderNumber} size="small" color="grey">
           الطلب رقم {order?.id} طاوله {order?.table_number}
         </Text>
       </div>
@@ -26,13 +23,8 @@ const OrderResult = ({ order }) => {
       {order?.status !== NOTFOUND_ORDER && (
         <>
           <Text size="small">{order?.type}</Text>
-          <Text size="small">
-            {order?.created_at + ' ' + order?.opening_time}
-          </Text>
-          <Link
-            to={`/order/${order?.id}`}
-            className={classes.OrderResult__Link}
-          >
+          <Text size="small">{order?.created_at + ' ' + order?.opening_time}</Text>
+          <Link to={canceledOrders ? `/canceled-order/${order?.id}` : `/order/${order?.id}`} className={classes.OrderResult__Link}>
             {orderLocale.orderDetailsBtn[currentLang]}
           </Link>
         </>

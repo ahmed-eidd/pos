@@ -83,7 +83,9 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                 <div>guests: 1</div>
               </Col> */}
               <Col>
-                <div className="alin-right">taken by: {invoice?.organization_admin}</div>
+                <div className="alin-right">
+                  taken by: {invoice?.organization_admin}
+                </div>
               </Col>
               <Col>
                 <div>shift: {invoice?.shift}</div>
@@ -125,8 +127,14 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                 {invoice?.order_items?.map(el => (
                   <Col span={24} key={el?.id}>
                     <Row gutter={10} justify="space-between">
-                      <Col span={8} style={{ fontSize: 14 }}>{`${el?.productName} × ${el?.quantity}`}</Col>
-                      <Col span={8} style={{ textAlign: 'center', fontSize: 14 }}>
+                      <Col
+                        span={8}
+                        style={{ fontSize: 14 }}
+                      >{`${el?.productName} × ${el?.quantity}`}</Col>
+                      <Col
+                        span={8}
+                        style={{ textAlign: 'center', fontSize: 14 }}
+                      >
                         {currencyFormat(el?.price)}
                       </Col>
                       <Col
@@ -135,7 +143,8 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                           textAlign: 'end',
                           fontSize: 14,
                           fontWeight: 600,
-                        }}>
+                        }}
+                      >
                         {currencyFormat(el?.quantity * el?.price)}
                       </Col>
                     </Row>
@@ -150,21 +159,25 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                 {!!invoice?.discount && (
                   <Row justify="space-between">
                     <Col>
-                      <div>{invoice?.discount_type === 'percentage' && +invoice?.discount === 100 ? 'ضيافة' : 'Discount'}</div>
+                      <div>Discount</div>
                     </Col>
                     <Col>
                       <div style={{ fontWeight: 600 }}>
-                        {invoice?.discount_type === 'percentage' ? invoice?.discount + '%' : currencyFormat(invoice?.discount)}
+                        {invoice?.discount_type === 'percentage'
+                          ? invoice?.discount + '%'
+                          : currencyFormat(invoice?.discount)}
                       </div>
                     </Col>
                   </Row>
                 )}
                 <Row justify="space-between">
                   <Col>
-                    <div>{invoice?.discount_type === 'percentage' && +invoice?.discount === 100 ? 'ضيافة' : 'total'}</div>
+                    <div>total</div>
                   </Col>
                   <Col>
-                    <div style={{ fontWeight: 700 }}>{currencyFormat(invoice?.total_amount)}</div>
+                    <div style={{ fontWeight: 700 }}>
+                      {currencyFormat(invoice?.total_amount)}
+                    </div>
                   </Col>
                 </Row>
               </Col>
@@ -174,20 +187,25 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                     <div>cash</div>
                   </Col>
                   <Col>
-                    <div>{invoice?.order_payment === 'credit' ? 'مؤجل' : invoice?.order_payment}</div>
+                    <div>{invoice?.order_payment}</div>
                   </Col>
                 </Row>
               </Col>
             </Row>
           </Col>
-          {paymentReccived && <Col span={24}>closing time: {invoice?.closing_time}</Col>}
+          {paymentReccived && (
+            <Col span={24}>closing time: {invoice?.closing_time}</Col>
+          )}
           {
             <Col span={24}>
               <div>
                 {paymentReccived ? (
                   <>
                     <p>Payment recived, thank you.</p>
-                    <p>Having you at our place was a real pleasure and we hope to see you again soon 😉</p>
+                    <p>
+                      Having you at our place was a real pleasure and we hope to
+                      see you again soon 😉
+                    </p>
                   </>
                 ) : (
                   'Payment not recevied'

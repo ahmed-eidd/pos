@@ -1,13 +1,12 @@
 import { SwapOutlined } from '@ant-design/icons';
 import { css } from '@emotion/css';
 import { Button, Descriptions, Input, message, Popconfirm, Select, Space } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import useCancelOrder from '../../../api-hooks/useCancelOrder';
 import InvoiceCopy from '../../../components/InvoiceCopy/InvoiceCopy';
-import InvoiceSpecialItemsCopy from '../../../components/InvoiceCopy/InvoiceSpecialItemsCopy';
 import ModalSelectTable from '../../../components/ModalSelectTable';
 import { currencyFormat } from '../../../services/utils';
 import { setCartToShowSavedOrder, setCurrentSavedOrderIdAction } from '../../../store/cartSlice';
@@ -41,7 +40,6 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
   const [isSelectTableModal, setIsSelectTableModal] = useState(false);
   const [selectedTable, setSelectedTable] = useState(null);
   const [password, setPassword] = useState('');
-  const [selectedPreparationArea, setSelectedPreparationArea] = useState(null);
 
   const preparationAreaList = order?.order_items?.reduce((a, c) => {
     const preparationArea = c?.preparation_area?.[0];
@@ -74,25 +72,13 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
   };
 
   const orderRef = useRef(null);
-  const spceficItemsRef = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => orderRef.current,
-  });
-  const handlePrintSpceficItems = useReactToPrint({
-    content: () => spceficItemsRef.current,
   });
 
   const handleCloseModal = () => {
     if (closeModal) closeModal();
   };
-
-  useEffect(() => {
-    if (selectedPreparationArea) handlePrintSpceficItems();
-
-    return () => {
-      setSelectedPreparationArea(null);
-    };
-  }, [selectedPreparationArea, handlePrintSpceficItems]);
 
   return (
     <>
@@ -153,7 +139,7 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
             }}>
             اطبع
           </Button>
-          <Select style={{ width: 120 }} placeholder="مكان التحضير" options={preparationAreaList} onSelect={(_, item) => setSelectedPreparationArea(item)} />
+          <Select placeholder="مخصص" options={preparationAreaList} />
           <Popconfirm
             title={
               <div>
@@ -174,11 +160,6 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
       <div style={{ position: 'fixed', zIndex: -9, visibility: 'hidden' }}>
         <div ref={orderRef}>
           <InvoiceCopy invoice={order} />
-        </div>
-      </div>
-      <div style={{ position: 'fixed', zIndex: -9, visibility: 'hidden' }}>
-        <div ref={spceficItemsRef}>
-          <InvoiceSpecialItemsCopy invoice={order} preparationArea={selectedPreparationArea} />
         </div>
       </div>
       <ModalSelectTable

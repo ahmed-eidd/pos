@@ -42,8 +42,7 @@ const MenuItem = ({ to, text, icon, onClick, isButton }) => {
         className={classNames(classes.NavMenu__MenuItem, {
           [classes['MenuItemActive']]: isActive,
         })}
-        to={to}
-      >
+        to={to}>
         <RenderedIcon color={isActive ? scssVar.primaryColor : false} />
         <p className={classes.NavMenu__MenuItem__Text}>{text}</p>
       </Element>
@@ -58,21 +57,10 @@ const NavMenu = () => {
 
   return (
     <div className={classes.NavMenu}>
-      <MenuItem
-        text={localeSidebar.categories[currentLang]}
-        to={localeSidebar.categories.link}
-        icon={MenuCubesIcon}
-      />
-      <MenuItem
-        text={localeSidebar.orders[currentLang]}
-        to={localeSidebar.orders.link}
-        icon={MenuCartIcon}
-      />
-      <MenuItem
-        text={localeSidebar.hold[currentLang]}
-        to={localeSidebar.hold.link}
-        icon={MenuBoxIcon}
-      />
+      <MenuItem text={localeSidebar.categories[currentLang]} to={localeSidebar.categories.link} icon={MenuCubesIcon} />
+      <MenuItem text={localeSidebar.orders[currentLang]} to={localeSidebar.orders.link} icon={MenuCartIcon} />
+      <MenuItem text="الطلبات الملغاة" to="canceled-order" icon={MenuMoneyIcon} />
+      <MenuItem text={localeSidebar.hold[currentLang]} to={localeSidebar.hold.link} icon={MenuBoxIcon} />
       {/* <MenuItem
         text={localeSidebar.money[currentLang]}
         to={localeSidebar.money.link}

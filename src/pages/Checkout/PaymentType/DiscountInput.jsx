@@ -37,17 +37,10 @@ const DiscountInputs = ({ isDiscount, setIsDiscount, discountType, discountValue
               </Radio.Button>
             </Flex>
           </Radio.Group>
-          {/* <Text>الخصم</Text> */}
-          {/* <InputField
-            value={discountValue}
-            // maxLength={discountType === DISCOUNT_TYPE.percentage ? 2 : ''}
-            placeholder="اضف فيمة الخصم"
-            onChange={onDiscountValueChange}
-          /> */}
+
           <InputNumber
             value={discountValue}
             max={discountType === DISCOUNT_TYPE.percentage ? 100 : undefined}
-            // placeholder="اضف فيمة الخصم"
             placeholder={discountType === DISCOUNT_TYPE.percentage ? 'اضف نسبة الخصم' : 'اضف فيمة الخصم'}
             onChange={onDiscountValueChange}
             className="InputNumber"

@@ -47,10 +47,7 @@ const Orders = () => {
   };
 
   return (
-    <PageLayout
-      contentClassName={classes.Orders}
-      title={orderLocale.title[currentLang]}
-    >
+    <PageLayout contentClassName={classes.Orders} title={orderLocale.title[currentLang]}>
       <div className={classes.Orders__Radios}>
         <Row gutter={[30, 20]} justify="space-between">
           <Col>
@@ -61,41 +58,23 @@ const Orders = () => {
                 className={classes.Orders__Radios__OrderType__RadioContainer}
                 buttonStyle="solid"
                 onChange={e => setOrderType(e.target.value)}
-                value={orderType}
-              >
+                value={orderType}>
                 <RadioButton value={'delivery'} label="توصيل"></RadioButton>
-                <RadioButton
-                  value={'restaurant'}
-                  label="في المطعم"
-                ></RadioButton>
+                <RadioButton value={'restaurant'} label="في المطعم"></RadioButton>
               </Radio.Group>
             </div>
           </Col>
           <Col>
             <div className={classes.Orders__Radios__SortBy}>
               <Text label>{orderLocale.sortBy[currentLang]}</Text>
-              <Radio.Group
-                defaultValue={orderLocale.sortBy.en}
-                className={classes.Orders__Radios__SortBy__RadioContainer}
-                buttonStyle="solid"
-              >
-                <RadioButton
-                  value={orderLocale.orderTypeLabelDelivery.en}
-                  label={orderLocale.orderTypeLabelDelivery[currentLang]}
-                />
-                <RadioButton
-                  value={orderLocale.orderTypeLabelRestaurant.en}
-                  label={orderLocale.orderTypeLabelRestaurant[currentLang]}
-                />
+              <Radio.Group defaultValue={orderLocale.sortBy.en} className={classes.Orders__Radios__SortBy__RadioContainer} buttonStyle="solid">
+                <RadioButton value={orderLocale.orderTypeLabelDelivery.en} label={orderLocale.orderTypeLabelDelivery[currentLang]} />
+                <RadioButton value={orderLocale.orderTypeLabelRestaurant.en} label={orderLocale.orderTypeLabelRestaurant[currentLang]} />
               </Radio.Group>
             </div>
           </Col>
           <Col span={24}>
-            <Checkbox
-              style={{ fontSize: 18 }}
-              checked={isCanceldOrders}
-              onChange={({ target }) => setIsCanceldOrders(target.checked)}
-            >
+            <Checkbox style={{ fontSize: 18 }} checked={isCanceldOrders} onChange={({ target }) => setIsCanceldOrders(target.checked)}>
               الطلبات الملغاة
             </Checkbox>
           </Col>
@@ -103,11 +82,7 @@ const Orders = () => {
       </div>
       <div className={classes.Orders__SearchForm}>
         <Text label>{orderLocale.searchForOrders[currentLang]}</Text>
-        <Form
-          form={searchForm}
-          onFinish={onSearchFormSubmit}
-          className={classes.Orders__SearchForm__BtnWrapper}
-        >
+        <Form form={searchForm} onFinish={onSearchFormSubmit} className={classes.Orders__SearchForm__BtnWrapper}>
           <Form.Item name="search" noStyle>
             <InputField
               type={searchBy === 'orderId' ? 'number' : 'text'}
@@ -117,10 +92,7 @@ const Orders = () => {
               onChange={onSearchFieldEmpty}
             />
           </Form.Item>
-          <Button
-            isLoading={isLoading}
-            className={classes.Orders__SearchForm__BtnWrapper__Btn}
-          >
+          <Button isLoading={isLoading} className={classes.Orders__SearchForm__BtnWrapper__Btn}>
             {orderLocale.searchForOrdersPlaceholder[currentLang]}
           </Button>
         </Form>
@@ -134,13 +106,10 @@ const Orders = () => {
             </Radio.Group>
           </div>
         </div>
-        <Divider
-          className={classes.Orders__SearchWrapper__Divider}
-          type="vertical"
-        />
+        <Divider className={classes.Orders__SearchWrapper__Divider} type="vertical" />
         <div className={classes.Orders__SearchWrapper__SearchResults}>
           <Text label>{orderLocale.searchResult[currentLang]}</Text>
-          <OrderResultsList isLoading={isLoading} orders={ordersData} />
+          <OrderResultsList isLoading={isLoading} orders={ordersData} pagination={data?.pagination} />
         </div>
       </div>
       <Button type="danger" onClick={onResetFilter}>

@@ -14,6 +14,8 @@ import ReviewOrder from '../pages/ReviewOrder/ReviewOrder';
 import ReceiptDetails from '../pages/ReceiptDetails/ReceiptDetails';
 import StartApp from '../components/StartApp/StartApp';
 import { getToken } from '../helper/localStorage';
+import CanceledOrders from '../pages/CanceledOrders';
+import CanceledOrderDetails from '../pages/CanceledOrderDetails';
 
 const isToken = getToken();
 
@@ -21,55 +23,24 @@ const Routes = () => {
   return (
     <ReactRoutes>
       <Route element={<Layout />}>
-        <Route
-          path={`/`}
-          element={
-            isToken ? (
-              <Navigate
-                to={`/${locale.sidebar.sidebar.menu.categories.link}`}
-              />
-            ) : (
-              <Navigate to={`/login`} />
-            )
-          }
-        />
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.categories.link}/*`}
-          element={<Categories />}
-        />
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.orders.link}`}
-          element={<Orders />}
-        />
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.hold.link}`}
-          element={<SavedOrders />}
-        />
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.settings.link}`}
-          element={<MyProfile />}
-        />
+        <Route path={`/`} element={isToken ? <Navigate to={`/${locale.sidebar.sidebar.menu.categories.link}`} /> : <Navigate to={`/login`} />} />
+        <Route path={`/${locale.sidebar.sidebar.menu.categories.link}/*`} element={<Categories />} />
+        <Route path="/canceled-order" element={<CanceledOrders />} />
+        <Route path={`/${locale.sidebar.sidebar.menu.orders.link}`} element={<Orders />} />
+        <Route path={`/${locale.sidebar.sidebar.menu.hold.link}`} element={<SavedOrders />} />
+        <Route path={`/${locale.sidebar.sidebar.menu.settings.link}`} element={<MyProfile />} />
       </Route>
 
       <Route element={<Layout showCartSideabar={false} />}>
-        <Route
-          path={`/${locale.sidebar.sidebar.menu.money.link}`}
-          element={<CashMangment />}
-        />
+        <Route path={`/${locale.sidebar.sidebar.menu.money.link}`} element={<CashMangment />} />
         <Route path={'/checkout'} element={<Checkout />} />
         <Route path={'/review-order'} element={<ReviewOrder />} />
         <Route path={'/order-placed'} element={<OrderPlaced />} />
       </Route>
 
-      <Route
-        element={
-          <Layout
-            sidebarStyle={{ visibility: 'hidden' }}
-            showCartSideabar={false}
-          />
-        }
-      >
+      <Route element={<Layout sidebarStyle={{ visibility: 'hidden' }} showCartSideabar={false} />}>
         <Route path="/order/:id" element={<ReceiptDetails />} />
+        <Route path="/canceled-order/:id" element={<CanceledOrderDetails />} />
       </Route>
 
       <Route path="/login" element={<AuthPage />} />

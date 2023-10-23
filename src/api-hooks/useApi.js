@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -16,7 +17,7 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 //  START FUNCTION
 function useApi(config = {}) {
   const token = localStorage.getItem('token');
-  const organizationId = useSelector(s => s.auth?.organizationId);
+  const { organizationId } = useSelector(state => state.auth);
 
   const axiosInstance = axios.create({
     baseURL: baseURL,
@@ -29,6 +30,26 @@ function useApi(config = {}) {
     ...config,
   });
 
+  axiosInstance.interceptors.request.use(req => {
+    console.log('interceptors req:', req);
+    return req;
+  });
+
+  axiosInstance.interceptors.response.use(
+    res => {
+      console.log('axiosInstance.interceptors.response.use  res:', res);
+      if (res?.data?.code === 101) {
+        if (typeof res?.data?.validation === 'string') message.error(res?.data?.validation);
+        else res?.data?.validation?.forEach(err => message.error(err));
+      }
+      return res;
+    },
+    err => {
+      console.log('interceptors err:', err);
+      const statusCode = err.response.status;
+      return err;
+    }
+  );
   // ############################
   async function get(route) {
     const { data } = await axiosInstance.get(route);
