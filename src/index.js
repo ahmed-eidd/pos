@@ -16,7 +16,7 @@ root.render(
   // <React.StrictMode>
   // prettier-ignore
   <BrowserRouter 
-  basename="/pos"
+  // basename="/pos"
   >
     <App />
   </BrowserRouter>

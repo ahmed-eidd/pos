@@ -191,7 +191,8 @@ function CanceledOrderDetails() {
                     <div className="actions-wrapper">
                       {item?.status_for_cancel === 0 ? (
                         <Form onFinish={onFinish}>
-                          <Form.Item name="item_id" hidden initialValue={item?.itemId}>
+                          {/* <Form.Item name="item_id" hidden initialValue={item?.itemId}> */}
+                          <Form.Item name="item_id" hidden initialValue={item?.id}>
                             <Input />
                           </Form.Item>
                           <Space>
