@@ -8,10 +8,13 @@ export const axiosInstance = (config = {}) => {
   const token = localStorage.getItem('token');
   const user = localStorage.getItem('user');
   // console.log('axiosInstance  user', user);
-  const organizationId = user ? JSON.parse(user)?.organization_admin?.organization_id : '';
+  const organizationId = user
+    ? JSON.parse(user)?.organization_admin?.organization_id
+    : '';
   // console.log('axiosInstance  organization_id', organizationId);
   return axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
+    // baseURL: 'http://134.209.38.16/elwezara/public/api',
     headers: {
       'Content-Type': 'multipart/form-data',
       // 'content-type': 'application/json',
@@ -24,15 +27,16 @@ export const axiosInstance = (config = {}) => {
 };
 
 axiosInstance().interceptors.response.use(
-  res => {
+  (res) => {
     console.log('axiosInstance.interceptors.response.use  res:', res);
     if (res?.data?.code === 101) {
-      if (typeof res?.data?.validation === 'string') message.error(res?.data?.validation);
-      else res?.data?.validation?.forEach(err => message.error(err));
+      if (typeof res?.data?.validation === 'string')
+        message.error(res?.data?.validation);
+      else res?.data?.validation?.forEach((err) => message.error(err));
     }
     return res;
   },
-  err => {
+  (err) => {
     console.log('interceptors err:', err);
     const statusCode = err.response.status;
     return err;

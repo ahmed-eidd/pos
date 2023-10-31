@@ -1,7 +1,12 @@
 import { css } from '@emotion/css';
 import { Col, Row } from 'antd';
 
-function InvoiceSpecialItemsCopy({ invoice, preparationArea, paymentReccived, ...rest }) {
+function InvoiceSpecialItemsCopy({
+  invoice,
+  preparationArea,
+  paymentReccived,
+  ...rest
+}) {
   const InvoiceSpecialItemsCopyStyles = css`
     width: 30rem;
     max-width: 100%;
@@ -50,13 +55,13 @@ function InvoiceSpecialItemsCopy({ invoice, preparationArea, paymentReccived, ..
 
   return (
     <div className={InvoiceSpecialItemsCopyStyles} {...rest}>
-      <div className="basic-info">
+      <div className='basic-info'>
         <Row gutter={[10, 0]}>
           <Col span={24}>
             <div>outlet: {invoice?.point_of_sale}</div>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
                 <div>table: {invoice?.table_number}</div>
               </Col>
@@ -66,9 +71,11 @@ function InvoiceSpecialItemsCopy({ invoice, preparationArea, paymentReccived, ..
             </Row>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
-                <div className="alin-right">taken by: {invoice?.organization_admin}</div>
+                <div className='alin-right'>
+                  taken by: {invoice?.organization_admin}
+                </div>
               </Col>
               <Col>
                 <div>shift: {invoice?.shift}</div>
@@ -76,7 +83,7 @@ function InvoiceSpecialItemsCopy({ invoice, preparationArea, paymentReccived, ..
             </Row>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
                 <div>order type: {invoice?.type}</div>
               </Col>
@@ -86,7 +93,7 @@ function InvoiceSpecialItemsCopy({ invoice, preparationArea, paymentReccived, ..
             </Row>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
                 <div>Serials number: {invoice?.multi_serials || '-'}</div>
               </Col>
@@ -97,17 +104,21 @@ function InvoiceSpecialItemsCopy({ invoice, preparationArea, paymentReccived, ..
           </Col>
         </Row>
       </div>
-      <div className="order-info">
-        <h1 className="title">{preparationArea?.label}</h1>
+      <div className='order-info'>
+        <h1 className='title'>{preparationArea?.label}</h1>
         <Row gutter={[10, 20]}>
           <Col span={24}>
-            <div className="order-items-wrapper">
+            <div className='order-items-wrapper'>
               <Row gutter={[10, 8]}>
                 {invoice?.order_items
-                  ?.filter(item => item?.preparation_area_id === preparationArea?.value)
-                  ?.map(el => (
+                  ?.filter(
+                    (item) =>
+                      item?.preparation_area_id === preparationArea?.value
+                  )
+                  ?.filter((item) => item?.is_print === 0)
+                  ?.map((el) => (
                     <Col span={24} key={el?.id}>
-                      <Row gutter={10} justify="space-between">
+                      <Row gutter={10} justify='space-between'>
                         <Col span={12} style={{ fontSize: 18 }}>
                           {el?.productName}
                         </Col>
@@ -117,7 +128,8 @@ function InvoiceSpecialItemsCopy({ invoice, preparationArea, paymentReccived, ..
                             textAlign: 'end',
                             fontSize: 18,
                             fontWeight: 600,
-                          }}>
+                          }}
+                        >
                           {el?.quantity}
                         </Col>
                       </Row>

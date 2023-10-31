@@ -2,7 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { message } from 'antd';
 // import { toast } from 'react-toastify';
 
-const onErrorHandler = error => {
+const onErrorHandler = (error) => {
   const code = error?.response?.status;
   console.log('onError Global code is ', code, +'/' + error);
   if (code === 401 || code === 419 || code === 101) {
@@ -42,13 +42,13 @@ export default new QueryClient({
       refetchOnWindowFocus: false,
       // refetchOnReconnect: false,
       // retry: 2,
-      onSuccess: res => {
+      onSuccess: (res) => {
         // console.log('onSuccess Global queries', res);
         if (res?.code !== 200) {
           // toast(res?.message);
         }
         if (res?.validation) {
-          res.validation?.forEach(err => {
+          res.validation?.forEach((err) => {
             // toast.error(err, { autoClose: 30000, hideProgressBar: true });
           });
         }
@@ -57,13 +57,13 @@ export default new QueryClient({
       networkMode: 'always',
     },
     mutations: {
-      onSuccess: res => {
+      onSuccess: (res) => {
         // console.log('onSuccess Global mutations', res);
         if (res?.code === 200) {
           // toast.success(res?.message);
         }
         if (res?.validation) {
-          res.validation?.forEach(err => {
+          res.validation?.forEach((err) => {
             // toast.error(err, { autoClose: false })
             // toast.error(err, { autoClose: 30000, hideProgressBar: true });
           });

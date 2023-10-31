@@ -1,7 +1,15 @@
 import { SwapOutlined } from '@ant-design/icons';
 import { css } from '@emotion/css';
-import { Button, Descriptions, Input, message, Popconfirm, Select, Space } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import {
+  Button,
+  Descriptions,
+  Input,
+  message,
+  Popconfirm,
+  Select,
+  Space,
+} from 'antd';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
@@ -10,7 +18,11 @@ import InvoiceCopy from '../../../components/InvoiceCopy/InvoiceCopy';
 import InvoiceSpecialItemsCopy from '../../../components/InvoiceCopy/InvoiceSpecialItemsCopy';
 import ModalSelectTable from '../../../components/ModalSelectTable';
 import { currencyFormat } from '../../../services/utils';
-import { setCartToShowSavedOrder, setCurrentSavedOrderIdAction } from '../../../store/cartSlice';
+import {
+  setCartToShowSavedOrder,
+  setCurrentSavedOrderIdAction,
+} from '../../../store/cartSlice';
+import { usePrintItem } from '../../../hooks/query/usePrint';
 
 const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
   const SingleSavedOrderStyles = css`
@@ -41,22 +53,58 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
   const [isSelectTableModal, setIsSelectTableModal] = useState(false);
   const [selectedTable, setSelectedTable] = useState(null);
   const [password, setPassword] = useState('');
-  const [selectedPreparationArea, setSelectedPreparationArea] = useState(null);
+  const [selectedPreparationArea, setSelectedPreparationArea] = useState(null); // this gets deleted after printing
+  const [selectedPrepAreaForMemo, setSelectedPrepAreaForMemo] = useState(null); // this does not get deleted after printing (used for useMemo)
+  const [submittingItemToPrintLoading, setSubmittingItemToPrintLoading] =
+    useState(false);
+
+  const sumbitItemToPrint = usePrintItem();
+  const currentSelectedItemsIds = useMemo(() => {
+    return order?.order_items
+      ?.filter((el) => {
+        return el?.preparation_area_id === selectedPrepAreaForMemo?.value;
+      })
+      .map((el) => el?.id);
+  }, [selectedPrepAreaForMemo, order]);
+
+  const handleSumbitItemToPrint = (item, onSuccess, onError) => {
+    const currentSelectItemIds =
+      item === 'all'
+        ? order?.order_items?.map((el) => el?.id)
+        : order?.order_items
+            ?.filter((el) => {
+              return el?.preparation_area_id === item?.value;
+            })
+            .map((el) => el?.id);
+    if (currentSelectedItemsIds?.length > 0) return;
+    return sumbitItemToPrint.mutate(currentSelectItemIds, {
+      onSuccess: (res) => {
+        onSuccess && onSuccess(res);
+      },
+      onError: (err) => {
+        onError && onError(err);
+      },
+    });
+  };
+
+  console.log(
+    { order, selectedPreparationArea, currentSelectedItemsIds },
+    'currentSelectedSingleOrderData'
+  );
 
   const preparationAreaList = order?.order_items?.reduce((a, c) => {
     const preparationArea = c?.preparation_area?.[0];
     let isCurrent = false;
-    a.forEach(el => {
+    a.forEach((el) => {
       if (el?.value === preparationArea?.id) isCurrent = true;
     });
 
-    if (!isCurrent) a.push({ value: preparationArea?.id, label: preparationArea?.name });
+    if (!isCurrent)
+      a.push({ value: preparationArea?.id, label: preparationArea?.name });
     return a;
   }, []);
-  console.log('preparationAreaList  preparationAreaList:', preparationAreaList);
 
   const handleCancelOrder = () => {
-    console.log('password:', password);
     if (!password) return message.warning('الرجاء إدخال كلمة مرور');
 
     const fd = new FormData();
@@ -65,7 +113,7 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
 
     cancelOrder({
       fd,
-      onSuc: res => {
+      onSuc: (res) => {
         setCancelOrderItems(res?.data?.order_items);
         handleCloseModal();
       },
@@ -80,6 +128,7 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
   });
   const handlePrintSpceficItems = useReactToPrint({
     content: () => spceficItemsRef.current,
+    onBeforeGetContent: () => {},
   });
 
   const handleCloseModal = () => {
@@ -98,23 +147,33 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
     <>
       <div className={SingleSavedOrderStyles}>
         <Descriptions bordered column={2}>
-          <Descriptions.Item label="رقم الطلب" className="big">
+          <Descriptions.Item label='رقم الطلب' className='big'>
             {order?.id}
           </Descriptions.Item>
-          <Descriptions.Item label="رقم الطاوله" className="big">
+          <Descriptions.Item label='رقم الطاوله' className='big'>
             {String(order?.table_number)}
-            <Button type="link" icon={<SwapOutlined />} onClick={() => setIsSelectTableModal(true)} />
+            <Button
+              type='link'
+              icon={<SwapOutlined />}
+              onClick={() => setIsSelectTableModal(true)}
+            />
           </Descriptions.Item>
-          <Descriptions.Item label="الوقت">{order?.opening_time}</Descriptions.Item>
-          <Descriptions.Item label="التاريخ">{order?.created_at}</Descriptions.Item>
-          <Descriptions.Item label="الاجمالي" className="big">
+          <Descriptions.Item label='الوقت'>
+            {order?.opening_time}
+          </Descriptions.Item>
+          <Descriptions.Item label='التاريخ'>
+            {order?.created_at}
+          </Descriptions.Item>
+          <Descriptions.Item label='الاجمالي' className='big'>
             {currencyFormat(order?.total_amount)} LE
           </Descriptions.Item>
         </Descriptions>
-        <Space style={{ marginTop: 10, width: '100%', justifyContent: 'center' }}>
+        <Space
+          style={{ marginTop: 10, width: '100%', justifyContent: 'center' }}
+        >
           <Button
-            type="primary"
-            size="large"
+            type='primary'
+            size='large'
             style={{ minWidth: 'auto' }}
             onClick={() => {
               dispatch(setCartToShowSavedOrder(true));
@@ -128,43 +187,82 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
                   },
                 },
               });
-            }}>
+            }}
+          >
             ادفع
           </Button>
           <Button
-            type="primary"
-            size="large"
+            type='primary'
+            size='large'
             style={{ minWidth: 'auto' }}
             ghost
             onClick={() => {
               dispatch(setCartToShowSavedOrder(true));
               dispatch(setCurrentSavedOrderIdAction(order?.id));
               handleCloseModal();
-            }}>
+            }}
+          >
             وضع الطلب للتعديل
           </Button>
           <Button
-            type="primary"
-            size="large"
+            type='primary'
+            size='large'
             style={{ minWidth: 'auto' }}
             onClick={() => {
-              handlePrint();
-              handleCloseModal();
-            }}>
+              handleSumbitItemToPrint(
+                'all',
+                () => {
+                  handlePrint();
+                  handleCloseModal();
+                },
+                () => {
+                  message.error('حدث خطأ أثناء الطباعة');
+                }
+              );
+            }}
+            loading={sumbitItemToPrint.isLoading}
+          >
             اطبع
           </Button>
-          <Select style={{ width: 120 }} placeholder="مكان التحضير" options={preparationAreaList} onSelect={(_, item) => setSelectedPreparationArea(item)} />
+          <Select
+            style={{ width: 120 }}
+            placeholder='مكان التحضير'
+            options={preparationAreaList}
+            onSelect={(_, item) => {
+              handleSumbitItemToPrint(
+                item,
+                () => {
+                  setSelectedPreparationArea(item);
+                },
+                () => {
+                  message.error('حدث خطأ أثناء الطباعة');
+                }
+              );
+              // setSelectedPrepAreaForMemo(item);
+            }}
+          />
           <Popconfirm
             title={
               <div>
                 <h4 style={{ marginBottom: 4 }}>هل تريد حذف الطلب؟</h4>
-                <Input.Password value={password} onChange={({ target }) => setPassword(target?.value)} placeholder="أدخل كلمة المرور" />
+                <Input.Password
+                  value={password}
+                  onChange={({ target }) => setPassword(target?.value)}
+                  placeholder='أدخل كلمة المرور'
+                />
               </div>
             }
-            okText="نعم"
-            cancelText="لا"
-            onConfirm={handleCancelOrder}>
-            <Button type="primary" size="large" danger style={{ minWidth: 'auto' }} loading={cancelOrderLod}>
+            okText='نعم'
+            cancelText='لا'
+            onConfirm={handleCancelOrder}
+          >
+            <Button
+              type='primary'
+              size='large'
+              danger
+              style={{ minWidth: 'auto' }}
+              loading={cancelOrderLod}
+            >
               الغاء
             </Button>
           </Popconfirm>
@@ -178,7 +276,10 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
       </div>
       <div style={{ position: 'fixed', zIndex: -9, visibility: 'hidden' }}>
         <div ref={spceficItemsRef}>
-          <InvoiceSpecialItemsCopy invoice={order} preparationArea={selectedPreparationArea} />
+          <InvoiceSpecialItemsCopy
+            invoice={order}
+            preparationArea={selectedPreparationArea}
+          />
         </div>
       </div>
       <ModalSelectTable
