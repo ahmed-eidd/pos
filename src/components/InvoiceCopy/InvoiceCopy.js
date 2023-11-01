@@ -105,7 +105,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
           <Col span={24}>
             <Row gutter={20} justify='space-between'>
               <Col>
-                <div>Serials number: {invoice?.multi_serials || '-'}</div>
+                <div>Pos Serials number: {invoice?.pos_serial || '-'}</div>
               </Col>
             </Row>
           </Col>

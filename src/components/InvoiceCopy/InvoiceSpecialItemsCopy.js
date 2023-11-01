@@ -95,7 +95,7 @@ function InvoiceSpecialItemsCopy({
           <Col span={24}>
             <Row gutter={20} justify='space-between'>
               <Col>
-                <div>Serials number: {invoice?.multi_serials || '-'}</div>
+                <div>Serials number: {invoice?.pos_serial || '-'}</div>
               </Col>
               <Col>
                 <div>opening time: {invoice?.opening_time}</div>
