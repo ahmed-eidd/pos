@@ -1,7 +1,19 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { css } from '@emotion/css';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Badge, Button, Col, Divider, Form, Input, message, Row, Select, Space, Spin } from 'antd';
+import {
+  Badge,
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  message,
+  Row,
+  Select,
+  Space,
+  Spin,
+} from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import useApi from '../api-hooks/useApi';
 import useOrderDetails from '../api-hooks/useOrderDetails';
@@ -41,7 +53,7 @@ function CanceledOrderDetails() {
   `;
 
   const api = useApi();
-  const httpFunc = async fd => {
+  const httpFunc = async (fd) => {
     const res = await api.post('changeItemsStatusForCancel', fd);
     return res;
   };
@@ -49,15 +61,16 @@ function CanceledOrderDetails() {
   const { id } = useParams();
   const client = useQueryClient();
 
-  const { mutate: onChangeItemStatus, isLoading: onChangeItemStatusLod } = useMutation(httpFunc, {
-    onSuccess: res => {
-      console.log('CanceledOrderDetails  res:', res);
-      if (res?.code === 200) {
-        message.success(res?.message);
-      }
-      client.invalidateQueries([queryKeys.orderDetails, id]);
-    },
-  });
+  const { mutate: onChangeItemStatus, isLoading: onChangeItemStatusLod } =
+    useMutation(httpFunc, {
+      onSuccess: (res) => {
+        console.log('CanceledOrderDetails  res:', res);
+        if (res?.code === 200) {
+          message.success(res?.message);
+        }
+        client.invalidateQueries([queryKeys.orderDetails, id]);
+      },
+    });
 
   const { orderDetail, orderDetailLod } = useOrderDetails(id);
   console.log('CanceledOrderDetails  orderDetail:', orderDetail);
@@ -69,27 +82,27 @@ function CanceledOrderDetails() {
   // const currentOrderData = orderData[0];
   // console.log('CanceledOrderDetails  currentOrderData:', currentOrderData);
 
-  const onFinish = values => {
-    console.log('onFinish  values:', values);
+  const onFinish = (values) => {
     const fd = new FormData();
     fd.append('item_id', values?.item_id);
     fd.append('status', values?.status);
+    fd.append('order_id', id);
 
     onChangeItemStatus(fd);
   };
 
   return (
     <div className={CanceledOrderDetailsStyles}>
-      <div className="basic-info">
+      <div className='basic-info'>
         <Row gutter={[10, 0]}>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
                 <div>outlet: {orderDetail?.point_of_sale}</div>
               </Col>
               <Col>
-                <Link to="/canceled-order">
-                  <Button type="link" ghost style={{ padding: 0 }}>
+                <Link to='/canceled-order'>
+                  <Button type='link' ghost style={{ padding: 0 }}>
                     <Space>
                       رجوع
                       <ArrowLeftOutlined />
@@ -100,7 +113,7 @@ function CanceledOrderDetails() {
             </Row>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
                 <div>table: {orderDetail?.table_number}</div>
               </Col>
@@ -110,9 +123,11 @@ function CanceledOrderDetails() {
             </Row>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
-                <div className="alin-right">taken by: {orderDetail?.organization_admin}</div>
+                <div className='alin-right'>
+                  taken by: {orderDetail?.organization_admin}
+                </div>
               </Col>
               <Col>
                 <div>shift: {orderDetail?.shift}</div>
@@ -120,7 +135,7 @@ function CanceledOrderDetails() {
             </Row>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
                 <div>order type: {orderDetail?.type}</div>
               </Col>
@@ -130,9 +145,16 @@ function CanceledOrderDetails() {
             </Row>
           </Col>
           <Col span={24}>
-            <Row gutter={20} justify="space-between">
+            <Row gutter={20} justify='space-between'>
               <Col>
                 <div>Serials number: {orderDetail?.multi_serials || '-'}</div>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={24}>
+            <Row gutter={20} justify='space-between'>
+              <Col>
+                <div>Pos Serials number: {orderDetail?.pos_serial || '-'}</div>
               </Col>
             </Row>
           </Col>
@@ -143,15 +165,22 @@ function CanceledOrderDetails() {
           </Col> */}
         </Row>
       </div>{' '}
-      <div className="order-items-wrapper">
+      <div className='order-items-wrapper'>
         <Divider>عناصر الطلب</Divider>
         <Row>
           <Col span={12}>
-            <Row gutter={10} justify="space-between" style={{ marginBottom: 10 }}>
+            <Row
+              gutter={10}
+              justify='space-between'
+              style={{ marginBottom: 10 }}
+            >
               <Col span={8} style={{ fontSize: 14, fontWeight: 600 }}>
                 الكمية × اسم العنصر
               </Col>
-              <Col span={8} style={{ textAlign: 'center', fontSize: 14, fontWeight: 600 }}>
+              <Col
+                span={8}
+                style={{ textAlign: 'center', fontSize: 14, fontWeight: 600 }}
+              >
                 السعر
               </Col>
               <Col
@@ -160,20 +189,27 @@ function CanceledOrderDetails() {
                   textAlign: 'end',
                   fontSize: 14,
                   fontWeight: 600,
-                }}>
+                }}
+              >
                 الاجمالي
               </Col>
             </Row>
           </Col>
           <Col span={12}></Col>
           <Spin spinning={orderDetailLod}>
-            {orderDetail?.order_items?.map(item => (
-              <Col key={item?.id} span={24} className="item-wrapper">
+            {orderDetail?.order_items?.map((item) => (
+              <Col key={item?.id} span={24} className='item-wrapper'>
                 <Row>
                   <Col span={12} key={item?.id}>
-                    <Row gutter={10} justify="space-between">
-                      <Col span={8} style={{ fontSize: 14 }}>{`${item?.productName} × ${item?.quantity}`}</Col>
-                      <Col span={8} style={{ textAlign: 'center', fontSize: 14 }}>
+                    <Row gutter={10} justify='space-between'>
+                      <Col
+                        span={8}
+                        style={{ fontSize: 14 }}
+                      >{`${item?.productName} × ${item?.quantity}`}</Col>
+                      <Col
+                        span={8}
+                        style={{ textAlign: 'center', fontSize: 14 }}
+                      >
                         {currencyFormat(item?.price)}
                       </Col>
                       <Col
@@ -182,24 +218,32 @@ function CanceledOrderDetails() {
                           textAlign: 'end',
                           fontSize: 14,
                           fontWeight: 600,
-                        }}>
+                        }}
+                      >
                         {currencyFormat(item?.quantity * item?.price)}
                       </Col>
                     </Row>
                   </Col>
                   <Col span={12}>
-                    <div className="actions-wrapper">
+                    <div className='actions-wrapper'>
                       {item?.status_for_cancel === 0 ? (
                         <Form onFinish={onFinish}>
                           {/* <Form.Item name="item_id" hidden initialValue={item?.itemId}> */}
-                          <Form.Item name="item_id" hidden initialValue={item?.id}>
+                          <Form.Item
+                            name='item_id'
+                            hidden
+                            initialValue={item?.id}
+                          >
                             <Input />
                           </Form.Item>
                           <Space>
-                            <Form.Item name="status" rules={[{ required: true }]}>
+                            <Form.Item
+                              name='status'
+                              rules={[{ required: true }]}
+                            >
                               <Select
                                 style={{ width: 180 }}
-                                placeholder="حدد حالة العنصر"
+                                placeholder='حدد حالة العنصر'
                                 options={[
                                   { value: 1, label: 'سحب من المخزون' },
                                   { value: 2, label: 'اعادة الى المخزون' },
@@ -207,16 +251,20 @@ function CanceledOrderDetails() {
                               />
                             </Form.Item>
                             <Form.Item>
-                              <Button htmlType="submit" type="primary" disabled={onChangeItemStatusLod}>
+                              <Button
+                                htmlType='submit'
+                                type='primary'
+                                disabled={onChangeItemStatusLod}
+                              >
                                 تم
                               </Button>
                             </Form.Item>
                           </Space>
                         </Form>
                       ) : item?.status_for_cancel === 1 ? (
-                        <p className="status">سحب من المخزون</p>
+                        <p className='status'>سحب من المخزون</p>
                       ) : (
-                        <div className="status">اعادة الى المخزون</div>
+                        <div className='status'>اعادة الى المخزون</div>
                       )}
                     </div>
                   </Col>

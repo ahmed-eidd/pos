@@ -23,4 +23,9 @@
     color: black;
     width: 76px;
   }
+  &__Canceled {
+    // red color and red background for cancel status
+    background-color: lightcoral;
+    color: white;
+  }
 }

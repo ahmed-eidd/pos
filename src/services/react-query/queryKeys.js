@@ -36,4 +36,7 @@ export const queryKeys = {
   userDeliveryUpcoming: 'user-delivery-upcoming',
   userOverview: 'user-overview',
   homeData: 'home-data',
+
+  getClientsForHotels: 'getClientsForHotels',
+  getRoomsForHotels: 'getRoomsForHotels',
 };

@@ -124,16 +124,50 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
           <Col span={24}>
             <div className='order-items-wrapper'>
               <Row gutter={[10, 0]}>
+                <Col span={24}>
+                  <Row gutter={10} justify='space-between'>
+                    <Col
+                      span={8}
+                      style={{ fontSize: 14, border: '1px solid black' }}
+                    >
+                      الكمية
+                    </Col>
+                    <Col
+                      span={8}
+                      style={{
+                        fontSize: 14,
+                        textAlign: 'center',
+                        border: '1px solid black',
+                      }}
+                    >
+                      السعر
+                    </Col>
+                    <Col
+                      span={8}
+                      style={{
+                        fontSize: 14,
+                        textAlign: 'end',
+                        border: '1px solid black',
+                      }}
+                    >
+                      الاجمالي
+                    </Col>
+                  </Row>
+                </Col>
                 {invoice?.order_items?.map((el) => (
                   <Col span={24} key={el?.id}>
                     <Row gutter={10} justify='space-between'>
                       <Col
                         span={8}
-                        style={{ fontSize: 14 }}
+                        style={{ fontSize: 14, border: '1px solid black' }}
                       >{`${el?.productName} × ${el?.quantity}`}</Col>
                       <Col
                         span={8}
-                        style={{ textAlign: 'center', fontSize: 14 }}
+                        style={{
+                          textAlign: 'center',
+                          fontSize: 14,
+                          border: '1px solid black',
+                        }}
                       >
                         {currencyFormat(el?.price)}
                       </Col>
@@ -143,6 +177,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                           textAlign: 'end',
                           fontSize: 14,
                           fontWeight: 600,
+                          border: '1px solid black',
                         }}
                       >
                         {currencyFormat(el?.quantity * el?.price)}
@@ -177,7 +212,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                 )}
                 <Row justify='space-between'>
                   <Col>
-                    <div>
+                    <div style={{ fontWeight: '700', fontSize: '16px' }}>
                       {invoice?.discount_type === 'percentage' &&
                       +invoice?.discount === 100
                         ? 'ضيافة'
@@ -194,10 +229,12 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
               <Col span={24}>
                 <Row justify='space-between' style={{ marginTop: 10 }}>
                   <Col>
-                    <div>cash</div>
+                    <div style={{ fontWeight: 700, fontSize: '16px' }}>
+                      cash
+                    </div>
                   </Col>
                   <Col>
-                    <div>
+                    <div style={{ fontWeight: 700, fontSize: '16px' }}>
                       {invoice?.order_payment === 'credit'
                         ? 'مؤجل'
                         : invoice?.order_payment}
