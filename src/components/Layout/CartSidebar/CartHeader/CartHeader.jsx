@@ -6,17 +6,19 @@ import { useCurrentLang } from '../../../../hooks/useCurrentLang';
 import { useRemoveAllCartItems } from '../../../../hooks/query/useCart';
 import Flex from '../../../Flex/Flex';
 import Spinner from '../../../Spinner/Spinner';
-import { Popconfirm, Button as ButtonAnt } from 'antd';
+import { Popconfirm, Button as ButtonAnt, Space } from 'antd';
 import Button from '../../../Button/Button';
 import { useCurrentCartItems } from '../../../../hooks/useCurrentCartItems';
 import { useSelector } from 'react-redux';
 import { axiosInstance } from '../../../../service/api';
 import { currencyFormat } from '../../../../services/utils';
+import DataLowestModal from './DataLowestModal';
 
 const CartHeader = () => {
   const [currentLang] = useCurrentLang();
-  const { sheet } = useSelector(s => s.auth);
-  const showSavedOrder = useSelector(s => s?.cart?.showSavedOrder);
+  const [productDataModal, setProductDataModal] = useState(false);
+  const { sheet } = useSelector((s) => s.auth);
+  const showSavedOrder = useSelector((s) => s?.cart?.showSavedOrder);
   const { isFetching: isCurrentCartFetching } = useCurrentCartItems();
   const cartLocale = locale.sidebar.cart;
   const { mutate: removeAllItems, isLoading } = useRemoveAllCartItems();
@@ -24,7 +26,6 @@ const CartHeader = () => {
   const [getBalanceLod, setGetBalanceLod] = useState(false);
 
   const handelShowCurrentBalance = async () => {
-    console.log('first');
     const body = new FormData();
     body.append('point_of_sale_order_sheet_id', sheet);
     setGetBalanceLod(true);
@@ -41,22 +42,28 @@ const CartHeader = () => {
     }
     setGetBalanceLod(false);
   };
+
+  const handleShowProductData = () => {
+    setProductDataModal(true);
+  };
+
   return (
     <div className={classes.CartHeader}>
+      <DataLowestModal open={productDataModal} setOpen={setProductDataModal} />
       {showSavedOrder ? (
         <p style={{ whiteSpace: 'nowrap', color: 'red', fontWeight: 600 }}>
           طلب جاري
         </p>
       ) : (
         <Popconfirm
-          title="هل انت متاكد من مسح كل المنتجات"
-          okText="نعم"
-          cancelText="لا"
+          title='هل انت متاكد من مسح كل المنتجات'
+          okText='نعم'
+          cancelText='لا'
           onConfirm={removeAllItems}
         >
           <Button
-            type="link"
-            icon={<img src={TrashPng} alt="delete" width={24} />}
+            type='link'
+            icon={<img src={TrashPng} alt='delete' width={24} />}
             isLoading={isLoading}
           />
         </Popconfirm>
@@ -71,22 +78,38 @@ const CartHeader = () => {
           {cartLocale.title[currentLang]}
         </h3>
       </Flex>
-      <ButtonAnt
-        onClick={handelShowCurrentBalance}
-        loading={getBalanceLod}
-        size="large"
-        disabled={!!currentBalance}
-        style={
-          !!currentBalance
-            ? { color: '#fff', backgroundColor: '#12b76a' }
-            : undefined
-        }
-        type="primary"
-      >
-        {!!currentBalance
-          ? `جم ${currencyFormat(currentBalance)}`
-          : ' الرصيد الحالي'}
-      </ButtonAnt>
+      <Space direction='vertical'>
+        <ButtonAnt
+          onClick={handelShowCurrentBalance}
+          loading={getBalanceLod}
+          size='large'
+          disabled={!!currentBalance}
+          style={
+            !!currentBalance
+              ? { color: '#fff', backgroundColor: '#12b76a' }
+              : undefined
+          }
+          type='primary'
+        >
+          {!!currentBalance
+            ? `جم ${currencyFormat(currentBalance)}`
+            : ' الرصيد الحالي'}
+        </ButtonAnt>
+        <ButtonAnt
+          onClick={handleShowProductData}
+          loading={getBalanceLod}
+          size='large'
+          // disabled={!!currentBalance}
+          style={
+            !!currentBalance
+              ? { color: '#fff', backgroundColor: '#12b76a' }
+              : undefined
+          }
+          type='primary'
+        >
+          قائمة المنتجات
+        </ButtonAnt>
+      </Space>
     </div>
   );
 };

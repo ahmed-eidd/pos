@@ -35,14 +35,12 @@ const PaymentTypeForm = ({
   const [form] = Form.useForm();
   const [currentLang] = useCurrentLang();
   const payOrder = usePayOrder();
+  const roomWatcher = Form.useWatch('room_num', form);
   const { data: cart } = useGetCart();
-  const { data: clients } = useGetClientsForHotel(
+  const { data: clients } = useGetClientsForHotel(roomWatcher);
+  const { data: rooms, isLoading: roomsIsLoading } = useGetRoomsForHotel(
     paymentValue === PAYMENT_TYPE.hotel
   );
-  const { data: rooms } = useGetRoomsForHotel(
-    paymentValue === PAYMENT_TYPE.hotel
-  );
-  console.log({ clients, rooms, paymentValue });
   const dispatch = useDispatch();
 
   const [isDiscount, setIsDiscount] = useState(false);
@@ -75,7 +73,7 @@ const PaymentTypeForm = ({
       data.table_number = checkoutOrder?.tableNumber;
     }
     if (paymentValue === 'hotel') {
-      data.room_num = values?.room_num;
+      data.room_id = values?.room_num;
       data.customer_id = values?.customer_id;
     }
 
@@ -221,6 +219,7 @@ const PaymentTypeForm = ({
             rules={[{ required: true, message: 'الرجاء ادخال رقم الغرفة' }]}
           >
             <Select
+              loading={roomsIsLoading}
               options={rooms}
               fieldNames={{ label: 'room_num', value: 'room_num' }}
               showSearch

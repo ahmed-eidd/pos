@@ -38,5 +38,6 @@ export const queryKeys = {
   homeData: 'home-data',
 
   getClientsForHotels: 'getClientsForHotels',
+  getDataLowest: 'getDataLowest',
   getRoomsForHotels: 'getRoomsForHotels',
 };

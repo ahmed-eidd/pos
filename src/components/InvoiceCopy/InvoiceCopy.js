@@ -127,13 +127,19 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                 <Col span={24}>
                   <Row gutter={10} justify='space-between'>
                     <Col
-                      span={8}
+                      span={4}
                       style={{ fontSize: 14, border: '1px solid black' }}
                     >
                       الكمية
                     </Col>
                     <Col
                       span={8}
+                      style={{ fontSize: 14, border: '1px solid black' }}
+                    >
+                      المنتج
+                    </Col>
+                    <Col
+                      span={6}
                       style={{
                         fontSize: 14,
                         textAlign: 'center',
@@ -143,7 +149,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                       السعر
                     </Col>
                     <Col
-                      span={8}
+                      span={6}
                       style={{
                         fontSize: 14,
                         textAlign: 'end',
@@ -158,11 +164,19 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                   <Col span={24} key={el?.id}>
                     <Row gutter={10} justify='space-between'>
                       <Col
-                        span={8}
+                        span={4}
                         style={{ fontSize: 14, border: '1px solid black' }}
-                      >{`${el?.productName} × ${el?.quantity}`}</Col>
+                      >
+                        {`${el?.quantity}`}
+                      </Col>
                       <Col
                         span={8}
+                        style={{ fontSize: 14, border: '1px solid black' }}
+                      >
+                        {`${el?.productName}`}
+                      </Col>
+                      <Col
+                        span={6}
                         style={{
                           textAlign: 'center',
                           fontSize: 14,
@@ -172,7 +186,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                         {currencyFormat(el?.price)}
                       </Col>
                       <Col
-                        span={8}
+                        span={6}
                         style={{
                           textAlign: 'end',
                           fontSize: 14,

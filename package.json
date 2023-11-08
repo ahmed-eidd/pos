@@ -2,7 +2,6 @@
   "name": "pos-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost/pos/",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@craco/craco": "^6.4.5",
@@ -22,7 +21,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "^4.0.0",
+    "react-scripts": "^5.0.1",
     "react-to-print": "^2.14.7",
     "redux-persist": "^6.0.0",
     "sass": "^1.54.5",
