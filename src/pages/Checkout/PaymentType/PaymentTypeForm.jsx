@@ -119,7 +119,6 @@ const PaymentTypeForm = ({
     // data.password = prompt('برجاء أدخل كلمة المرور');
     if (!data.password)
       return message.error('برجاء أدخل كلمة المرور بصورة صحيحة');
-    console.log('onHospitality  data', data);
     // return null;
     payOrder.mutate(data, {
       onSuccess: (res) => {
@@ -221,7 +220,7 @@ const PaymentTypeForm = ({
             <Select
               loading={roomsIsLoading}
               options={rooms}
-              fieldNames={{ label: 'room_num', value: 'room_num' }}
+              fieldNames={{ label: 'room_num', value: 'id' }}
               showSearch
               size='large'
             />
