@@ -13,6 +13,7 @@ const DataLowestModal = ({ open, setOpen }) => {
     const items = data?.data?.map((item) => ({
       ...item?.ingredient,
       name: item?.ingredient?.name?.ar,
+      stock: item?.quantity,
     }));
     return items;
   }, [data]);
@@ -43,22 +44,22 @@ const DataLowestModal = ({ open, setOpen }) => {
               title: 'الاسم',
               dataIndex: 'name',
             },
-            {
-              title: 'التكلفة',
-              dataIndex: 'cost',
-            },
-            {
-              title: 'السعر',
-              dataIndex: 'price',
-            },
+            // {
+            //   title: 'التكلفة',
+            //   dataIndex: 'cost',
+            // },
+            // {
+            //   title: 'السعر',
+            //   dataIndex: 'price',
+            // },
             {
               title: 'الكمية',
               dataIndex: 'stock',
             },
-            {
-              title: 'اخر سعر للبيع',
-              dataIndex: 'last_selling_price',
-            },
+            // {
+            //   title: 'اخر سعر للبيع',
+            //   dataIndex: 'last_selling_price',
+            // },
           ]}
           dataSource={dataFormated}
         ></Table>
