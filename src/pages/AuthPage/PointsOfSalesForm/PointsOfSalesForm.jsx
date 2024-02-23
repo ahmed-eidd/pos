@@ -1,6 +1,6 @@
 import { Col, message, Radio, Row } from 'antd';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/Button/Button';
 import RadioButton from '../../../components/RadioButton/RadioButton';
@@ -11,20 +11,21 @@ import {
 } from '../../../hooks/query/useGetPointsOfSales';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { locale } from '../../../locale';
-import { setPosId, setSheet } from '../../../store/authSlice';
+import { loginTypeEnum, setPosId, setSheet } from '../../../store/authSlice';
 import classes from './PointsOfSalesForm.module.scss';
 
 const PointsOfSalesForm = ({ onClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [posValue, setPosValue] = useState(null);
+  const currentLoginType = useSelector((state) => state?.auth?.loginType);
   const authLocale = locale.authPage;
   const [currentLang] = useCurrentLang();
   const checkPointOfSale = useCheckPointOfSales();
   const { data } = useGetPointsOfSales();
   console.log('PointsOfSalesForm  data', data);
-  const setAuthPosId = id => dispatch(setPosId(id));
-  const setAuthSheet = sheet => dispatch(setSheet(sheet));
+  const setAuthPosId = (id) => dispatch(setPosId(id));
+  const setAuthSheet = (sheet) => dispatch(setSheet(sheet));
 
   const onSubmitHandler = () => {
     if (!posValue) {
@@ -32,13 +33,13 @@ const PointsOfSalesForm = ({ onClick }) => {
       return;
     }
     checkPointOfSale.mutate(posValue, {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         // console.log('onSubmitHandler  newData:>>>>>>', newData);
         const shiftId = newData.data.item.shift_id;
         const startSheet = newData.data.item.start_sheet;
         setPointOfSale(posValue);
         setAuthPosId(posValue);
-        if (startSheet === 1) {
+        if (startSheet === 1 || currentLoginType === loginTypeEnum.waiter) {
           onClick();
           return;
         }
@@ -54,13 +55,13 @@ const PointsOfSalesForm = ({ onClick }) => {
         <Radio.Group
           name="pointsOfSale"
           value={posValue}
-          onChange={e => {
+          onChange={(e) => {
             setPosValue(e.target.value);
           }}
           className={classes.PointsOfSalesForm__Form__Radios}
         >
           <Row gutter={[10, 10]}>
-            {data?.data?.data?.pointOfSales.map(point => (
+            {data?.data?.data?.pointOfSales.map((point) => (
               <Col key={point.id} span={12}>
                 <RadioButton
                   value={point.id}

@@ -22,11 +22,11 @@ import {
 // * add validation for res.data.validation in all auth
 export const useLogin = () => {
   const dispatch = useDispatch();
-  const setAuthToken = token => dispatch(setToken(token));
+  const setAuthToken = (token) => dispatch(setToken(token));
   const { mutate, isLoading, isError } = useMutation(
-    body => axiosInstance().post('/adminLogin', body),
+    (body) => axiosInstance().post('/adminLogin', body),
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         // console.log('useLogin  newData:', newData);
         if (newData.data.validation.length > 0) {
           message.error(newData.data.validation[0]);
@@ -37,8 +37,8 @@ export const useLogin = () => {
         dispatch(setCurrentUser(newData.data?.data?.organization_admin));
         dispatch(
           setOrganizationId(
-            newData.data?.data?.organization_admin?.organization_id
-          )
+            newData.data?.data?.organization_admin?.organization_id,
+          ),
         );
 
         localStorage.setItem('user', JSON.stringify(newData?.data.data));
@@ -46,11 +46,11 @@ export const useLogin = () => {
         localStorage.setItem(
           'organizationId',
           JSON.stringify(
-            newData.data?.data?.organization_admin?.organization_id
-          )
+            newData.data?.data?.organization_admin?.organization_id,
+          ),
         );
       },
-    }
+    },
   );
 
   return { mutate, isLoading, isError };
@@ -58,12 +58,12 @@ export const useLogin = () => {
 
 export const useLogOut = () => {
   const dispatch = useDispatch();
-  const setAuthToken = token => dispatch(setToken(token));
-  const setAuthPosId = id => dispatch(setPosId(id));
-  const setAuthSheet = sheet => dispatch(setSheet(sheet));
-  const setCartSavedOrder = payload =>
+  const setAuthToken = (token) => dispatch(setToken(token));
+  const setAuthPosId = (id) => dispatch(setPosId(id));
+  const setAuthSheet = (sheet) => dispatch(setSheet(sheet));
+  const setCartSavedOrder = (payload) =>
     dispatch(setCartToShowSavedOrder(payload));
-  const setCurrentSavedOrderId = id =>
+  const setCurrentSavedOrderId = (id) =>
     dispatch(setCurrentSavedOrderIdAction(id));
   const { mutate, isLoading, isError } = useMutation(
     () => axiosInstance().get('/logout'),
@@ -81,7 +81,7 @@ export const useLogOut = () => {
         // dispatch(setOrganizationId(null));
         dispatch(setCurrentUser(null));
       },
-    }
+    },
   );
   return { mutate, isLoading, isError };
 };

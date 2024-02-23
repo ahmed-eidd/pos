@@ -1,5 +1,6 @@
 import { Input } from 'antd';
 import clx from 'classnames';
+
 import classes from './InputField.module.scss';
 
 const InputField = ({
@@ -21,7 +22,6 @@ const InputField = ({
       style={style}
       placeholder={placeholder}
       onChange={onChange}
-      
     />
   );
 };

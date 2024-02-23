@@ -8,9 +8,10 @@ import userIcon from '../../../assets/profile/user.png';
 // import archiveIcon from '../../../assets/profile/archive.png';
 import classes from './ProfileDetails.module.scss';
 import { useSelector } from 'react-redux';
+import { Popconfirm } from 'antd';
 
 const ProfileDetails = ({ onClick }) => {
-  const currentUser = useSelector(s => s.auth?.currentUser);
+  const currentUser = useSelector((s) => s.auth?.currentUser);
   return (
     <div className={classes.ProfileDetails}>
       <Text className={classes.ProfileDetails__Title}>بيانات أمين الصندوق</Text>
@@ -18,9 +19,9 @@ const ProfileDetails = ({ onClick }) => {
         <img
           className={classes.ProfileDetails__Wrapper__Icon}
           src={userIcon}
-          alt="user"
+          alt='user'
         />
-        <Text className={classes.ProfileDetails__Wrapper__Label} color="grey">
+        <Text className={classes.ProfileDetails__Wrapper__Label} color='grey'>
           اسم أمين الصندوق:
         </Text>
         <Text className={classes.ProfileDetails__Wrapper__Text}>
@@ -63,9 +64,18 @@ const ProfileDetails = ({ onClick }) => {
         <Text color='grey'>اسم أمين الصندوق:</Text>
         <Text>محمود سيف</Text>
       </div> */}
-      <Button onClick={onClick} type="danger" fullwidth>
-        تسجيل الخروج
-      </Button>
+      <Popconfirm
+        title='سيتم الغاء الشيفت في حالة الاستمرار'
+        description=''
+        onConfirm={onClick}
+        onCancel={() => {}}
+        okText='نعم'
+        cancelText='لا'
+      >
+        <Button type='danger' fullwidth>
+          تسجيل الخروج
+        </Button>
+      </Popconfirm>
     </div>
   );
 };

@@ -17,12 +17,16 @@ import ShowSheetReportStep from './ShowSheetReportStep/ShowSheetReportStep';
 const ProfileModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isOpen = useSelector(state => state.profileModal.open);
-  const currentStep = useSelector(state => state.profileModal.step);
+  const isOpen = useSelector((state) => state.profileModal.open);
+  const currentStep = useSelector((state) => state.profileModal.step);
   const setClose = () => {
+    if (ProfileModalStates.SHOW_SHEET_REPORT === currentStep) {
+      logOut();
+      navigate('/login');
+    }
     dispatch(setProfileModalClose());
   };
-  const setStepHandler = step => dispatch(setStep(step));
+  const setStepHandler = (step) => dispatch(setStep(step));
   const { mutate: logOut, isLoading } = useLogOut(() => {});
   return (
     <Modal visible={isOpen} footer={null} onCancel={setClose}>
@@ -53,7 +57,7 @@ const ProfileModal = () => {
       )}
       {currentStep === ProfileModalStates.SHOW_SHEET_REPORT && (
         <ShowSheetReportStep
-          onClose={setClose}
+          onClose={() => setStepHandler(ProfileModalStates.LOGOUT)}
           onClick={() => setStepHandler(ProfileModalStates.LOGOUT)}
           loading={isLoading}
         />

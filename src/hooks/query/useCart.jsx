@@ -6,12 +6,12 @@ import { axiosInstance } from '../../service/api';
 import { setCart } from '../../store/cartSlice';
 
 export const useAddToCart = () => {
-  const posId = useSelector(state => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   // console.log('useAddToCart  posId', posId);
-  const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
+  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
   const queryClient = useQueryClient();
   return useMutation(
-    data => {
+    (data) => {
       const body = new FormData();
       body.append('Id', data?.id);
       body.append('type', data?.type);
@@ -25,7 +25,7 @@ export const useAddToCart = () => {
       return axiosInstance().post('/addToCart', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         console.log('useAddToCart  newData', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
@@ -41,12 +41,12 @@ export const useAddToCart = () => {
         // queryClient.invalidateQueries([queryKeys.getCart]);
         queryClient.invalidateQueries([queryKeys.getProducts]);
       },
-    }
+    },
   );
 };
 
-export const useGetCart = selectPrice => {
-  const posId = useSelector(state => state.auth.posId);
+export const useGetCart = (selectPrice) => {
+  const posId = useSelector((state) => state.auth.posId);
   const dispatch = useDispatch();
   return useQuery(
     [queryKeys.getCart],
@@ -60,18 +60,18 @@ export const useGetCart = selectPrice => {
       return res;
     },
     {
-      select: res => {
+      select: (res) => {
         // console.log('useGetCart  res', res);
         const cart = res.data?.data?.cart;
         dispatch(setCart(cart));
         return cart;
       },
-    }
+    },
   );
 };
 
 export const useChangeQuantity = () => {
-  const posId = useSelector(state => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     ({ itemId, qty }) => {
@@ -84,7 +84,7 @@ export const useChangeQuantity = () => {
       return axiosInstance().post('/updateQuantity', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         // console.log('useIncreaseQuantity  newData', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
@@ -95,22 +95,22 @@ export const useChangeQuantity = () => {
 
         // queryClient.invalidateQueries([queryKeys.getCart]);
       },
-    }
+    },
   );
 };
 
 export const useIncreaseQuantity = () => {
-  const posId = useSelector(state => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
-    itemId => {
+    (itemId) => {
       const body = new FormData();
       body.append('itemId', itemId);
       body.append('point_of_sale_id', posId);
       return axiosInstance().post('/increaseQuantity', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         // console.log('useIncreaseQuantity  newData', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
@@ -121,22 +121,22 @@ export const useIncreaseQuantity = () => {
 
         // queryClient.invalidateQueries([queryKeys.getCart]);
       },
-    }
+    },
   );
 };
 
 export const useDecreaseQuantity = () => {
-  const posId = useSelector(state => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
-    itemId => {
+    (itemId) => {
       const body = new FormData();
       body.append('itemId', itemId);
       body.append('point_of_sale_id', posId);
       return axiosInstance().post('/decreaseQuantity', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -146,12 +146,12 @@ export const useDecreaseQuantity = () => {
 
         // queryClient.invalidateQueries([queryKeys.getCart]);
       },
-    }
+    },
   );
 };
 
 export const useRemoveAllCartItems = () => {
-  const posId = useSelector(state => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     () => {
@@ -160,7 +160,7 @@ export const useRemoveAllCartItems = () => {
       return axiosInstance().post('/deleteAllCart', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -171,22 +171,22 @@ export const useRemoveAllCartItems = () => {
         // queryClient.invalidateQueries([queryKeys.getCart]);
         queryClient.invalidateQueries([queryKeys.getProducts]);
       },
-    }
+    },
   );
 };
 
 export const useRemoveCartItem = () => {
-  const posId = useSelector(state => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
-    itemId => {
+    (itemId) => {
       const body = new FormData();
       body.append('itemId', itemId);
       body.append('point_of_sale_id', posId);
       return axiosInstance().post('/removeItem', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         const error = newData?.data?.validation;
         if (error?.length > 0) {
           message.error(error[0]);
@@ -196,11 +196,11 @@ export const useRemoveCartItem = () => {
 
         // queryClient.invalidateQueries([queryKeys.getCart]);
       },
-    }
+    },
   );
 };
 export const useRemoveSavedItem = () => {
-  const posId = useSelector(state => state.auth.posId);
+  const posId = useSelector((state) => state.auth.posId);
   const queryClient = useQueryClient();
   return useMutation(
     ({ itemId, password }) => {
@@ -213,7 +213,7 @@ export const useRemoveSavedItem = () => {
       return axiosInstance().post('/removeItemFromOrder', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         console.log('useRemoveSavedItem  newData:', newData);
         const error = newData?.data?.validation;
         if (error?.length > 0) {
@@ -223,6 +223,31 @@ export const useRemoveSavedItem = () => {
         // queryClient.setQueryData([queryKeys.getCart], newData);
         queryClient.invalidateQueries([queryKeys?.getSavedOrder]);
       },
-    }
+    },
+  );
+};
+
+export const useTransferItem = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    ({ orderItemId, toOrderId }) => {
+      // return;
+      const body = new FormData();
+      body.append('orderItemId', orderItemId);
+      body.append('to_order_id', toOrderId);
+      return axiosInstance().post('/transferItem', body);
+    },
+    {
+      onSuccess: (newData) => {
+        const error = newData?.data?.validation;
+        if (error?.length > 0) {
+          message.error(error[0]);
+          return;
+        }
+        // queryClient.setQueryData([queryKeys.getCart], newData);
+        queryClient.invalidateQueries([queryKeys?.getSavedOrder]);
+        queryClient.invalidateQueries([queryKeys?.getCart]);
+      },
+    },
   );
 };

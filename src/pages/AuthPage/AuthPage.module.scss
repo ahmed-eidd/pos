@@ -1,5 +1,11 @@
 @import '../../styles/abstract/variables';
 
+.Login__Type {
+  display: flex;
+  gap: .5rem;
+  padding-bottom: 1rem;
+}
+
 .AuthPage {
   display: flex;
   align-items: center;

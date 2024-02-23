@@ -7,16 +7,25 @@ import CreditForm from './CreditForm/CreditForm';
 import FormLayout from './FormLayout/FormLayout';
 import LoginForm from './LoginForm/LoginForm';
 import PointsOfSalesForm from './PointsOfSalesForm/PointsOfSalesForm';
+import { Radio } from 'antd';
+import RadioButton from '../../components/RadioButton/RadioButton';
+import classes from './AuthPage.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginTypeEnum, setLoginType } from '../../store/authSlice';
+import WaiterShiftForm from './WaiterShiftForm/WaiterShiftForm';
 
 const STEPS = {
   LOGIN_STEP: 'LOGIN_STEP',
   CHECKPOINTS_STEP: 'CHECKPOINTS_STEP',
+  WAITER_SHIFT_STEP: 'WAITER_SHIFT_STEP',
   ADD_OPENING_AMOUNT_STEP: 'ADD_OPENING_AMOUNT_STEP',
 };
 
 const AuthPage = () => {
+  const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
   const [currentForm, setCurrentForm] = useState(STEPS.LOGIN_STEP);
+  const currentLoginType = useSelector((state) => state.auth.loginType);
   // console.log('AuthPage  currentForm', currentForm);
   const [currentTitles, setCurrentTitles] = useState({
     mainTitle: locale.authPage.welcome[currentLang],
@@ -38,13 +47,26 @@ const AuthPage = () => {
           secondTitle: locale.authPage.loginTitle[currentLang],
         });
         return (
-          <LoginForm
-            onSuccess={data => {
-              // console.log('LoginForm  data:', data);
+          <>
+            <Radio.Group
+              buttonStyle="solid"
+              className={classes.Login__Type}
+              value={currentLoginType}
+              onChange={(e) => {
+                dispatch(setLoginType(e.target.value));
+              }}
+            >
+              <RadioButton label={'Cashier'} value={loginTypeEnum.cashier} />
+              <RadioButton label={'Waiter'} value={loginTypeEnum.waiter} />
+            </Radio.Group>
+            <LoginForm
+              onSuccess={(data) => {
+                // console.log('LoginForm  data:', data);
 
-              setCurrentForm(STEPS.CHECKPOINTS_STEP);
-            }}
-          />
+                setCurrentForm(STEPS.CHECKPOINTS_STEP);
+              }}
+            />
+          </>
         );
       }
       case STEPS.CHECKPOINTS_STEP: {
@@ -54,7 +76,18 @@ const AuthPage = () => {
         });
         return (
           <PointsOfSalesForm
-            onClick={() => setCurrentForm(STEPS.ADD_OPENING_AMOUNT_STEP)}
+            onClick={() => {
+              switch (currentLoginType) {
+                case loginTypeEnum.cashier:
+                  setCurrentForm(STEPS.ADD_OPENING_AMOUNT_STEP);
+                  return;
+                case loginTypeEnum.waiter:
+                  setCurrentForm(STEPS.WAITER_SHIFT_STEP);
+                  return;
+                default:
+                  break;
+              }
+            }}
           />
         );
       }
@@ -65,10 +98,17 @@ const AuthPage = () => {
         });
         return <CreditForm onClick={() => setCurrentForm(3)} />;
       }
+      case STEPS.WAITER_SHIFT_STEP: {
+        setCurrentTitles({
+          mainTitle: 'Test',
+          secondTitle: 'Test',
+        });
+        return <WaiterShiftForm />;
+      }
       default:
         return null;
     }
-  }, [currentForm, currentLang]);
+  }, [currentForm, currentLang, currentLoginType, dispatch]);
   return <FormLayout {...currentTitles}>{renderForm}</FormLayout>;
 };
 

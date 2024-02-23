@@ -27,6 +27,7 @@ const Checkout = () => {
   const [paymentType, setPaymentType] = useState(PAYMENT_TYPE.cash);
   const { saveOrder, saveOrderLod } = useSaveOrder();
 
+  console.log(paymentType, 'paymentType');
   const { data: cart } = useCurrentCartItems();
 
   const onChangeOrderType = ({ target: { value: val } }) => {
@@ -49,7 +50,7 @@ const Checkout = () => {
     <div className={CheckoutStyles}>
       <Row gutter={20}>
         <Col span={15}>
-          <div className="col-start">
+          <div className='col-start'>
             {!checkoutOrder && (
               <OrderType value={orderType} onChange={onChangeOrderType} />
             )}
@@ -77,8 +78,8 @@ const Checkout = () => {
                   }}
                 >
                   <Button
-                    type="primary"
-                    size="large"
+                    type='primary'
+                    size='large'
                     style={{ minHeight: 50, minWidth: 150 }}
                     block
                     danger
@@ -87,8 +88,8 @@ const Checkout = () => {
                     رجوع
                   </Button>
                   <Button
-                    type="primary"
-                    size="large"
+                    type='primary'
+                    size='large'
                     style={{ minHeight: 50, minWidth: 150 }}
                     block
                     loading={saveOrderLod}
@@ -102,7 +103,7 @@ const Checkout = () => {
           </div>
         </Col>
         <Col span={9}>
-          <div className="col-end">
+          <div className='col-end'>
             <CheckoutItems />
             <CheckoutTotal total={cart?.total} />
           </div>

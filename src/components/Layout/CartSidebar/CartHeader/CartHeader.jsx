@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { axiosInstance } from '../../../../service/api';
 import { currencyFormat } from '../../../../services/utils';
 import DataLowestModal from './DataLowestModal';
+import BalanceModal from './BalanceModal';
 
 const CartHeader = () => {
   const [currentLang] = useCurrentLang();
@@ -22,26 +23,7 @@ const CartHeader = () => {
   const { isFetching: isCurrentCartFetching } = useCurrentCartItems();
   const cartLocale = locale.sidebar.cart;
   const { mutate: removeAllItems, isLoading } = useRemoveAllCartItems();
-  const [currentBalance, setCurrentBalance] = useState(null);
-  const [getBalanceLod, setGetBalanceLod] = useState(false);
-
-  const handelShowCurrentBalance = async () => {
-    const body = new FormData();
-    body.append('point_of_sale_order_sheet_id', sheet);
-    setGetBalanceLod(true);
-    try {
-      const { data } = await axiosInstance().post('/checkLockerBalance', body);
-      if (data?.code === 200) {
-        setCurrentBalance(data?.data?.amount || '0');
-        setTimeout(() => {
-          setCurrentBalance(null);
-        }, 1000 * 10);
-      }
-    } catch (error) {
-      console.log('handelShowCurrentBalance  error:', error);
-    }
-    setGetBalanceLod(false);
-  };
+  const [balanceModalOpen, setBalanceModalOpen] = useState(false);
 
   const handleShowProductData = () => {
     setProductDataModal(true);
@@ -49,6 +31,7 @@ const CartHeader = () => {
 
   return (
     <div className={classes.CartHeader}>
+      <BalanceModal open={balanceModalOpen} setOpen={setBalanceModalOpen} />
       <DataLowestModal open={productDataModal} setOpen={setProductDataModal} />
       {showSavedOrder ? (
         <p style={{ whiteSpace: 'nowrap', color: 'red', fontWeight: 600 }}>
@@ -80,31 +63,18 @@ const CartHeader = () => {
       </Flex>
       <Space direction='vertical'>
         <ButtonAnt
-          onClick={handelShowCurrentBalance}
-          loading={getBalanceLod}
           size='large'
-          disabled={!!currentBalance}
-          style={
-            !!currentBalance
-              ? { color: '#fff', backgroundColor: '#12b76a' }
-              : undefined
-          }
+          onClick={() => setBalanceModalOpen(true)}
           type='primary'
         >
-          {!!currentBalance
-            ? `جم ${currencyFormat(currentBalance)}`
-            : ' الرصيد الحالي'}
+          الرصيد الحالي
         </ButtonAnt>
         <ButtonAnt
           onClick={handleShowProductData}
-          loading={getBalanceLod}
+          // loading={getBalanceLod}
           size='large'
           // disabled={!!currentBalance}
-          style={
-            !!currentBalance
-              ? { color: '#fff', backgroundColor: '#12b76a' }
-              : undefined
-          }
+          style={{ color: '#fff', backgroundColor: '#12b76a' }}
           type='primary'
         >
           قائمة المنتجات

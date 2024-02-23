@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './CartItems.module.scss';
 import classNames from 'classnames';
 import ItemAccordion from '../../../ItemAccordion/ItemAccordion';
@@ -10,10 +10,12 @@ import {
   useIncreaseQuantity,
   useRemoveCartItem,
   useRemoveSavedItem,
+  useTransferItem,
 } from '../../../../hooks/query/useCart';
 // import { useCurrentCartItems } from '../../../../hooks/useCurrentCartItems';
 import { useSelector } from 'react-redux';
 import { useGetSavedOrder } from '../../../../hooks/query/useOrders';
+import ModalSelectTable from '../../../ModalSelectTable';
 
 const CartItems = ({ className, readOnlyData, isFetching }) => {
   const removeItem = useRemoveCartItem();
@@ -21,9 +23,15 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
   const increaseQuantity = useIncreaseQuantity();
   const decreaseQuantity = useDecreaseQuantity();
   const changeQuantity = useChangeQuantity();
+  const transferItem = useTransferItem();
 
+  // state
+  const [selectedTableOpen, setSelectTableOpen] = useState(false);
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  console.log({ selectedTable, selectedTableOpen, selectedItem });
   // const { data, isLoading: cartIsLoading } = useCurrentCartItems();
-  const showSavedOrder = useSelector(state => state.cart.showSavedOrder);
+  const showSavedOrder = useSelector((state) => state.cart.showSavedOrder);
 
   const { data: cartItems, isLoading: cartItemsLod } = useGetCart();
   // console.log('CartItems  cartItems:', cartItems);
@@ -36,6 +44,19 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
         // [classes.center]: cartItems?.items?.length === 0 || !cartItems,
       })}
     >
+      <ModalSelectTable
+        open={selectedTableOpen}
+        onCancel={() => setSelectTableOpen(false)}
+        onSumbit={() => {
+          console.log('here');
+          transferItem.mutate({
+            orderItemId: selectedItem,
+            toOrderId: selectedTable?.tableId,
+          });
+        }}
+        setSelectedTable={setSelectedTable}
+        selectedTable={selectedTable}
+      />
       {showSavedOrder ? (
         <ItemAccordion
           // readOnly
@@ -59,12 +80,16 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
       ) : (
         <ItemAccordion
           loading={cartItemsLod || isFetching}
-          onIncrement={data => increaseQuantity.mutate(data)}
-          onDecrement={data => decreaseQuantity.mutate(data)}
+          onIncrement={(data) => increaseQuantity.mutate(data)}
+          onDecrement={(data) => decreaseQuantity.mutate(data)}
           onChangeCount={(itemId, qty) =>
             changeQuantity.mutate({ itemId, qty })
           }
-          onDelete={data => removeItem.mutate(data)}
+          onSwap={(itemId) => {
+            setSelectTableOpen(true);
+            setSelectedItem(itemId);
+          }}
+          onDelete={(data) => removeItem.mutate(data)}
           items={cartItems?.items}
           actionsLoading={{
             remove: removeItem.isLoading,

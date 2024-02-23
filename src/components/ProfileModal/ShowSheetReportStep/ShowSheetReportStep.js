@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { Button, Descriptions, Space, Spin } from 'antd';
+import { Button, Col, Descriptions, Row, Space, Spin } from 'antd';
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import useSheetReport from '../../../api-hooks/useSheetReport';
@@ -113,18 +113,26 @@ function ShowSheetReportStep({ onClick }) {
               ?.filter((cat) => cat?.items?.length)
               ?.map((cat, i) => (
                 <div key={cat?.name + i} className='even-color'>
-                  <Space size='large'>
-                    <h4>{cat?.name}</h4>
+                  <Row gutter={[4, 4]}>
+                    <Col span={12}>
+                      <h4>{cat?.name}</h4>
+                    </Col>
                     <h4>الاجمالي: {currencyFormat(cat?.total)}</h4>
-                  </Space>
+                  </Row>
                   <ul style={{ fontSize: 12 }}>
                     {cat?.items?.map((item, i) => (
                       <li key={item?.name + i}>
-                        <Space size='large'>
-                          <span>{item?.name}</span>
-                          <span>×{item?.quantity}</span>
-                          <span>{currencyFormat(item?.amount)}</span>
-                        </Space>
+                        <Row gutter={[4, 4]}>
+                          <Col span={12}>
+                            <span>{item?.name}</span>
+                          </Col>
+                          <Col span={6}>
+                            <span>×{item?.quantity}</span>
+                          </Col>
+                          <Col span={6}>
+                            <span>{currencyFormat(item?.amount)}</span>
+                          </Col>
+                        </Row>
                       </li>
                     ))}
                   </ul>

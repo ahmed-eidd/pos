@@ -11,12 +11,12 @@ const LoginForm = ({ onClick, onSuccess }) => {
   const { mutate, isLoading } = useLogin();
   return (
     <Form
-      onFinish={values => {
+      onFinish={(values) => {
         const body = new FormData();
         body.append('name', values.email);
         body.append('password', values.password);
         mutate(body, {
-          onSuccess: newData => {
+          onSuccess: (newData) => {
             if (newData.data.validation.length > 0) return;
             onSuccess();
           },

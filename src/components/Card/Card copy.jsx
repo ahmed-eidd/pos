@@ -1,8 +1,8 @@
-import React from 'react';
-import { useCurrentLang } from '../../hooks/useCurrentLang';
-import { locale } from '../../locale';
-import { currencyFormat } from '../../services/utils';
-import classes from './Card.module.scss';
+import React from "react";
+import { useCurrentLang } from "../../hooks/useCurrentLang";
+import { locale } from "../../locale";
+import { currencyFormat } from "../../services/utils";
+import classes from "./Card.module.scss";
 
 const Card = ({ img, name, id, price, onClick, isLoading }) => {
   const [currentLang] = useCurrentLang();
@@ -33,7 +33,7 @@ const Card = ({ img, name, id, price, onClick, isLoading }) => {
             <span className={classes.Card__Price__clr}>
               {currencyFormat(price)}
             </span>
-            {` ${locale.global.currencyWithEgyptian[currentLang]}`}{' '}
+            {` ${locale.global.currencyWithEgyptian[currentLang]}`}{" "}
           </p>
         </div>
       ) : (

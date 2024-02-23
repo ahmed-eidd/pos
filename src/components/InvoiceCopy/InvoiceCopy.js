@@ -107,6 +107,9 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
               <Col>
                 <div>Pos Serials number: {invoice?.pos_serial || '-'}</div>
               </Col>
+              <Col>
+                <div>Serials number: {invoice?.multi_serials || '-'}</div>
+              </Col>
             </Row>
           </Col>
           {/* <Col span={24}>
@@ -175,6 +178,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                       >
                         {`${el?.productName}`}
                       </Col>
+
                       <Col
                         span={6}
                         style={{

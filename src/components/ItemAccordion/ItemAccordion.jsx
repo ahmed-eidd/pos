@@ -10,6 +10,7 @@ import { useCurrentLang } from '../../hooks/useCurrentLang';
 import Spinner from '../Spinner/Spinner';
 import { currencyFormat } from '../../services/utils';
 import { useRemoveSavedItem } from '../../hooks/query/useCart';
+import { SwapOutlined } from '@ant-design/icons';
 
 const { Panel } = Collapse;
 
@@ -39,12 +40,13 @@ const ItemAccordion = ({
   loading,
   actionsLoading,
   readOnly,
+  onSwap,
   savedOrder,
 }) => {
   const [currentLang] = useCurrentLang();
   const [password, setPassword] = useState('');
 
-  const handleDelteSavedItem = itemId => {
+  const handleDelteSavedItem = (itemId) => {
     console.log('password:', password);
     if (!password) return message.warning('الرجاء إدخال كلمة مرور');
     console.log('handleDelteSavedItem  itemId, password:', itemId, password);
@@ -85,7 +87,7 @@ const ItemAccordion = ({
           bordered={false}
           className={classes.ItemAccordion}
         >
-          {items.map(item => {
+          {items.map((item) => {
             return (
               <Panel
                 key={item?.id}
@@ -106,7 +108,9 @@ const ItemAccordion = ({
                       <CounterBtns
                         onIncrement={() => onIncrement(item?.id)}
                         onDecrement={() => onDecrement(item?.id)}
-                        onChangeCount={count => onChangeCount(item?.id, count)}
+                        onChangeCount={(count) =>
+                          onChangeCount(item?.id, count)
+                        }
                         count={+item.quantity}
                         disableDecBtn={+item.quantity < 2}
                         actionsLoading={actionsLoading}
@@ -118,10 +122,16 @@ const ItemAccordion = ({
                       }
                     >
                       {`${item.quantity}x${currencyFormat(
-                        item?.price * item.quantity
+                        item?.price * item.quantity,
                       )}EGP`}
                     </p>
                   </div>
+
+                  <Button
+                    type="link"
+                    icon={<SwapOutlined />}
+                    onClick={() => onSwap(item?.id)}
+                  />
                   {!!item?.is_saved ? (
                     <Popconfirm
                       placement="left"
