@@ -1,8 +1,15 @@
 import { css, cx } from '@emotion/css';
 import { Skeleton } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import usePlacesList from '../../api-hooks/usePlacesList';
+import { setCurrentSavedOrderTableNumber } from '../../store/cartSlice';
 
-function SelectTable({ selectedTable, setSelectedTable, onHold }) {
+function SelectTable({
+  selectedTable,
+  setSelectedTable,
+  onHold,
+  onlySelectedTableMode,
+}) {
   const SelectTableStyles = css`
     margin: 20px 0;
     padding: 10px 20px;
@@ -65,46 +72,100 @@ function SelectTable({ selectedTable, setSelectedTable, onHold }) {
       }
     }
   `;
-  const { placesList, placesListLod } = usePlacesList();
+  const { placesList, placesListLoading } = usePlacesList();
 
-  const handleSelectTable = (placeId, tableId) => {
+  const currentTableNumber = useSelector(
+    (state) => state?.cart?.currentSavedOrderTableNumber,
+  );
+  const dispatch = useDispatch();
+  const handleSelectTable = (placeId, tableId, tableNumber, orderId) => {
     const table = {
       tableId,
       placeId,
+      ...(orderId ? { orderId } : {}),
     };
     setSelectedTable(table);
+    if (!isNaN(tableNumber) && !onlySelectedTableMode) {
+      dispatch(setCurrentSavedOrderTableNumber(tableNumber));
+    }
   };
 
   return (
     <div className={SelectTableStyles}>
       <h2 className="title">:اختر الطاوله</h2>
       <div className="content-wrapper">
-        {placesListLod ? (
+        {placesListLoading ? (
           <div style={{ display: 'flex', gap: 5 }}>
             <Skeleton.Input active size="large" />
             <Skeleton.Button active size="large" />
             <Skeleton.Button active size="large" />
           </div>
-        ) : (
-          placesList?.map(place => (
+        ) : onlySelectedTableMode ? (
+          placesList?.map((place) => (
             <div key={place?.id} className="place-wrapper">
               <h4 className="lable">{place?.name}</h4>
               <div className="tables-wrapper">
-                {place?.tables?.map(table => (
+                {place?.tables
+                  ?.filter(
+                    (tb) =>
+                      !tb?.isEmpty && +tb?.table_number !== +currentTableNumber,
+                  )
+                  ?.map((table) => (
+                    <div
+                      key={table?.id}
+                      className={cx('table', {
+                        empty: true,
+                        clickable: true,
+                        selected: selectedTable?.tableId === table?.id,
+                      })}
+                      onClick={() => {
+                        console.log({ table });
+                        handleSelectTable(
+                          place?.id,
+                          table?.id,
+                          null,
+                          table?.order_id,
+                        );
+                      }}
+                    >
+                      {table?.table_number}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          ))
+        ) : (
+          placesList?.map((place) => (
+            <div key={place?.id} className="place-wrapper">
+              <h4 className="lable">{place?.name}</h4>
+              <div className="tables-wrapper">
+                {place?.tables?.map((table) => (
                   <div
                     key={table?.id}
                     className={cx('table', {
                       empty: table?.isEmpty,
                       clickable: onHold ? !table?.isEmpty : !!table?.isEmpty,
-                      selected: table?.isEmpty && selectedTable?.tableId === table?.id,
+                      selected:
+                        table?.isEmpty && selectedTable?.tableId === table?.id,
                     })}
                     onClick={() => {
                       if (!onHold) {
-                        table?.isEmpty && handleSelectTable(place?.id, table?.id);
+                        table?.isEmpty &&
+                          handleSelectTable(
+                            place?.id,
+                            table?.id,
+                            table?.table_number,
+                          );
                       } else {
-                        !table?.isEmpty && handleSelectTable(place?.id, table?.id);
+                        !table?.isEmpty &&
+                          handleSelectTable(
+                            place?.id,
+                            table?.id,
+                            table?.table_number,
+                          );
                       }
-                    }}>
+                    }}
+                  >
                     {table?.table_number}
                   </div>
                 ))}

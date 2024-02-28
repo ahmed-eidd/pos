@@ -16,6 +16,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useGetSavedOrder } from '../../../../hooks/query/useOrders';
 import ModalSelectTable from '../../../ModalSelectTable';
+import { message } from 'antd';
 
 const CartItems = ({ className, readOnlyData, isFetching }) => {
   const removeItem = useRemoveCartItem();
@@ -45,14 +46,27 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
       })}
     >
       <ModalSelectTable
+        selectedTableProps={{
+          onlySelectedTableMode: true,
+        }}
         open={selectedTableOpen}
         onCancel={() => setSelectTableOpen(false)}
         onSumbit={() => {
           console.log('here');
-          transferItem.mutate({
-            orderItemId: selectedItem,
-            toOrderId: selectedTable?.tableId,
-          });
+          transferItem.mutate(
+            {
+              orderItemId: selectedItem,
+              toOrderId: selectedTable?.orderId,
+            },
+            {
+              onSuccess: (res) => {
+                if (res?.data?.validation?.length > 0) return;
+                console.log({ res });
+                message.success('تم نقل الطلب بنجاح');
+                setSelectTableOpen(false);
+              },
+            },
+          );
         }}
         setSelectedTable={setSelectedTable}
         selectedTable={selectedTable}
@@ -61,6 +75,10 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
         <ItemAccordion
           // readOnly
           savedOrder
+          onSwap={(itemId) => {
+            setSelectTableOpen(true);
+            setSelectedItem(itemId);
+          }}
           items={readOnlyData ? readOnlyData : savedOrderItems?.items}
           loading={savedOrderItemsLod}
           onDelete={(itemId, password) => {
@@ -85,10 +103,6 @@ const CartItems = ({ className, readOnlyData, isFetching }) => {
           onChangeCount={(itemId, qty) =>
             changeQuantity.mutate({ itemId, qty })
           }
-          onSwap={(itemId) => {
-            setSelectTableOpen(true);
-            setSelectedItem(itemId);
-          }}
           onDelete={(data) => removeItem.mutate(data)}
           items={cartItems?.items}
           actionsLoading={{

@@ -23,7 +23,7 @@ const Layout = ({
       <Sidebar style={sidebarStyle} />
       <AntLayout>
         {location.pathname.includes(
-          locale.sidebar.sidebar.menu.categories.link
+          locale.sidebar.sidebar.menu.categories.link,
         ) && <SearchBar />}
         <Content>
           <Outlet />

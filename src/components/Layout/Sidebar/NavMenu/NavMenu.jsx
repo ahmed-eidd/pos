@@ -11,7 +11,9 @@ import { locale } from '../../../../locale';
 import { scssVar } from '../../../../styles/scssVars';
 import classNames from 'classnames';
 import { setProfileModalOpen } from '../../../../store/profileModalSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginTypeEnum } from '../../../../store/authSlice';
+import { useCurrentLoginType } from '../../../../hooks/useCurrentLoginType';
 
 const MenuItem = ({ to, text, icon, onClick, isButton }) => {
   const [isActive, setIsActive] = useState(false);
@@ -42,7 +44,8 @@ const MenuItem = ({ to, text, icon, onClick, isButton }) => {
         className={classNames(classes.NavMenu__MenuItem, {
           [classes['MenuItemActive']]: isActive,
         })}
-        to={to}>
+        to={to}
+      >
         <RenderedIcon color={isActive ? scssVar.primaryColor : false} />
         <p className={classes.NavMenu__MenuItem__Text}>{text}</p>
       </Element>
@@ -51,16 +54,37 @@ const MenuItem = ({ to, text, icon, onClick, isButton }) => {
 };
 
 const NavMenu = () => {
+  const { isCashier } = useCurrentLoginType();
   const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
   const localeSidebar = locale.sidebar.sidebar.menu;
 
   return (
     <div className={classes.NavMenu}>
-      <MenuItem text={localeSidebar.categories[currentLang]} to={localeSidebar.categories.link} icon={MenuCubesIcon} />
-      <MenuItem text={localeSidebar.orders[currentLang]} to={localeSidebar.orders.link} icon={MenuCartIcon} />
-      <MenuItem text="الطلبات الملغاة" to="canceled-order" icon={MenuMoneyIcon} />
-      <MenuItem text={localeSidebar.hold[currentLang]} to={localeSidebar.hold.link} icon={MenuBoxIcon} />
+      <MenuItem
+        text={localeSidebar.categories[currentLang]}
+        to={localeSidebar.categories.link}
+        icon={MenuCubesIcon}
+      />
+      {isCashier && (
+        <>
+          <MenuItem
+            text={localeSidebar.orders[currentLang]}
+            to={localeSidebar.orders.link}
+            icon={MenuCartIcon}
+          />
+          <MenuItem
+            text="الطلبات الملغاة"
+            to="canceled-order"
+            icon={MenuMoneyIcon}
+          />
+        </>
+      )}
+      <MenuItem
+        text={localeSidebar.hold[currentLang]}
+        to={localeSidebar.hold.link}
+        icon={MenuBoxIcon}
+      />
       {/* <MenuItem
         text={localeSidebar.money[currentLang]}
         to={localeSidebar.money.link}

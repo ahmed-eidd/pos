@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { queryKeys } from '../../constants/queryKeys';
 import { setShiftId } from '../../helper/localStorage';
 import { axiosInstance } from '../../service/api';
-import { setSheet } from '../../store/authSlice';
+import { setIsLogin, setSheet } from '../../store/authSlice';
 
 export const useGetPointsOfSales = () => {
   return useQuery(
@@ -14,20 +14,20 @@ export const useGetPointsOfSales = () => {
     },
     {
       refetchOnWindowFocus: false,
-    }
+    },
   );
 };
 
 export const useCheckPointOfSales = () => {
-  return useMutation(id =>
-    axiosInstance().get(`/checkSheetPointOfSale?point_id=${id}`)
+  return useMutation((id) =>
+    axiosInstance().get(`/checkSheetPointOfSale?point_id=${id}`),
   );
 };
 
 export const useStartSheet = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const setAuthSheet = sheet => dispatch(setSheet(sheet));
+  const setAuthSheet = (sheet) => dispatch(setSheet(sheet));
   return useMutation(
     ({ id, startBalance }) => {
       // * add validation for res.data.validation in all auth
@@ -37,19 +37,20 @@ export const useStartSheet = () => {
       return axiosInstance().post('/startSheet', body);
     },
     {
-      onSuccess: newData => {
+      onSuccess: (newData) => {
         const id = newData.data.item.shift_id;
         setShiftId(id);
         setAuthSheet(id);
+        dispatch(setIsLogin(true));
         navigate('/categories');
       },
-    }
+    },
   );
 };
 
 export const useEndSheet = () => {
-  const shiftId = useSelector(state => state.auth.sheet);
-  return useMutation(endBalance => {
+  const shiftId = useSelector((state) => state.auth.sheet);
+  return useMutation((endBalance) => {
     const body = new FormData();
     body.append('shift', shiftId);
     body.append('endBalance', endBalance);

@@ -13,17 +13,19 @@ import { useLogOut } from '../../hooks/query/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ShowSheetReportStep from './ShowSheetReportStep/ShowSheetReportStep';
+import { useCurrentLoginType } from '../../hooks/useCurrentLoginType';
 
 const ProfileModal = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.profileModal.open);
   const currentStep = useSelector((state) => state.profileModal.step);
+  const { isCashier } = useCurrentLoginType();
+
   const setClose = () => {
-    if (ProfileModalStates.SHOW_SHEET_REPORT === currentStep) {
-      logOut();
-      navigate('/login');
-    }
+    if (ProfileModalStates.PROFILE === currentStep) return;
+    logOut();
+    navigate('/login');
     dispatch(setProfileModalClose());
   };
   const setStepHandler = (step) => dispatch(setStep(step));
@@ -32,9 +34,13 @@ const ProfileModal = () => {
     <Modal visible={isOpen} footer={null} onCancel={setClose}>
       {currentStep === ProfileModalStates.PROFILE && (
         <ProfileDetails
-          onClick={() =>
-            setStepHandler(ProfileModalStates.BEFORE_OPENING_BALANCE_STEP)
-          }
+          onClick={() => {
+            if (isCashier) {
+              setStepHandler(ProfileModalStates.BEFORE_OPENING_BALANCE_STEP);
+            } else {
+              setStepHandler(ProfileModalStates.LOGOUT);
+            }
+          }}
         />
       )}
       {currentStep === ProfileModalStates.BEFORE_OPENING_BALANCE_STEP && (

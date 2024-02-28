@@ -14,16 +14,23 @@ import { axiosInstance } from '../../../../service/api';
 import { currencyFormat } from '../../../../services/utils';
 import DataLowestModal from './DataLowestModal';
 import BalanceModal from './BalanceModal';
+import { loginTypeEnum } from '../../../../store/authSlice';
+import { useCurrentLoginType } from '../../../../hooks/useCurrentLoginType';
 
 const CartHeader = () => {
   const [currentLang] = useCurrentLang();
   const [productDataModal, setProductDataModal] = useState(false);
   const { sheet } = useSelector((s) => s.auth);
   const showSavedOrder = useSelector((s) => s?.cart?.showSavedOrder);
+  const currentTableNumber = useSelector(
+    (s) => s?.cart?.currentSavedOrderTableNumber,
+  );
   const { isFetching: isCurrentCartFetching } = useCurrentCartItems();
   const cartLocale = locale.sidebar.cart;
   const { mutate: removeAllItems, isLoading } = useRemoveAllCartItems();
   const [balanceModalOpen, setBalanceModalOpen] = useState(false);
+
+  const { isCashier } = useCurrentLoginType();
 
   const handleShowProductData = () => {
     setProductDataModal(true);
@@ -34,19 +41,25 @@ const CartHeader = () => {
       <BalanceModal open={balanceModalOpen} setOpen={setBalanceModalOpen} />
       <DataLowestModal open={productDataModal} setOpen={setProductDataModal} />
       {showSavedOrder ? (
-        <p style={{ whiteSpace: 'nowrap', color: 'red', fontWeight: 600 }}>
-          طلب جاري
-        </p>
+        <Flex direction="column" gap={'.5rem'}>
+          <p style={{ whiteSpace: 'nowrap', color: 'red', fontWeight: 600 }}>
+            طلب جاري
+          </p>
+          <p>
+            <span style={{ fontWeight: 600 }}>{currentTableNumber}</span> رقم
+            الطاولة
+          </p>
+        </Flex>
       ) : (
         <Popconfirm
-          title='هل انت متاكد من مسح كل المنتجات'
-          okText='نعم'
-          cancelText='لا'
+          title="هل انت متاكد من مسح كل المنتجات"
+          okText="نعم"
+          cancelText="لا"
           onConfirm={removeAllItems}
         >
           <Button
-            type='link'
-            icon={<img src={TrashPng} alt='delete' width={24} />}
+            type="link"
+            icon={<img src={TrashPng} alt="delete" width={24} />}
             isLoading={isLoading}
           />
         </Popconfirm>
@@ -61,25 +74,27 @@ const CartHeader = () => {
           {cartLocale.title[currentLang]}
         </h3>
       </Flex>
-      <Space direction='vertical'>
-        <ButtonAnt
-          size='large'
-          onClick={() => setBalanceModalOpen(true)}
-          type='primary'
-        >
-          الرصيد الحالي
-        </ButtonAnt>
-        <ButtonAnt
-          onClick={handleShowProductData}
-          // loading={getBalanceLod}
-          size='large'
-          // disabled={!!currentBalance}
-          style={{ color: '#fff', backgroundColor: '#12b76a' }}
-          type='primary'
-        >
-          قائمة المنتجات
-        </ButtonAnt>
-      </Space>
+      {isCashier && (
+        <Space direction="vertical">
+          <ButtonAnt
+            size="large"
+            onClick={() => setBalanceModalOpen(true)}
+            type="primary"
+          >
+            الرصيد الحالي
+          </ButtonAnt>
+          <ButtonAnt
+            onClick={handleShowProductData}
+            // loading={getBalanceLod}
+            size="large"
+            // disabled={!!currentBalance}
+            style={{ color: '#fff', backgroundColor: '#12b76a' }}
+            type="primary"
+          >
+            قائمة المنتجات
+          </ButtonAnt>
+        </Space>
+      )}
     </div>
   );
 };

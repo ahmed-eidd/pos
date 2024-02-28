@@ -9,6 +9,7 @@ import {
 import { axiosInstance } from '../../service/api';
 import {
   setCurrentUser,
+  setIsLogin,
   setOrganizationId,
   setPosId,
   setSheet,
@@ -18,10 +19,12 @@ import {
   setCartToShowSavedOrder,
   setCurrentSavedOrderIdAction,
 } from '../../store/cartSlice';
+import { useCurrentLoginType } from '../useCurrentLoginType';
 
 // * add validation for res.data.validation in all auth
 export const useLogin = () => {
   const dispatch = useDispatch();
+  const { isWaiter } = useCurrentLoginType();
   const setAuthToken = (token) => dispatch(setToken(token));
   const { mutate, isLoading, isError } = useMutation(
     (body) => axiosInstance().post('/adminLogin', body),
@@ -33,13 +36,13 @@ export const useLogin = () => {
           return;
         }
 
-        setAuthToken(newData?.data.message);
-        dispatch(setCurrentUser(newData.data?.data?.organization_admin));
         dispatch(
           setOrganizationId(
             newData.data?.data?.organization_admin?.organization_id,
           ),
         );
+        setAuthToken(newData?.data.message);
+        dispatch(setCurrentUser(newData.data?.data?.organization_admin));
 
         localStorage.setItem('user', JSON.stringify(newData?.data.data));
         localStorage.setItem('token', JSON.stringify(newData?.data.message));
@@ -76,10 +79,12 @@ export const useLogOut = () => {
         setAuthToken(null);
         setAuthPosId(null);
         setAuthSheet(null);
+
         setCartSavedOrder(false);
         setCurrentSavedOrderId(null);
         // dispatch(setOrganizationId(null));
         dispatch(setCurrentUser(null));
+        dispatch(setIsLogin(false));
       },
     },
   );

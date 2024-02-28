@@ -11,6 +11,7 @@ import Spinner from '../Spinner/Spinner';
 import { currencyFormat } from '../../services/utils';
 import { useRemoveSavedItem } from '../../hooks/query/useCart';
 import { SwapOutlined } from '@ant-design/icons';
+import { useCurrentLoginType } from '../../hooks/useCurrentLoginType';
 
 const { Panel } = Collapse;
 
@@ -46,14 +47,14 @@ const ItemAccordion = ({
   const [currentLang] = useCurrentLang();
   const [password, setPassword] = useState('');
 
+  const { isCashier } = useCurrentLoginType();
   const handleDelteSavedItem = (itemId) => {
-    console.log('password:', password);
     if (!password) return message.warning('الرجاء إدخال كلمة مرور');
-    console.log('handleDelteSavedItem  itemId, password:', itemId, password);
     onDelete(itemId, password);
     setPassword('');
   };
 
+  console.log({ items });
   if (loading) {
     return (
       <Spinner
@@ -127,38 +128,44 @@ const ItemAccordion = ({
                     </p>
                   </div>
 
-                  <Button
-                    type="link"
-                    icon={<SwapOutlined />}
-                    onClick={() => onSwap(item?.id)}
-                  />
+                  {onSwap !== undefined && (
+                    <Button
+                      type="link"
+                      icon={<SwapOutlined />}
+                      onClick={() => onSwap(item?.id)}
+                    />
+                  )}
                   {!!item?.is_saved ? (
-                    <Popconfirm
-                      placement="left"
-                      title={
-                        <div>
-                          <h4 style={{ marginBottom: 4 }}>حذف هذا العنصر؟</h4>
-                          <Input.Password
-                            value={password}
-                            onChange={({ target }) =>
-                              setPassword(target?.value)
-                            }
-                            placeholder="أدخل كلمة المرور"
-                          />
-                        </div>
-                      }
-                      okText="نعم"
-                      cancelText="لا"
-                      onConfirm={() => handleDelteSavedItem(item?.id)}
-                      onOpenChange={() => console.log('open change')}
-                    >
-                      <Button
-                        type="link"
-                        icon={<img src={TrashIcon} alt="delete" width={24} />}
-                        // onClick={() => onDelete(item?.id)}
-                        loading={actionsLoading?.remove}
-                      />
-                    </Popconfirm>
+                    isCashier ? (
+                      <Popconfirm
+                        placement="left"
+                        title={
+                          <div>
+                            <h4 style={{ marginBottom: 4 }}>حذف هذا العنصر؟</h4>
+                            <Input.Password
+                              value={password}
+                              onChange={({ target }) =>
+                                setPassword(target?.value)
+                              }
+                              placeholder="أدخل كلمة المرور"
+                            />
+                          </div>
+                        }
+                        okText="نعم"
+                        cancelText="لا"
+                        onConfirm={() => handleDelteSavedItem(item?.id)}
+                        onOpenChange={() => console.log('open change')}
+                      >
+                        <Button
+                          type="link"
+                          icon={<img src={TrashIcon} alt="delete" width={24} />}
+                          // onClick={() => onDelete(item?.id)}
+                          loading={actionsLoading?.remove}
+                        />
+                      </Popconfirm>
+                    ) : (
+                      <></>
+                    )
                   ) : (
                     <Button
                       type="link"

@@ -13,6 +13,7 @@ import classes from './AuthPage.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginTypeEnum, setLoginType } from '../../store/authSlice';
 import WaiterShiftForm from './WaiterShiftForm/WaiterShiftForm';
+import { useCurrentLoginType } from '../../hooks/useCurrentLoginType';
 
 const STEPS = {
   LOGIN_STEP: 'LOGIN_STEP',
@@ -25,8 +26,7 @@ const AuthPage = () => {
   const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
   const [currentForm, setCurrentForm] = useState(STEPS.LOGIN_STEP);
-  const currentLoginType = useSelector((state) => state.auth.loginType);
-  // console.log('AuthPage  currentForm', currentForm);
+  const currentLoginType = useSelector((state) => state?.auth?.loginType);
   const [currentTitles, setCurrentTitles] = useState({
     mainTitle: locale.authPage.welcome[currentLang],
     secondTitle: locale.authPage.loginTitle[currentLang],
@@ -100,8 +100,7 @@ const AuthPage = () => {
       }
       case STEPS.WAITER_SHIFT_STEP: {
         setCurrentTitles({
-          mainTitle: 'Test',
-          secondTitle: 'Test',
+          mainTitle: 'يبانات الشيف الحالي`',
         });
         return <WaiterShiftForm />;
       }

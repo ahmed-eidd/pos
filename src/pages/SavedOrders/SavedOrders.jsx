@@ -5,28 +5,39 @@ import { useCurrentLang } from '../../hooks/useCurrentLang';
 import { locale } from '../../locale';
 import SingleSavedOrder from './SingleSavedOrder/SingleSavedOrder';
 import classes from './SavedOrders.module.scss';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import { useGetOrders } from '../../hooks/query/useOrders';
 import { orderStatus } from '../../constants/orderStatus';
 import CartIcon from '../../icons/SideMenuIcons/Cart/Cart';
 import Spinner from '../../components/Spinner/Spinner';
 import ModalShowCanceldOrder from '../../components/ModalShowCanceldOrder';
 import SelectTable from '../Checkout/SelectTable';
+import { UndoOutlined } from '@ant-design/icons';
+import Flex from '../../components/Flex/Flex';
+import { useIsFetching } from '@tanstack/react-query';
+import { queryKeys } from '../../constants/queryKeys';
 
 const SavedOrders = () => {
   const [currentLang] = useCurrentLang();
   const [cancelOrderItems, setCancelOrderItems] = useState(null);
   const [selectedTable, setSelectedTable] = useState(null);
+  const [isRefreshLoading, setRefreshLoading] = useState(false); // this for detecting the refresh loading button
   const [currentOrder, setCurrentOrder] = useState(null);
 
-  const { data, isLoading } = useGetOrders(orderStatus.pending);
+  const { data, isLoading, isStale, refetch } = useGetOrders(
+    orderStatus.pending,
+  );
+  // const isFetching = useIsFetching({ queryKey: [queryKeys.getOrders] });
+  // const { data, isLoading } = useGetOrders(orderStatus.pending);
+  // const dataInMinutes = dataUpdatedAt / (1000 * 60);
+  // const roundedMinutes = Math.round(dataInMinutes);
   const savedOrders = data?.orders;
   const savedOrderLocale = locale.savedOrders;
 
   useEffect(() => {
     if (!selectedTable) return setCurrentOrder(null);
 
-    const order = savedOrders?.find(order => {
+    const order = savedOrders?.find((order) => {
       return (
         order?.point_of_sale_place_id === selectedTable?.placeId &&
         order?.point_of_sale_table_id === selectedTable?.tableId
@@ -42,6 +53,19 @@ const SavedOrders = () => {
         title={savedOrderLocale.title[currentLang]}
         style={{ padding: '20px 10px' }}
       >
+        <Flex justify="end" style={{ marginBottom: '1rem' }}>
+          <Button
+            size="large"
+            onClick={() => {
+              refetch();
+            }}
+            type="primary"
+            icon={<UndoOutlined />}
+          >
+            تحديث
+          </Button>
+        </Flex>
+
         <div className={classes.SavedOrders} style={{ direction: 'rtl' }}>
           {isLoading ? (
             <Spinner style={{ display: 'block' }} />

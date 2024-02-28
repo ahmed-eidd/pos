@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { queryKeys } from '../../constants/queryKeys';
 import { getPointOfSale } from '../../helper/localStorage';
@@ -18,4 +18,12 @@ export const useGetActiveShifs = () => {
     // ...Options
     select: (res) => res?.data,
   });
+};
+
+export const useGetStaff = () => {
+  const http = async (code) => {
+    const res = await axiosInstance().post('/getStaff', { code });
+    return res;
+  };
+  return useMutation(http);
 };

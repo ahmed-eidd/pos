@@ -15,13 +15,14 @@ const ProfileDetails = ({ onClick }) => {
   return (
     <div className={classes.ProfileDetails}>
       <Text className={classes.ProfileDetails__Title}>بيانات أمين الصندوق</Text>
+
       <div className={classes.ProfileDetails__Wrapper}>
         <img
           className={classes.ProfileDetails__Wrapper__Icon}
           src={userIcon}
-          alt='user'
+          alt="user"
         />
-        <Text className={classes.ProfileDetails__Wrapper__Label} color='grey'>
+        <Text className={classes.ProfileDetails__Wrapper__Label} color="grey">
           اسم أمين الصندوق:
         </Text>
         <Text className={classes.ProfileDetails__Wrapper__Text}>
@@ -65,14 +66,14 @@ const ProfileDetails = ({ onClick }) => {
         <Text>محمود سيف</Text>
       </div> */}
       <Popconfirm
-        title='سيتم الغاء الشيفت في حالة الاستمرار'
-        description=''
+        title="سيتم الغاء الشيفت في حالة الاستمرار"
+        description=""
         onConfirm={onClick}
         onCancel={() => {}}
-        okText='نعم'
-        cancelText='لا'
+        okText="نعم"
+        cancelText="لا"
       >
-        <Button type='danger' fullwidth>
+        <Button type="danger" fullwidth>
           تسجيل الخروج
         </Button>
       </Popconfirm>

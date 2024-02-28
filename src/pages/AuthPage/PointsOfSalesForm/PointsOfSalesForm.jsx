@@ -10,15 +10,21 @@ import {
   useGetPointsOfSales,
 } from '../../../hooks/query/useGetPointsOfSales';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
+import { useCurrentLoginType } from '../../../hooks/useCurrentLoginType';
 import { locale } from '../../../locale';
-import { loginTypeEnum, setPosId, setSheet } from '../../../store/authSlice';
+import {
+  loginTypeEnum,
+  setIsLogin,
+  setPosId,
+  setSheet,
+} from '../../../store/authSlice';
 import classes from './PointsOfSalesForm.module.scss';
 
 const PointsOfSalesForm = ({ onClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [posValue, setPosValue] = useState(null);
-  const currentLoginType = useSelector((state) => state?.auth?.loginType);
+  const { isWaiter } = useCurrentLoginType();
   const authLocale = locale.authPage;
   const [currentLang] = useCurrentLang();
   const checkPointOfSale = useCheckPointOfSales();
@@ -39,10 +45,11 @@ const PointsOfSalesForm = ({ onClick }) => {
         const startSheet = newData.data.item.start_sheet;
         setPointOfSale(posValue);
         setAuthPosId(posValue);
-        if (startSheet === 1 || currentLoginType === loginTypeEnum.waiter) {
+        if (startSheet === 1 || isWaiter) {
           onClick();
           return;
         }
+        dispatch(setIsLogin(true));
         setShiftId(shiftId);
         setAuthSheet(shiftId);
         navigate('/categories');

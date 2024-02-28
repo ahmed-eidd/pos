@@ -21,11 +21,11 @@ const profileModalSlice = createSlice({
     setStep: (state, { payload }) => {
       state.step = payload;
     },
-    setProfileModalOpen: state => {
+    setProfileModalOpen: (state) => {
       state.open = true;
     },
 
-    setProfileModalClose: state => {
+    setProfileModalClose: (state) => {
       state.step = ProfileModalStates.PROFILE;
       state.open = false;
     },

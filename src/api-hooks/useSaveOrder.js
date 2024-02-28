@@ -1,21 +1,27 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { message } from 'antd';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { queryKeys } from '../constants/queryKeys';
-import useApi from './useApi';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { message } from "antd";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { queryKeys } from "../constants/queryKeys";
+import { useCurrentLoginType } from "../hooks/useCurrentLoginType";
+import useApi from "./useApi";
 
 function useSaveOrder() {
   const navigate = useNavigate();
-  const { posId, sheet } = useSelector(state => state.auth);
+  const { posId, sheet } = useSelector((state) => state.auth);
+  const currentUser = useSelector((state) => state.auth?.currentUser);
+  const { isWaiter } = useCurrentLoginType();
   const api = useApi();
   const client = useQueryClient();
   const http = async ({ data, onSuc }) => {
     const body = new FormData();
-    body.append('point_of_sale_place_id', data?.placeId);
-    body.append('point_of_sale_table_id', data?.tableId);
-    body.append('point_of_sale_id', posId);
-    body.append('point_of_sale_order_sheet_id', sheet);
+    body.append("point_of_sale_place_id", data?.placeId);
+    body.append("point_of_sale_table_id", data?.tableId);
+    body.append("point_of_sale_id", posId);
+    body.append("point_of_sale_order_sheet_id", sheet);
+    if (isWaiter) {
+      body.append("staff_id", currentUser?.id);
+    }
 
     const res = await api.post(`/saveOrder`, body);
     if (res?.code === 200 && onSuc) onSuc(res);
@@ -24,16 +30,16 @@ function useSaveOrder() {
   };
 
   const { mutate, isLoading } = useMutation(http, {
-    onSuccess: res => {
+    onSuccess: (res) => {
       // console.log('useSaveOrder  res:', res);
       if (res?.code !== 200) {
-        res?.validation?.forEach(msg => message.error(msg));
+        res?.validation?.forEach((msg) => message.error(msg));
         return;
       }
 
       client.invalidateQueries([queryKeys?.cartInfo]);
       client.invalidateQueries([queryKeys?.placesList]);
-      navigate('/on-hold');
+      navigate("/on-hold");
     },
   });
 

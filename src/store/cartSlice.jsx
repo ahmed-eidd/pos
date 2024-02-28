@@ -4,6 +4,7 @@ const initialState = {
   showSavedOrder: false,
   currentSavedOrderId: null,
   cart: null,
+  currentSavedOrderTableNumber: null,
 };
 
 const cartSlice = createSlice({
@@ -12,6 +13,9 @@ const cartSlice = createSlice({
   reducers: {
     setCurrentSavedOrderIdAction: (state, { payload }) => {
       state.currentSavedOrderId = payload;
+    },
+    setCurrentSavedOrderTableNumber: (state, { payload }) => {
+      state.currentSavedOrderTableNumber = payload;
     },
     setCartToShowSavedOrder: (state, { payload }) => {
       state.showSavedOrder = payload;
@@ -25,6 +29,7 @@ const cartSlice = createSlice({
 export const {
   setCartToShowSavedOrder,
   setCurrentSavedOrderIdAction,
+  setCurrentSavedOrderTableNumber,
   setCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;

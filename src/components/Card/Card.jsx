@@ -1,5 +1,6 @@
 import { css } from '@emotion/css';
 import React from 'react';
+import Spinner from '../Spinner/Spinner';
 
 const Card = ({ name, id, price, onClick, isLoading }) => {
   const CardStyles = css`
@@ -38,6 +39,7 @@ const Card = ({ name, id, price, onClick, isLoading }) => {
     }
   `;
   return (
+    // <Spinner spinning={isLoading}>
     <div
       aria-disabled={true}
       onClick={() => {
@@ -50,6 +52,7 @@ const Card = ({ name, id, price, onClick, isLoading }) => {
       <p className="name">{name}</p>
       {price && <p className="price">{price}</p>}
     </div>
+    // </Spinner>
   );
 };
 

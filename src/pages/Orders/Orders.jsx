@@ -1,20 +1,20 @@
-import { Checkbox, Col, Divider, Form, Radio, Row } from "antd";
-import React, { useState } from "react";
-import Button from "../../components/Button/Button";
-import InputField from "../../components/InputField/InputField";
-import PageLayout from "../../components/PageLayout/PageLayout";
-import RadioButton from "../../components/RadioButton/RadioButton";
-import Text from "../../components/Text/Text";
-import { useGetOrders } from "../../hooks/query/useOrders";
-import { useCurrentLang } from "../../hooks/useCurrentLang";
-import { locale } from "../../locale";
-import OrderResultsList from "./OrderResultsList/OrderResultsList";
-import classes from "./Orders.module.scss";
+import { Checkbox, Col, Divider, Form, Radio, Row } from 'antd';
+import React, { useState } from 'react';
+import Button from '../../components/Button/Button';
+import InputField from '../../components/InputField/InputField';
+import PageLayout from '../../components/PageLayout/PageLayout';
+import RadioButton from '../../components/RadioButton/RadioButton';
+import Text from '../../components/Text/Text';
+import { useGetOrders } from '../../hooks/query/useOrders';
+import { useCurrentLang } from '../../hooks/useCurrentLang';
+import { locale } from '../../locale';
+import OrderResultsList from './OrderResultsList/OrderResultsList';
+import classes from './Orders.module.scss';
 
 const Orders = () => {
   const [currentLang] = useCurrentLang();
   const [searchForm] = Form.useForm();
-  const [searchBy, setSearchBy] = useState("orderId");
+  const [searchBy, setSearchBy] = useState('orderId');
   const [searchValue, setSearchValue] = useState(null);
   const [orderType, setOrderType] = useState(null);
   const orderLocale = locale.orders;
@@ -29,8 +29,8 @@ const Orders = () => {
   const ordersData = data?.orders;
 
   const onSearchFieldEmpty = (e) => {
-    if (e.target.value === "") {
-      setSearchValue("");
+    if (e.target.value === '') {
+      setSearchValue('');
     }
   };
 
@@ -63,9 +63,9 @@ const Orders = () => {
                 onChange={(e) => setOrderType(e.target.value)}
                 value={orderType}
               >
-                <RadioButton value={"delivery"} label="توصيل"></RadioButton>
+                <RadioButton value={'delivery'} label="توصيل"></RadioButton>
                 <RadioButton
-                  value={"restaurant"}
+                  value={'restaurant'}
                   label="في المطعم"
                 ></RadioButton>
               </Radio.Group>
@@ -110,7 +110,7 @@ const Orders = () => {
         >
           <Form.Item name="search" noStyle>
             <InputField
-              type={searchBy === "orderId" ? "number" : "text"}
+              type={searchBy === 'orderId' ? 'number' : 'text'}
               placeholder={orderLocale.searchForOrdersPlaceholder[currentLang]}
               radius="md"
               value={searchValue}
@@ -130,7 +130,7 @@ const Orders = () => {
           <Text label>{orderLocale.searchBy[currentLang]}</Text>
           <div className={classes.Orders__SearchWrapper__SearchBy__Options}>
             <Radio.Group value={searchBy} onChange={onChangeSearchBy}>
-              <Radio value={"orderId"}>رقم إيصال </Radio>
+              <Radio value={'orderId'}>رقم إيصال </Radio>
             </Radio.Group>
           </div>
         </div>

@@ -39,7 +39,7 @@ const PaymentTypeForm = ({
   const { data: cart } = useGetCart();
   const { data: clients } = useGetClientsForHotel(roomWatcher);
   const { data: rooms, isLoading: roomsIsLoading } = useGetRoomsForHotel(
-    paymentValue === PAYMENT_TYPE.hotel
+    paymentValue === PAYMENT_TYPE.hotel,
   );
   const dispatch = useDispatch();
 
@@ -135,33 +135,33 @@ const PaymentTypeForm = ({
         paymentValue === PAYMENT_TYPE.creditCard) && (
         <Form
           form={form}
-          layout='vertical'
+          layout="vertical"
           onFinish={onFinishOrderHandler}
           dir={currentLang === 'ar' ? 'rtl' : 'ltr'}
         >
-          <Flex align='flex-start' direction='column' gap='20px'>
+          <Flex align="flex-start" direction="column" gap="20px">
             <Flex
               style={{ marginBottom: '10px' }}
-              gap='15px'
-              direction='column'
+              gap="15px"
+              direction="column"
             >
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Text label>
                   {locale.checkout.orderTotal.paid[currentLang]}
                 </Text>
                 <Text>{currencyFormat(total)} جنيه مصري</Text>
               </Flex>
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Text label>
                   {locale.checkout.orderTotal.onhold[currentLang]}
                 </Text>
                 <Text>{currencyFormat(total)} جنيه مصري</Text>
               </Flex>
-              <Flex justify='space-between'>
+              <Flex justify="space-between">
                 <Text label>
                   {locale.checkout.orderTotal.nochange[currentLang]}
                 </Text>
-                <Text color='success'>{currencyFormat(total)} جنيه مصري</Text>
+                <Text color="success">{currencyFormat(total)} جنيه مصري</Text>
               </Flex>
             </Flex>
           </Flex>
@@ -175,10 +175,10 @@ const PaymentTypeForm = ({
             password={passwordDiscount}
             setPassword={setPasswordDiscount}
           />
-          <Flex style={{ marginBottom: '10px' }} gap='15px' direction='column'>
+          <Flex style={{ marginBottom: '10px' }} gap="15px" direction="column">
             <Form.Item
-              name='multi_serials'
-              label='الرقم التسلسلي'
+              name="multi_serials"
+              label="الرقم التسلسلي"
               style={{
                 width: '100%',
                 marginBottom: 0,
@@ -186,7 +186,7 @@ const PaymentTypeForm = ({
             >
               <Input
                 style={{ width: '100%', height: 50, borderRadius: 10 }}
-                placeholder=' الرقم التسلسلي (اختياري)'
+                placeholder=" الرقم التسلسلي (اختياري)"
               />
             </Form.Item>
           </Flex>
@@ -204,17 +204,16 @@ const PaymentTypeForm = ({
           form={form}
           onFinish={(values) => {
             onFinishOrderHandler({
-              payment_type: orderType,
               paidAmount: cart?.total,
               room_num: values.room_num,
               customer_id: values.customer_id,
             });
           }}
-          layout='vertical'
+          layout="vertical"
         >
           <Form.Item
-            name='room_num'
-            label='رقم الغرفة'
+            name="room_num"
+            label="رقم الغرفة"
             rules={[{ required: true, message: 'الرجاء ادخال رقم الغرفة' }]}
           >
             <Select
@@ -222,18 +221,18 @@ const PaymentTypeForm = ({
               options={rooms}
               fieldNames={{ label: 'room_num', value: 'id' }}
               showSearch
-              size='large'
+              size="large"
             />
             {/* <InputField type='number' radius='md' /> */}
           </Form.Item>
           <Form.Item
-            label='رقم العميل'
-            name='customer_id'
+            label="رقم العميل"
+            name="customer_id"
             rules={[{ required: true, message: 'الرجاء ادخال رقم العميل' }]}
           >
             {/* <InputField type='number' radius='md' /> */}
             <Select
-              size='large'
+              size="large"
               options={clients}
               fieldNames={{ value: 'id', label: 'name' }}
               showSearch
@@ -271,10 +270,10 @@ const PaymentTypeForm = ({
         >
           <h3 className={classes.PaymentTypeForm__Form__Label}>رقم الموظف</h3>
           <Form.Item
-            name='customer_id'
+            name="customer_id"
             rules={[{ required: true, message: 'الرجاء ادخال رقم الموظف' }]}
           >
-            <InputField type='number' radius='md' />
+            <InputField type="number" radius="md" />
           </Form.Item>
           <DiscountInputs />
           <DiscountInputs
@@ -305,12 +304,12 @@ const FormButtons = ({
 }) => {
   const [currentLang] = useCurrentLang();
   return (
-    <Flex gap='20px'>
+    <Flex gap="20px">
       <Button
-        type='primary'
-        htmlType='submit'
+        type="primary"
+        htmlType="submit"
         fullwidth
-        size='lg'
+        size="lg"
         isLoading={isLoading}
       >
         {locale.checkout.orderTotal.order[currentLang]}
@@ -323,28 +322,28 @@ const FormButtons = ({
             <Input.Password
               value={password}
               onChange={({ target }) => setPassword(target?.value)}
-              placeholder='أدخل كلمة المرور'
-              className='InputNumber'
+              placeholder="أدخل كلمة المرور"
+              className="InputNumber"
             />
           </div>
         }
         description={
           <Input.Password
-            size='large'
+            size="large"
             value={password}
             onChange={({ target }) => setPassword(target?.value)}
-            placeholder='أدخل كلمة المرور'
-            className='InputNumber'
+            placeholder="أدخل كلمة المرور"
+            className="InputNumber"
           />
         }
         onConfirm={onHospitality}
       >
         <Button
-          type='primary'
+          type="primary"
           ghost
-          htmlType='button'
+          htmlType="button"
           fullwidth
-          size='lg'
+          size="lg"
           isLoading={isLoading}
         >
           ضيافة
@@ -352,9 +351,9 @@ const FormButtons = ({
       </Popconfirm>
       {!hideCancel && (
         <Button
-          type='danger'
-          htmlType='button'
-          size='lg'
+          type="danger"
+          htmlType="button"
+          size="lg"
           onClick={onCancel}
           fullwidth
         >

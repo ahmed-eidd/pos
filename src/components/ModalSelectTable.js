@@ -10,6 +10,7 @@ function ModalSelectTable({
   orderId,
   selectedTable,
   setSelectedTable,
+  selectedTableProps = {},
 }) {
   const { tableChange, tableChangeLod } = useTableChange();
 
@@ -36,6 +37,7 @@ function ModalSelectTable({
         <SelectTable
           selectedTable={selectedTable}
           setSelectedTable={setSelectedTable}
+          {...selectedTableProps}
         />
       </Spin>
     </Modal>
