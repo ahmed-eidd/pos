@@ -25,6 +25,11 @@
         "ar": "ملفي",
         "en": "My profile",
         "link": "my-profile"
+      },
+      "waiterShiftChange": {
+        "ar": "تغيير الشيفت",
+        "en": "Change shift",
+        "link": "shift-change"
       }
     }
   },
@@ -63,7 +68,6 @@
         "ar": "السعر الكلي"
       }
     },
-
     "validation": {
       "emptyCart": {
         "ar": "الرجاء اضافة منتجات أولاٌ",

@@ -29,7 +29,7 @@ const ProfileModal = () => {
     dispatch(setProfileModalClose());
   };
   const setStepHandler = (step) => dispatch(setStep(step));
-  const { mutate: logOut, isLoading } = useLogOut(() => {});
+  const { mutate: logOut, isLoading } = useLogOut(() => { });
   return (
     <Modal visible={isOpen} footer={null} onCancel={setClose}>
       {currentStep === ProfileModalStates.PROFILE && (
@@ -86,3 +86,4 @@ const ProfileModal = () => {
 };
 
 export default ProfileModal;
+

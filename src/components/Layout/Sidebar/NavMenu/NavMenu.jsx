@@ -14,6 +14,7 @@ import { setProfileModalOpen } from '../../../../store/profileModalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginTypeEnum } from '../../../../store/authSlice';
 import { useCurrentLoginType } from '../../../../hooks/useCurrentLoginType';
+import { setWaiterShiftChangeModalOpen } from '../../../../store/waiterShiftChangeModalSlice';
 
 const MenuItem = ({ to, text, icon, onClick, isButton }) => {
   const [isActive, setIsActive] = useState(false);
@@ -54,7 +55,7 @@ const MenuItem = ({ to, text, icon, onClick, isButton }) => {
 };
 
 const NavMenu = () => {
-  const { isCashier } = useCurrentLoginType();
+  const { isCashier, isWaiter } = useCurrentLoginType();
   const dispatch = useDispatch();
   const [currentLang] = useCurrentLang();
   const localeSidebar = locale.sidebar.sidebar.menu;
@@ -90,13 +91,27 @@ const NavMenu = () => {
         to={localeSidebar.money.link}
         icon={MenuMoneyIcon}
       /> */}
-      <MenuItem
-        text={localeSidebar.settings[currentLang]}
-        to={localeSidebar.settings.link}
-        icon={MenuSettingsIcon}
-        onClick={() => dispatch(setProfileModalOpen())}
-        isButton
-      />
+      {
+        isCashier && (
+          <MenuItem
+            text={localeSidebar.settings[currentLang]}
+            to={localeSidebar.settings.link}
+            icon={MenuSettingsIcon}
+            onClick={() => dispatch(setProfileModalOpen())}
+            isButton
+          />
+        )
+      }
+      {
+        isWaiter &&
+        <MenuItem
+          text={localeSidebar.waiterShiftChange[currentLang]}
+          to={localeSidebar.waiterShiftChange.link}
+          icon={MenuSettingsIcon}
+          onClick={() => dispatch(setWaiterShiftChangeModalOpen())}
+          isButton
+        />
+      }
     </div>
   );
 };

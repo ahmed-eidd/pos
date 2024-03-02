@@ -1,6 +1,4 @@
 import React from 'react';
-import classes from './WaiterShiftForm.module.scss';
-import { getPointOfSale } from '../../../helper/localStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   useGetActiveShifs,

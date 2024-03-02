@@ -16,6 +16,7 @@ import { UndoOutlined } from '@ant-design/icons';
 import Flex from '../../components/Flex/Flex';
 import { useIsFetching } from '@tanstack/react-query';
 import { queryKeys } from '../../constants/queryKeys';
+import RefreshSavedOrderBtn from './RefreshSavedOrderBtn';
 
 const SavedOrders = () => {
   const [currentLang] = useCurrentLang();
@@ -36,7 +37,6 @@ const SavedOrders = () => {
 
   useEffect(() => {
     if (!selectedTable) return setCurrentOrder(null);
-
     const order = savedOrders?.find((order) => {
       return (
         order?.point_of_sale_place_id === selectedTable?.placeId &&
@@ -53,19 +53,8 @@ const SavedOrders = () => {
         title={savedOrderLocale.title[currentLang]}
         style={{ padding: '20px 10px' }}
       >
-        <Flex justify="end" style={{ marginBottom: '1rem' }}>
-          <Button
-            size="large"
-            onClick={() => {
-              refetch();
-            }}
-            type="primary"
-            icon={<UndoOutlined />}
-          >
-            تحديث
-          </Button>
-        </Flex>
 
+        <RefreshSavedOrderBtn />
         <div className={classes.SavedOrders} style={{ direction: 'rtl' }}>
           {isLoading ? (
             <Spinner style={{ display: 'block' }} />

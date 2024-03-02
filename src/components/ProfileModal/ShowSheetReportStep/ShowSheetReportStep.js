@@ -1,11 +1,13 @@
 import { css } from '@emotion/css';
 import { Button, Col, Descriptions, Row, Space, Spin } from 'antd';
 import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import useSheetReport from '../../../api-hooks/useSheetReport';
 import { currencyFormat } from '../../../services/utils';
 
 function ShowSheetReportStep({ onClick }) {
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const ShowSheetReportStepStyles = css`
     /* padding-top: 15px; */
     direction: rtl;
@@ -72,6 +74,9 @@ function ShowSheetReportStep({ onClick }) {
           <Descriptions.Item label='نقطة البيع'>
             {sheetReport?.pos_name}
           </Descriptions.Item>
+          <Descriptions.Item label='اسم الموظف'>
+            {currentUser?.name}
+          </Descriptions.Item>
           <Descriptions.Item label='بداية الشيفت'>
             {sheetReport?.shift_start}
           </Descriptions.Item>
@@ -84,29 +89,32 @@ function ShowSheetReportStep({ onClick }) {
           <Descriptions.Item label='الرصيد الافتتاحي'>
             {currencyFormat(sheetReport?.start_balance)}
           </Descriptions.Item>
+          <Descriptions.Item label='قيمة الطلبات'>
+            {currencyFormat(sheetReport?.ordersAmount)}
+          </Descriptions.Item>
+          <Descriptions.Item label='الاجمالي'>
+            {currencyFormat(sheetReport?.total)}
+          </Descriptions.Item>
+          <Descriptions.Item label='رصيد نهاية الخدمة'>
+            {currencyFormat(sheetReport?.end_balance)}
+          </Descriptions.Item>
+          <Descriptions.Item label='العجز' style={{ color: 'red' }}>
+            {currencyFormat(sheetReport?.deficit)}
+          </Descriptions.Item>
           <Descriptions.Item label='نقدي'>
             {currencyFormat(sheetReport?.cash)}
           </Descriptions.Item>
           <Descriptions.Item label='فيزا'>
             {currencyFormat(sheetReport?.visa)}
           </Descriptions.Item>
-          <Descriptions.Item label='الخصم'>
-            {currencyFormat(sheetReport?.deduction)}
-          </Descriptions.Item>
-          <Descriptions.Item label='المستحق'>
-            {currencyFormat(sheetReport?.end_balance)}
-          </Descriptions.Item>
-          <Descriptions.Item label='العجز' style={{ color: 'red' }}>
-            {currencyFormat(sheetReport?.deficit)}
-          </Descriptions.Item>
           <Descriptions.Item label='مؤجل'>
             {currencyFormat(sheetReport?.deferred)}
           </Descriptions.Item>
-          <Descriptions.Item label='قيمة الطلبات'>
-            {currencyFormat(sheetReport?.ordersAmount)}
+          <Descriptions.Item label='فندق'>
+            {currencyFormat(sheetReport?.hotel)}
           </Descriptions.Item>
-          <Descriptions.Item label='الرصيد الحالي'>
-            {currencyFormat(sheetReport?.total)}
+          <Descriptions.Item label='الخصم'>
+            {currencyFormat(sheetReport?.deduction)}
           </Descriptions.Item>
           <Descriptions.Item label='الاصناف المباعه'>
             {sheetReport?.categories
