@@ -4,11 +4,13 @@ import categoriesReducer from './categoriesSlice';
 import authReducer from './authSlice';
 import cartReducer from './cartSlice';
 import orderReducer from './orderSlice';
+import waiterShiftReducer from './waiterShiftChangeModalSlice'
 
 export default combineReducers({
   profileModal: profileModalReducer,
   categories: categoriesReducer,
   auth: authReducer,
   cart: cartReducer,
+  waiterChageModal: waiterShiftReducer,
   order: orderReducer,
 });

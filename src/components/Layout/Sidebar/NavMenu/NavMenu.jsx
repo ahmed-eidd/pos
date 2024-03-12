@@ -108,7 +108,9 @@ const NavMenu = () => {
           text={localeSidebar.waiterShiftChange[currentLang]}
           to={localeSidebar.waiterShiftChange.link}
           icon={MenuSettingsIcon}
-          onClick={() => dispatch(setWaiterShiftChangeModalOpen())}
+          onClick={() => {
+            dispatch(setWaiterShiftChangeModalOpen())
+          }}
           isButton
         />
       }

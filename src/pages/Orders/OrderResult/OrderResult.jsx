@@ -1,3 +1,5 @@
+import { DollarOutlined } from '@ant-design/icons';
+import { Tag } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Text from '../../../components/Text/Text';
@@ -16,13 +18,14 @@ const OrderResult = ({ order, canceledOrders }) => {
   return (
     <div className={classes.OrderResult}>
       <div className={classes.OrderResult__Details}>
+        <Tag icon={<DollarOutlined />} style={{ padding: '.3rem .4rem' }} color='success' prefix='$'>{order?.total_amount} جم</Tag>
         <OrderStatus
           status={
             !canceledOrders
               ? order?.status
               : order?.canceled === 1
-              ? CANCELED_ORDER_STATUS
-              : order?.status
+                ? CANCELED_ORDER_STATUS
+                : order?.status
           }
         />
         <Text>{order?.order_payment?.toUpperCase()}</Text>

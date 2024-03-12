@@ -10,10 +10,13 @@ const waiterShiftChangeSlice = createSlice({
   reducers: {
     setWaiterShiftChangeModalOpen: (state) => {
       state.open = true;
+
+      console.log('test')
     },
 
     setWaiterShiftChangeModaClose: (state) => {
       state.open = false;
+      console.log('test close')
     },
   },
 });

@@ -7,9 +7,13 @@ export const axiosInstance = (config = {}) => {
   // const token = user?.token
   const token = localStorage.getItem('token');
   const user = localStorage.getItem('user');
+  const mode = localStorage.getItem('mode');
   // console.log('axiosInstance  user', user);
   const organizationId = user
     ? JSON.parse(user)?.organization_admin?.organization_id
+    : '';
+  const adminId = user
+    ? JSON.parse(user)?.organization_admin?.id
     : '';
   // console.log('axiosInstance  organization_id', organizationId);
   return axios.create({
@@ -20,7 +24,9 @@ export const axiosInstance = (config = {}) => {
       // 'content-type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${JSON.parse(token)}`,
+      admin: adminId,
       organizationId,
+      ...(mode ? { mode: mode } : {})
     },
     ...config,
   });
@@ -28,7 +34,6 @@ export const axiosInstance = (config = {}) => {
 
 axiosInstance().interceptors.response.use(
   (res) => {
-    console.log('axiosInstance.interceptors.response.use  res:', res);
     if (res?.data?.code === 101) {
       if (typeof res?.data?.validation === 'string')
         message.error(res?.data?.validation);

@@ -7,6 +7,7 @@ import CartSidebar from './CartSidebar/CartSidebar';
 import SearchBar from '../SearchBar/SearchBar';
 import { locale } from '../../locale';
 import ProfileModal from '../ProfileModal/ProfileModal';
+import WaiterShiftChangeModal from '../WaiterShiftChangeModal/WaiterShiftChangeModal';
 
 const Layout = ({
   showCartSideabar = true,
@@ -31,6 +32,7 @@ const Layout = ({
       </AntLayout>
       {showCartSideabar && <CartSidebar />}
       <ProfileModal />
+      <WaiterShiftChangeModal />
     </AntLayout>
   );
 };

@@ -95,7 +95,7 @@ function ShowSheetReportStep({ onClick }) {
           <Descriptions.Item label='الاجمالي'>
             {currencyFormat(sheetReport?.total)}
           </Descriptions.Item>
-          <Descriptions.Item label='رصيد نهاية الخدمة'>
+          <Descriptions.Item label='الخزنة'>
             {currencyFormat(sheetReport?.end_balance)}
           </Descriptions.Item>
           <Descriptions.Item label='العجز' style={{ color: 'red' }}>

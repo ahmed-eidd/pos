@@ -1,6 +1,8 @@
 import { message } from 'antd';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useCurrentLoginType } from '../hooks/useCurrentLoginType';
+import { loginTypeEnum } from '../store/authSlice';
 
 //  ENDPOINT
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -18,12 +20,16 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 function useApi(config = {}) {
   const token = localStorage.getItem('token');
   const { organizationId } = useSelector((state) => state.auth);
+  const adminId = useSelector((state) => state.auth.currentUser?.id) ?? '';
+  const { isWaiter } = useCurrentLoginType()
 
   const axiosInstance = axios.create({
     baseURL: baseURL,
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${JSON.parse(token)}`,
+      admin: adminId,
+      mode: isWaiter ? loginTypeEnum.waiterType : loginTypeEnum.cashierType,
       organizationId,
       withCredentials: true,
     },

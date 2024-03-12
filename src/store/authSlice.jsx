@@ -4,6 +4,8 @@ import { getPointOfSale, getShiftId, getToken } from '../helper/localStorage';
 export const loginTypeEnum = {
   cashier: 1,
   waiter: 2,
+  cashierType: 'cashier',
+  waiterType: 'waiter',
 };
 const initialState = {
   currentUser: null,

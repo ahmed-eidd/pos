@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { message } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   removePointOfSale,
   removeShifId,
@@ -8,6 +8,7 @@ import {
 } from '../../helper/localStorage';
 import { axiosInstance } from '../../service/api';
 import {
+  loginTypeEnum,
   setCurrentUser,
   setIsLogin,
   setOrganizationId,
@@ -46,6 +47,7 @@ export const useLogin = () => {
 
         localStorage.setItem('user', JSON.stringify(newData?.data.data));
         localStorage.setItem('token', JSON.stringify(newData?.data.message));
+        localStorage.setItem('mode', isWaiter ? loginTypeEnum.waiterType : loginTypeEnum.cashierType);
         localStorage.setItem(
           'organizationId',
           JSON.stringify(

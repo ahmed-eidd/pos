@@ -54,6 +54,9 @@ const BalanceModal = ({ open, setOpen }) => {
           <Descriptions.Item label='فيزا'>
             {currentBalance?.visa}
           </Descriptions.Item>
+          <Descriptions.Item label='فندق'>
+            {currentBalance?.hotel}
+          </Descriptions.Item>
         </Descriptions>
       </Spin>
     </Modal>
