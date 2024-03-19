@@ -4,14 +4,13 @@ import {
   useGetActiveShifs,
   useGetStaff,
 } from "../../../hooks/query/useWaiterLogin";
-import { Button, Form, Select } from "antd";
+import { Button, Form, Select, SelectProps } from "antd";
 import InputField from "../../../components/InputField/InputField";
 import { locale } from "../../../locale";
 import { useCurrentLang } from "../../../hooks/useCurrentLang";
 import { setCurrentUser, setIsLogin, setSheet } from "../../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
-import { modifiyUserLocalStorage } from "../../../helper/modifyUserLocalStorage";
 
 const WaiterShiftForm = () => {
   const dispatch = useDispatch();
@@ -35,7 +34,6 @@ const WaiterShiftForm = () => {
             if (+newData?.isActive === 1) {
               dispatch(setSheet(values?.activeShift));
               dispatch(setCurrentUser(newData));
-              modifiyUserLocalStorage(newData);
               dispatch(setIsLogin(true));
               navigate("/categories");
             }
@@ -62,7 +60,7 @@ const WaiterShiftForm = () => {
         name="serviceCode"
         rules={[{ required: true }]}
       >
-        <InputField type={"number"} />
+        <InputField type={"password"} />
       </Form.Item>
       <Button
         large={false}

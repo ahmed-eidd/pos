@@ -1,27 +1,27 @@
-import { Form, Input, message, Popconfirm, Select } from 'antd';
-import React from 'react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Button from '../../../components/Button/Button';
-import Flex from '../../../components/Flex/Flex';
-import InputField from '../../../components/InputField/InputField';
-import Text from '../../../components/Text/Text';
-import { useGetCart } from '../../../hooks/query/useCart';
-import { usePayOrder } from '../../../hooks/query/useCheckout';
-import { useCurrentLang } from '../../../hooks/useCurrentLang';
-import { locale } from '../../../locale';
-import { currencyFormat } from '../../../services/utils';
+import { Form, Input, message, Popconfirm, Select } from "antd";
+import React from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import Button from "../../../components/Button/Button";
+import Flex from "../../../components/Flex/Flex";
+import InputField from "../../../components/InputField/InputField";
+import Text from "../../../components/Text/Text";
+import { useGetCart } from "../../../hooks/query/useCart";
+import { usePayOrder } from "../../../hooks/query/useCheckout";
+import { useCurrentLang } from "../../../hooks/useCurrentLang";
+import { locale } from "../../../locale";
+import { currencyFormat } from "../../../services/utils";
 import {
   setCartToShowSavedOrder,
   setCurrentSavedOrderIdAction,
-} from '../../../store/cartSlice';
-import DiscountInputs, { DISCOUNT_TYPE } from './DiscountInput';
-import { PAYMENT_TYPE } from './PaymentType';
-import classes from './PaymentTypeForm.module.scss';
+} from "../../../store/cartSlice";
+import DiscountInputs, { DISCOUNT_TYPE } from "./DiscountInput";
+import { PAYMENT_TYPE } from "./PaymentType";
+import classes from "./PaymentTypeForm.module.scss";
 import {
   useGetClientsForHotel,
   useGetRoomsForHotel,
-} from '../../../api-hooks/useGetClientsForHotel';
+} from "../../../api-hooks/useGetClientsForHotel";
 
 const PaymentTypeForm = ({
   paymentValue,
@@ -35,7 +35,7 @@ const PaymentTypeForm = ({
   const [form] = Form.useForm();
   const [currentLang] = useCurrentLang();
   const payOrder = usePayOrder();
-  const roomWatcher = Form.useWatch('room_num', form);
+  const roomWatcher = Form.useWatch("room_num", form);
   const { data: cart } = useGetCart();
   const { data: clients } = useGetClientsForHotel(roomWatcher);
   const { data: rooms, isLoading: roomsIsLoading } = useGetRoomsForHotel(
@@ -44,13 +44,13 @@ const PaymentTypeForm = ({
   const dispatch = useDispatch();
 
   const [isDiscount, setIsDiscount] = useState(false);
-  const [discountType, setDiscountType] = useState(DISCOUNT_TYPE.percentage);
-  const [discountValue, setDiscountValue] = useState('');
-  const [passwordDiscount, setPasswordDiscount] = useState('');
+  const [discountType, setDiscountType] = useState(DISCOUNT_TYPE.value);
+  const [discountValue, setDiscountValue] = useState("");
+  const [passwordDiscount, setPasswordDiscount] = useState("");
 
   const onDiscoutTypChange = (e) => {
     setDiscountType(e.target.value);
-    setDiscountValue('');
+    setDiscountValue("");
   };
   const onDiscountValueChange = (value) => {
     setDiscountValue(value);
@@ -72,7 +72,7 @@ const PaymentTypeForm = ({
       data.order_id = checkoutOrder?.id;
       data.table_number = checkoutOrder?.tableNumber;
     }
-    if (paymentValue === 'hotel') {
+    if (paymentValue === "hotel") {
       data.room_id = values?.room_num;
       data.customer_id = values?.customer_id;
     }
@@ -107,18 +107,18 @@ const PaymentTypeForm = ({
       data.order_id = checkoutOrder?.id;
       data.table_number = checkoutOrder?.tableNumber;
     }
-    if (paymentValue === 'hotel') {
+    if (paymentValue === "hotel") {
       data.room_num = values?.room_num;
       data.customer_id = values?.customer_id;
     }
 
-    data.discount_type = 'percentage';
+    data.discount_type = "percentage";
     data.discount = 100;
     data.password = passwordDiscount;
 
     // data.password = prompt('برجاء أدخل كلمة المرور');
     if (!data.password)
-      return message.error('برجاء أدخل كلمة المرور بصورة صحيحة');
+      return message.error("برجاء أدخل كلمة المرور بصورة صحيحة");
     // return null;
     payOrder.mutate(data, {
       onSuccess: (res) => {
@@ -137,11 +137,11 @@ const PaymentTypeForm = ({
           form={form}
           layout="vertical"
           onFinish={onFinishOrderHandler}
-          dir={currentLang === 'ar' ? 'rtl' : 'ltr'}
+          dir={currentLang === "ar" ? "rtl" : "ltr"}
         >
           <Flex align="flex-start" direction="column" gap="20px">
             <Flex
-              style={{ marginBottom: '10px' }}
+              style={{ marginBottom: "10px" }}
               gap="15px"
               direction="column"
             >
@@ -175,17 +175,17 @@ const PaymentTypeForm = ({
             password={passwordDiscount}
             setPassword={setPasswordDiscount}
           />
-          <Flex style={{ marginBottom: '10px' }} gap="15px" direction="column">
+          <Flex style={{ marginBottom: "10px" }} gap="15px" direction="column">
             <Form.Item
               name="multi_serials"
               label="الرقم التسلسلي"
               style={{
-                width: '100%',
+                width: "100%",
                 marginBottom: 0,
               }}
             >
               <Input
-                style={{ width: '100%', height: 50, borderRadius: 10 }}
+                style={{ width: "100%", height: 50, borderRadius: 10 }}
                 placeholder=" الرقم التسلسلي (اختياري)"
               />
             </Form.Item>
@@ -214,12 +214,12 @@ const PaymentTypeForm = ({
           <Form.Item
             name="room_num"
             label="رقم الغرفة"
-            rules={[{ required: true, message: 'الرجاء ادخال رقم الغرفة' }]}
+            rules={[{ required: true, message: "الرجاء ادخال رقم الغرفة" }]}
           >
             <Select
               loading={roomsIsLoading}
               options={rooms}
-              fieldNames={{ label: 'room_num', value: 'id' }}
+              fieldNames={{ label: "room_num", value: "id" }}
               showSearch
               size="large"
             />
@@ -228,13 +228,13 @@ const PaymentTypeForm = ({
           <Form.Item
             label="رقم العميل"
             name="customer_id"
-            rules={[{ required: true, message: 'الرجاء ادخال رقم العميل' }]}
+            rules={[{ required: true, message: "الرجاء ادخال رقم العميل" }]}
           >
             {/* <InputField type='number' radius='md' /> */}
             <Select
               size="large"
               options={clients}
-              fieldNames={{ value: 'id', label: 'name' }}
+              fieldNames={{ value: "id", label: "name" }}
               showSearch
             />
           </Form.Item>
@@ -271,7 +271,7 @@ const PaymentTypeForm = ({
           <h3 className={classes.PaymentTypeForm__Form__Label}>رقم الموظف</h3>
           <Form.Item
             name="customer_id"
-            rules={[{ required: true, message: 'الرجاء ادخال رقم الموظف' }]}
+            rules={[{ required: true, message: "الرجاء ادخال رقم الموظف" }]}
           >
             <InputField type="number" radius="md" />
           </Form.Item>
