@@ -5,11 +5,15 @@ import { useCurrentLoginType } from "../../hooks/useCurrentLoginType";
 import { currencyFormat } from "../../services/utils";
 import Flex from "../Flex/Flex";
 import posPlaceholder from "../../assets/pos-order-logo.jpeg";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 // import logo from '../../assets/pos-logo.jpeg';
 
-function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
-  console.log("InvoiceCopy  invoice", invoice);
+function InvoiceCopy({
+  invoice,
+  paymentReccived,
+  isGroupOrderItem = false,
+  ...rest
+}) {
   const InvoiceCopyStyles = css`
     width: 30rem;
     max-width: 100%;
@@ -59,7 +63,21 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
 
   const currentUser = useSelector((s) => s?.auth?.currentUser);
   const [logoImgError, setLogoImgError] = useState(false);
-  const { isWaiter } = useCurrentLoginType();
+  const orderItems = useMemo(() => {
+    const items = invoice?.order_items;
+    if (!isGroupOrderItem || items?.length <= 1) return items;
+
+    const foundItems = {};
+    for (let i of items) {
+      if (foundItems[i?.itemId]) {
+        foundItems[i?.itemId].quantity =
+          +foundItems[i?.itemId]?.quantity + +i?.quantity;
+      } else {
+        foundItems[i?.itemId] = i;
+      }
+    }
+    return Object.values(foundItems);
+  }, [invoice?.order_items, isGroupOrderItem]);
 
   const isWaiterNameAvailable = invoice?.staff && invoice?.staff !== "-";
   return (
@@ -73,7 +91,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
             alt="POS"
           />
         ) : (
-        <img src={posPlaceholder} alt="POS" />
+          <img src={posPlaceholder} alt="POS" />
         )}
 
         <div>Pos Serials number: {invoice?.pos_serial || "-"}</div>
@@ -182,7 +200,7 @@ function InvoiceCopy({ invoice, paymentReccived, ...rest }) {
                     </Col>
                   </Row>
                 </Col>
-                {invoice?.order_items?.map((el) => (
+                {orderItems?.map((el) => (
                   <Col span={24} key={el?.id}>
                     <Row gutter={10} justify="space-between">
                       <Col

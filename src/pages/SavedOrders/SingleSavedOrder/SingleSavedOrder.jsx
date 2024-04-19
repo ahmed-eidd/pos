@@ -284,7 +284,7 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
       {/* <div style={{ position: 'fixed', zIndex: -9 }}> */}
       <div style={{ position: 'fixed', zIndex: -9, visibility: 'hidden' }}>
         <div ref={orderRef}>
-          <InvoiceCopy invoice={order} />
+          <InvoiceCopy invoice={order} isGroupOrderItem={true} />
         </div>
       </div>
       <div style={{ position: 'fixed', zIndex: -9, visibility: 'hidden' }}>

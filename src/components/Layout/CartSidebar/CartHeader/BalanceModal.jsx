@@ -26,6 +26,7 @@ const BalanceModal = ({ open, setOpen }) => {
     if (open) {
       handelShowCurrentBalance();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
   return (
     <Modal
@@ -39,22 +40,22 @@ const BalanceModal = ({ open, setOpen }) => {
         <Descriptions
           bordered
           column={1}
-          className='Descriptions'
+          className="Descriptions"
           style={{ direction: 'rtl', width: '100%' }}
         >
-          <Descriptions.Item label='الاجمالي'>
+          <Descriptions.Item label="الاجمالي">
             {currentBalance?.amount}
           </Descriptions.Item>
-          <Descriptions.Item label='كاش'>
+          <Descriptions.Item label="كاش">
             {currentBalance?.cash}
           </Descriptions.Item>
-          <Descriptions.Item label='كريدت'>
+          <Descriptions.Item label="مؤجل">
             {currentBalance?.credit}
           </Descriptions.Item>
-          <Descriptions.Item label='فيزا'>
+          <Descriptions.Item label="فيزا">
             {currentBalance?.visa}
           </Descriptions.Item>
-          <Descriptions.Item label='فندق'>
+          <Descriptions.Item label="فندق">
             {currentBalance?.hotel}
           </Descriptions.Item>
         </Descriptions>

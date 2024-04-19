@@ -47,7 +47,7 @@ const ReceiptDetails = () => {
             }}
           >
             <div ref={orderRef}>
-              <InvoiceCopy invoice={currentOrderData} />
+              <InvoiceCopy invoice={currentOrderData} isGroupOrderItem={true} />
             </div>
           </div>
           <Button

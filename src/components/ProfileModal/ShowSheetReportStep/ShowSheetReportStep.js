@@ -1,10 +1,10 @@
-import { css } from '@emotion/css';
-import { Button, Col, Descriptions, Row, Space, Spin } from 'antd';
-import React, { useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { useReactToPrint } from 'react-to-print';
-import useSheetReport from '../../../api-hooks/useSheetReport';
-import { currencyFormat } from '../../../services/utils';
+import { css } from "@emotion/css";
+import { Button, Col, Descriptions, Row, Space, Spin } from "antd";
+import React, { useRef } from "react";
+import { useSelector } from "react-redux";
+import { useReactToPrint } from "react-to-print";
+import useSheetReport from "../../../api-hooks/useSheetReport";
+import { currencyFormat } from "../../../services/utils";
 
 function ShowSheetReportStep({ onClick }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -50,17 +50,17 @@ function ShowSheetReportStep({ onClick }) {
   if (sheetReportLod)
     return (
       <Spin
-        size='large'
+        size="large"
         style={{
           margin: 40,
-          display: 'flex',
-          justifyContent: 'center',
+          display: "flex",
+          justifyContent: "center",
         }}
       />
     );
   return (
     <div className={ShowSheetReportStepStyles}>
-      <div className='header'>
+      <div className="header">
         <h1>ملخص الشيفت</h1>
         <p>{sheetReport?.shift_date}</p>
       </div>
@@ -68,59 +68,59 @@ function ShowSheetReportStep({ onClick }) {
         <Descriptions
           bordered
           column={1}
-          className='Descriptions'
-          style={{ direction: 'rtl', width: '100%' }}
+          className="Descriptions"
+          style={{ direction: "rtl", width: "100%" }}
         >
-          <Descriptions.Item label='نقطة البيع'>
+          <Descriptions.Item label="نقطة البيع">
             {sheetReport?.pos_name}
           </Descriptions.Item>
-          <Descriptions.Item label='اسم الموظف'>
+          <Descriptions.Item label="اسم الموظف">
             {currentUser?.name}
           </Descriptions.Item>
-          <Descriptions.Item label='بداية الشيفت'>
+          <Descriptions.Item label="بداية الشيفت">
             {sheetReport?.shift_start}
           </Descriptions.Item>
-          <Descriptions.Item label='نهاية الشيفت'>
+          <Descriptions.Item label="نهاية الشيفت">
             {sheetReport?.shift_end}
           </Descriptions.Item>
-          <Descriptions.Item label='عدد الطلبات'>
+          <Descriptions.Item label="عدد الطلبات">
             {sheetReport?.no_of_orders}
           </Descriptions.Item>
-          <Descriptions.Item label='الرصيد الافتتاحي'>
+          <Descriptions.Item label="الرصيد الافتتاحي">
             {currencyFormat(sheetReport?.start_balance)}
           </Descriptions.Item>
-          <Descriptions.Item label='قيمة الطلبات'>
+          <Descriptions.Item label="قيمة الطلبات">
             {currencyFormat(sheetReport?.ordersAmount)}
           </Descriptions.Item>
-          <Descriptions.Item label='الاجمالي'>
+          <Descriptions.Item label="الاجمالي">
             {currencyFormat(sheetReport?.total)}
           </Descriptions.Item>
-          <Descriptions.Item label='الخزنة'>
+          <Descriptions.Item label="الخزنة">
             {currencyFormat(sheetReport?.end_balance)}
           </Descriptions.Item>
-          <Descriptions.Item label='العجز' style={{ color: 'red' }}>
+          <Descriptions.Item label="العجز" style={{ color: "red" }}>
             {currencyFormat(sheetReport?.deficit)}
           </Descriptions.Item>
-          <Descriptions.Item label='نقدي'>
+          <Descriptions.Item label="نقدي">
             {currencyFormat(sheetReport?.cash)}
           </Descriptions.Item>
-          <Descriptions.Item label='فيزا'>
+          <Descriptions.Item label="فيزا">
             {currencyFormat(sheetReport?.visa)}
           </Descriptions.Item>
-          <Descriptions.Item label='مؤجل'>
+          <Descriptions.Item label="مؤجل">
             {currencyFormat(sheetReport?.deferred)}
           </Descriptions.Item>
-          <Descriptions.Item label='فندق'>
+          <Descriptions.Item label="فندق">
             {currencyFormat(sheetReport?.hotel)}
           </Descriptions.Item>
-          <Descriptions.Item label='الخصم'>
+          <Descriptions.Item label="الخصم">
             {currencyFormat(sheetReport?.deduction)}
           </Descriptions.Item>
-          <Descriptions.Item label='الاصناف المباعه'>
+          <Descriptions.Item label="الاصناف المباعه">
             {sheetReport?.categories
               ?.filter((cat) => cat?.items?.length)
               ?.map((cat, i) => (
-                <div key={cat?.name + i} className='even-color'>
+                <div key={cat?.name + i} className="even-color">
                   <Row gutter={[4, 4]}>
                     <Col span={12}>
                       <h4>{cat?.name}</h4>
@@ -151,11 +151,11 @@ function ShowSheetReportStep({ onClick }) {
         </Descriptions>
       </div>
 
-      <div className='actions'>
-        <Button type='primary' size='large' onClick={handlePrint}>
+      <div className="actions">
+        <Button type="primary" size="large" onClick={handlePrint}>
           طباعة
         </Button>
-        <Button type='primary' size='large' ghost onClick={onClick}>
+        <Button type="primary" size="large" ghost onClick={onClick}>
           انهاء
         </Button>
       </div>

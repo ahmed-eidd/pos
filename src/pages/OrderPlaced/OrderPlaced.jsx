@@ -70,7 +70,11 @@ const OrderPlaced = () => {
         </div>
       </div>
       <div ref={orderRef}>
-        <InvoiceCopy invoice={invoice} paymentReccived />
+        <InvoiceCopy
+          invoice={invoice}
+          paymentReccived
+          isGroupOrderItem={true}
+        />
       </div>
     </>
   );
