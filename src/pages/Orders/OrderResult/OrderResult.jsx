@@ -32,8 +32,7 @@ const OrderResult = ({ order, canceledOrders }) => {
         <Text
           className={classes.OrderResult__Details__OrderNumber}
           size='small'
-          color='grey'
-        >
+          color='grey' >
           الطلب رقم {order?.id} طاوله {order?.table_number}
         </Text>
       </div>

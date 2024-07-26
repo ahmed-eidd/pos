@@ -27,6 +27,7 @@ const OrderPlaced = () => {
     navigate('/categories');
   };
 
+  console.log({state})
   useEffect(() => {
     handlePrint();
   }, []);

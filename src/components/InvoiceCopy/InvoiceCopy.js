@@ -1,11 +1,11 @@
-import { css } from "@emotion/css";
-import { Col, Row } from "antd";
-import { useSelector } from "react-redux";
-import { useCurrentLoginType } from "../../hooks/useCurrentLoginType";
-import { currencyFormat } from "../../services/utils";
-import Flex from "../Flex/Flex";
-import posPlaceholder from "../../assets/pos-order-logo.jpeg";
-import { useMemo, useState } from "react";
+import { css } from '@emotion/css';
+import { Col, Row } from 'antd';
+import { useSelector } from 'react-redux';
+import { useCurrentLoginType } from '../../hooks/useCurrentLoginType';
+import { currencyFormat } from '../../services/utils';
+import Flex from '../Flex/Flex';
+import posPlaceholder from '../../assets/pos-order-logo.jpeg';
+import { useMemo, useState } from 'react';
 // import logo from '../../assets/pos-logo.jpeg';
 
 function InvoiceCopy({
@@ -14,6 +14,7 @@ function InvoiceCopy({
   isGroupOrderItem = false,
   ...rest
 }) {
+  console.log({ invoice });
   const InvoiceCopyStyles = css`
     width: 30rem;
     max-width: 100%;
@@ -68,18 +69,24 @@ function InvoiceCopy({
     if (!isGroupOrderItem || items?.length <= 1) return items;
 
     const foundItems = {};
+
     for (let i of items) {
-      if (foundItems[i?.itemId]) {
-        foundItems[i?.itemId].quantity =
-          +foundItems[i?.itemId]?.quantity + +i?.quantity;
-      } else {
-        foundItems[i?.itemId] = i;
+      const itemId = i?.itemId;
+      const quantity = parseFloat(i?.quantity) || 0;
+
+      if (itemId) {
+        if (foundItems[itemId]) {
+          foundItems[itemId].quantity += quantity;
+        } else {
+          foundItems[itemId] = { ...i, quantity }; // Create a copy of the item
+        }
+
       }
     }
     return Object.values(foundItems);
   }, [invoice?.order_items, isGroupOrderItem]);
 
-  const isWaiterNameAvailable = invoice?.staff && invoice?.staff !== "-";
+  const isWaiterNameAvailable = invoice?.staff && invoice?.staff !== '-';
   return (
     <div className={InvoiceCopyStyles} {...rest}>
       <div className="float">copy</div>
@@ -94,7 +101,7 @@ function InvoiceCopy({
           <img src={posPlaceholder} alt="POS" />
         )}
 
-        <div>Pos Serials number: {invoice?.pos_serial || "-"}</div>
+        <div>Pos Serials number: {invoice?.pos_serial || '-'}</div>
       </div>
       <div className="basic-info">
         <Row gutter={[10, 0]} align="end">
@@ -145,7 +152,7 @@ function InvoiceCopy({
           <Col span={24}>
             <Row gutter={20} justify="space-between">
               <Col>
-                <div>Serials number: {invoice?.multi_serials || "-"}</div>
+                <div>Serials number: {invoice?.multi_serials || '-'}</div>
               </Col>
             </Row>
           </Col>
@@ -168,13 +175,13 @@ function InvoiceCopy({
                   <Row gutter={10} justify="space-between">
                     <Col
                       span={4}
-                      style={{ fontSize: 14, border: "1px solid black" }}
+                      style={{ fontSize: 14, border: '1px solid black' }}
                     >
                       الكمية
                     </Col>
                     <Col
                       span={8}
-                      style={{ fontSize: 14, border: "1px solid black" }}
+                      style={{ fontSize: 14, border: '1px solid black' }}
                     >
                       المنتج
                     </Col>
@@ -182,8 +189,8 @@ function InvoiceCopy({
                       span={6}
                       style={{
                         fontSize: 14,
-                        textAlign: "center",
-                        border: "1px solid black",
+                        textAlign: 'center',
+                        border: '1px solid black',
                       }}
                     >
                       السعر
@@ -192,8 +199,8 @@ function InvoiceCopy({
                       span={6}
                       style={{
                         fontSize: 14,
-                        textAlign: "end",
-                        border: "1px solid black",
+                        textAlign: 'end',
+                        border: '1px solid black',
                       }}
                     >
                       الاجمالي
@@ -205,13 +212,13 @@ function InvoiceCopy({
                     <Row gutter={10} justify="space-between">
                       <Col
                         span={4}
-                        style={{ fontSize: 14, border: "1px solid black" }}
+                        style={{ fontSize: 14, border: '1px solid black' }}
                       >
                         {`${el?.quantity}`}
                       </Col>
                       <Col
                         span={8}
-                        style={{ fontSize: 14, border: "1px solid black" }}
+                        style={{ fontSize: 14, border: '1px solid black' }}
                       >
                         {`${el?.productName}`}
                       </Col>
@@ -219,9 +226,9 @@ function InvoiceCopy({
                       <Col
                         span={6}
                         style={{
-                          textAlign: "center",
+                          textAlign: 'center',
                           fontSize: 14,
-                          border: "1px solid black",
+                          border: '1px solid black',
                         }}
                       >
                         {currencyFormat(el?.price)}
@@ -229,10 +236,10 @@ function InvoiceCopy({
                       <Col
                         span={6}
                         style={{
-                          textAlign: "end",
+                          textAlign: 'end',
                           fontSize: 14,
                           fontWeight: 600,
-                          border: "1px solid black",
+                          border: '1px solid black',
                         }}
                       >
                         {currencyFormat(el?.quantity * el?.price)}
@@ -250,16 +257,16 @@ function InvoiceCopy({
                   <Row justify="space-between">
                     <Col>
                       <div>
-                        {invoice?.discount_type === "percentage" &&
+                        {invoice?.discount_type === 'percentage' &&
                         +invoice?.discount === 100
-                          ? "ضيافة"
-                          : "Discount"}
+                          ? 'ضيافة'
+                          : 'Discount'}
                       </div>
                     </Col>
                     <Col>
                       <div style={{ fontWeight: 600 }}>
-                        {invoice?.discount_type === "percentage"
-                          ? invoice?.discount + "%"
+                        {invoice?.discount_type === 'percentage'
+                          ? invoice?.discount + '%'
                           : currencyFormat(invoice?.discount)}
                       </div>
                     </Col>
@@ -267,11 +274,11 @@ function InvoiceCopy({
                 )}
                 <Row justify="space-between">
                   <Col>
-                    <div style={{ fontWeight: "700", fontSize: "16px" }}>
-                      {invoice?.discount_type === "percentage" &&
+                    <div style={{ fontWeight: '700', fontSize: '16px' }}>
+                      {invoice?.discount_type === 'percentage' &&
                       +invoice?.discount === 100
-                        ? "ضيافة"
-                        : "total"}
+                        ? 'ضيافة'
+                        : 'total'}
                     </div>
                   </Col>
                   <Col>
@@ -284,14 +291,14 @@ function InvoiceCopy({
               <Col span={24}>
                 <Row justify="space-between" style={{ marginTop: 10 }}>
                   <Col>
-                    <div style={{ fontWeight: 700, fontSize: "16px" }}>
+                    <div style={{ fontWeight: 700, fontSize: '16px' }}>
                       cash
                     </div>
                   </Col>
                   <Col>
-                    <div style={{ fontWeight: 700, fontSize: "16px" }}>
-                      {invoice?.order_payment === "credit"
-                        ? "مؤجل"
+                    <div style={{ fontWeight: 700, fontSize: '16px' }}>
+                      {invoice?.order_payment === 'credit'
+                        ? 'مؤجل'
                         : invoice?.order_payment}
                     </div>
                   </Col>
@@ -314,7 +321,7 @@ function InvoiceCopy({
                     </p>
                   </>
                 ) : (
-                  "Payment not recevied"
+                  'Payment not recevied'
                 )}
               </div>
             </Col>
