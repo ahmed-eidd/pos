@@ -65,8 +65,9 @@ function InvoiceCopy({
   const currentUser = useSelector((s) => s?.auth?.currentUser);
   const [logoImgError, setLogoImgError] = useState(false);
   const orderItems = useMemo(() => {
+    console.log({ invoice });
     const items = invoice?.order_items;
-    if (!isGroupOrderItem || items?.length <= 1) return items;
+    if (!isGroupOrderItem || items?.length <= 1 || !items) return items;
 
     const foundItems = {};
 
@@ -84,6 +85,7 @@ function InvoiceCopy({
       }
     }
     return Object.values(foundItems);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invoice?.order_items, isGroupOrderItem]);
 
   const isWaiterNameAvailable = invoice?.staff && invoice?.staff !== '-';
