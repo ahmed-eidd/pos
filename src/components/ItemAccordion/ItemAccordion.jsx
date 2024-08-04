@@ -1,5 +1,5 @@
 import { Button, Collapse, Input, message, Popconfirm } from 'antd';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import classes from './ItemAccordion.module.scss';
 import ArrowIcon from '../../assets/chevron-right.png';
 import CounterBtns from '../CounterBtns/CounterBtns';
@@ -54,7 +54,7 @@ const ItemAccordion = ({
     setPassword('');
   };
 
-  console.log({ items });
+  const itemsKeys = useMemo(() => items?.map((item) => item?.id) ?? [], [items]);
   if (loading) {
     return (
       <Spinner
@@ -70,9 +70,12 @@ const ItemAccordion = ({
     <>
       {items.length > 0 ? (
         <Collapse
-          accordion
+          // accordion
+          key={itemsKeys}
+          defaultActiveKey={items?.map((item) => item?.id)}
           expandIconPosition="end"
           collapsible={readOnly && 'disabled'}
+          // collapsible={'disabled'}
           expandIcon={({ isActive }) => (
             <div>
               <img

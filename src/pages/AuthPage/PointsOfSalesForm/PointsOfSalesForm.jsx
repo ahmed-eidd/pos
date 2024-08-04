@@ -8,6 +8,7 @@ import { setPointOfSale, setShiftId } from '../../../helper/localStorage';
 import {
   useCheckPointOfSales,
   useGetPointsOfSales,
+  useStartSheet,
 } from '../../../hooks/query/useGetPointsOfSales';
 import { useCurrentLang } from '../../../hooks/useCurrentLang';
 import { useCurrentLoginType } from '../../../hooks/useCurrentLoginType';
@@ -23,6 +24,7 @@ import classes from './PointsOfSalesForm.module.scss';
 const PointsOfSalesForm = ({ onClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const addStartSheet = useStartSheet();
   const [posValue, setPosValue] = useState(null);
   const { isWaiter } = useCurrentLoginType();
   const authLocale = locale.authPage;
@@ -45,8 +47,16 @@ const PointsOfSalesForm = ({ onClick }) => {
         const startSheet = newData.data.item.start_sheet;
         setPointOfSale(posValue);
         setAuthPosId(posValue);
-        if (startSheet === 1 || isWaiter) {
+        if (isWaiter) {
           onClick();
+          return;
+        }
+
+        if (startSheet === 1) {
+          addStartSheet.mutate({
+            id: posValue,
+            startBalance: 0,
+          });
           return;
         }
         dispatch(setIsLogin(true));

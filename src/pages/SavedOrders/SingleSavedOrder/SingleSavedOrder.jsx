@@ -8,6 +8,8 @@ import {
   Popconfirm,
   Select,
   Space,
+  Table,
+  Typography,
 } from 'antd';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -24,28 +26,53 @@ import {
 } from '../../../store/cartSlice';
 import { usePrintItem } from '../../../hooks/query/usePrint';
 import { useCurrentLoginType } from '../../../hooks/useCurrentLoginType';
+import Flex from '../../../components/Flex/Flex';
 
-const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
-  const SingleSavedOrderStyles = css`
-    border-radius: 4px;
+const SingleSavedOrderStyles = css`
+  border-radius: 4px;
+  direction: rtl;
+  &:not(:first-child) {
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+  }
+
+  .ant-descriptions-item-label {
+    white-space: nowrap;
+  }
+  .ant-descriptions-item-content {
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    &.big {
+      font-size: 16px;
+    }
+  }
+`;
+const OrderTableStyles = css`
+border-radius: 4px;
+  margin-top: 20px;
+border: 1px solid #ddd;
+  width: 100%;
+padding: 20px 10px;
+  .ant-table-wrapper {
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;
+    scrollbar-color: #006AFF #ffffff;
+    scrollbar-width: thin;
     direction: rtl;
-    &:not(:first-child) {
-      padding-top: 20px;
-      border-top: 1px solid #ddd;
-    }
+  }
+  .ant-table-wrapper::-webkit-scrollbar {
+    width: 1px;
+  }
 
-    .ant-descriptions-item-label {
-      white-space: nowrap;
-    }
-    .ant-descriptions-item-content {
-      white-space: nowrap;
-      font-size: 12px;
-      font-weight: 600;
-      &.big {
-        font-size: 16px;
-      }
-    }
-  `;
+  .ant-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 0px;
+  }
+`;
+const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
+  console.log({ order });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -295,6 +322,39 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
           />
         </div>
       </div>
+      <Flex
+        direction="column"
+        justify="space-between"
+        align="flex-end"
+        gap={10}
+        className={OrderTableStyles}
+      >
+        <Typography.Title level={4}>المنتجات</Typography.Title>
+        <Table
+          bordered
+          dataSource={order?.order_items}
+          key={order?.id}
+          columns={[
+            {
+              title: 'المنتج',
+              dataIndex: 'productName',
+              key: 'name',
+            },
+            {
+              title: 'الكمية',
+              dataIndex: 'quantity',
+              key: 'quantity',
+            },
+            {
+              title: 'السعر',
+              dataIndex: 'price',
+              key: 'price',
+              render: (price) => <p>{price} ج.م</p>,
+            },
+          ]}
+          pagination={false}
+        />
+      </Flex>
       <ModalSelectTable
         open={isSelectTableModal}
         onCancel={() => setIsSelectTableModal(false)}

@@ -13,6 +13,7 @@ import classes from './AuthPage.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginTypeEnum, setLoginType } from '../../store/authSlice';
 import WaiterShiftForm from './WaiterShiftForm/WaiterShiftForm';
+import { useStartSheet } from '../../hooks/query/useGetPointsOfSales';
 import { useCurrentLoginType } from '../../hooks/useCurrentLoginType';
 
 const STEPS = {
@@ -27,17 +28,11 @@ const AuthPage = () => {
   const [currentLang] = useCurrentLang();
   const [currentForm, setCurrentForm] = useState(STEPS.LOGIN_STEP);
   const currentLoginType = useSelector((state) => state?.auth?.loginType);
+  const addStartSheet = useStartSheet();
   const [currentTitles, setCurrentTitles] = useState({
     mainTitle: locale.authPage.welcome[currentLang],
     secondTitle: locale.authPage.loginTitle[currentLang],
   });
-  // const token = getToken();
-  // useEffect(() => {
-  //   // if (token) {
-  //   //   setCurrentForm(STEPS.CHECKPOINTS_STEP);
-  //   // }
-  //   return () => setCurrentForm(STEPS.LOGIN_STEP);
-  // }, []);
 
   const renderForm = useMemo(() => {
     switch (currentForm) {
@@ -78,9 +73,6 @@ const AuthPage = () => {
           <PointsOfSalesForm
             onClick={() => {
               switch (currentLoginType) {
-                case loginTypeEnum.cashier:
-                  setCurrentForm(STEPS.ADD_OPENING_AMOUNT_STEP);
-                  return;
                 case loginTypeEnum.waiter:
                   setCurrentForm(STEPS.WAITER_SHIFT_STEP);
                   return;

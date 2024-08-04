@@ -44,7 +44,7 @@ const ProfileModal = () => {
             loading={isLoading}
             onClick={() => {
               if (isCashier) {
-                setStepHandler(ProfileModalStates.BEFORE_OPENING_BALANCE_STEP);
+                setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT);
               } else {
                 setStepHandler(ProfileModalStates.LOGOUT);
               }
@@ -56,21 +56,21 @@ const ProfileModal = () => {
             loading={isLoading}
             onClose={setClose}
             onClick={() =>
-              setStepHandler(ProfileModalStates.OPENING_BALANCE_STEP)
+              setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)
             }
           >
             hello
           </ConfirmLogoutStep>
         )}
-        {currentStep === ProfileModalStates.OPENING_BALANCE_STEP && (
-          <OpeningBalanceStep
-            loading={isLoading}
-            onClose={setClose}
-            onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)}
-          >
-            hello
-          </OpeningBalanceStep>
-        )}
+        {/* {currentStep === ProfileModalStates.OPENING_BALANCE_STEP && ( */}
+        {/*   <OpeningBalanceStep */}
+        {/*     loading={isLoading} */}
+        {/*     onClose={setClose} */}
+        {/*     onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)} */}
+        {/*   > */}
+        {/*     hello */}
+        {/*   </OpeningBalanceStep> */}
+        {/* )} */}
         {currentStep === ProfileModalStates.SHOW_SHEET_REPORT && (
           <ShowSheetReportStep
             onClose={() => setStepHandler(ProfileModalStates.LOGOUT)}
