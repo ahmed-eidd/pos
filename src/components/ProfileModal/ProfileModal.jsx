@@ -1,19 +1,20 @@
-import { message, Modal, Spin } from "antd";
-import React from "react";
+import { message, Modal, Spin } from 'antd';
+import React from 'react';
 import {
   ProfileModalStates,
   setProfileModalClose,
   setStep,
-} from "../../store/profileModalSlice";
-import ProfileDetails from "./ProfileDetails/ProfileDetails";
-import ConfirmLogoutStep from "./ConfirmLogoutStep/ConfirmLogoutStep";
-import OpeningBalanceStep from "./OpeningBalanceStep/OpeningBalanceStep";
-import FinalLogoutStep from "./FinalLogoutStep/FinalLogoutStep";
-import { useLogOut } from "../../hooks/query/useAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import ShowSheetReportStep from "./ShowSheetReportStep/ShowSheetReportStep";
-import { useCurrentLoginType } from "../../hooks/useCurrentLoginType";
+} from '../../store/profileModalSlice';
+import ProfileDetails from './ProfileDetails/ProfileDetails';
+import ConfirmLogoutStep from './ConfirmLogoutStep/ConfirmLogoutStep';
+import OpeningBalanceStep from './OpeningBalanceStep/OpeningBalanceStep';
+import FinalLogoutStep from './FinalLogoutStep/FinalLogoutStep';
+import { useLogOut } from '../../hooks/query/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import ShowSheetReportStep from './ShowSheetReportStep/ShowSheetReportStep';
+import { useCurrentLoginType } from '../../hooks/useCurrentLoginType';
+import { useEndSheet } from '../../hooks/query/useGetPointsOfSales';
 
 const ProfileModal = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const ProfileModal = () => {
   const isOpen = useSelector((state) => state.profileModal.open);
   const currentStep = useSelector((state) => state.profileModal.step);
   const { isCashier } = useCurrentLoginType();
+  const endSheetQuery = useEndSheet();
 
   const setClose = () => {
     if (ProfileModalStates.PROFILE === currentStep) {
@@ -30,7 +32,7 @@ const ProfileModal = () => {
     logOut(null, {
       onSuccess: () => {
         dispatch(setProfileModalClose());
-        navigate("/login");
+        navigate('/login');
       },
     });
   };
@@ -44,7 +46,14 @@ const ProfileModal = () => {
             loading={isLoading}
             onClick={() => {
               if (isCashier) {
-                setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT);
+                endSheetQuery.mutate(0, {
+                  onSuccess: (data) => {
+                    if (data.data.validation.length > 0) {
+                      message.error(data.data.validation[0]);
+                    }
+                    setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT);
+                  },
+                });
               } else {
                 setStepHandler(ProfileModalStates.LOGOUT);
               }
@@ -55,22 +64,20 @@ const ProfileModal = () => {
           <ConfirmLogoutStep
             loading={isLoading}
             onClose={setClose}
-            onClick={() =>
-              setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)
-            }
+            onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)}
           >
             hello
           </ConfirmLogoutStep>
         )}
-        {/* {currentStep === ProfileModalStates.OPENING_BALANCE_STEP && ( */}
-        {/*   <OpeningBalanceStep */}
-        {/*     loading={isLoading} */}
-        {/*     onClose={setClose} */}
-        {/*     onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)} */}
-        {/*   > */}
-        {/*     hello */}
-        {/*   </OpeningBalanceStep> */}
-        {/* )} */}
+        {currentStep === ProfileModalStates.OPENING_BALANCE_STEP && (
+          <OpeningBalanceStep
+            loading={isLoading}
+            onClose={setClose}
+            onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)}
+          >
+            hello
+          </OpeningBalanceStep>
+        )}
         {currentStep === ProfileModalStates.SHOW_SHEET_REPORT && (
           <ShowSheetReportStep
             onClose={() => setStepHandler(ProfileModalStates.LOGOUT)}
@@ -83,7 +90,7 @@ const ProfileModal = () => {
             onClose={setClose}
             onClick={() => {
               logOut();
-              navigate("/login");
+              navigate('/login');
               setClose();
             }}
             loading={isLoading}

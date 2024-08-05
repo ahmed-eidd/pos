@@ -63,6 +63,7 @@ const PointsOfSalesForm = ({ onClick }) => {
         setShiftId(shiftId);
         setAuthSheet(shiftId);
         navigate('/categories');
+        message.info('هذا الشيف نشط بالفعل')
       },
     });
   };

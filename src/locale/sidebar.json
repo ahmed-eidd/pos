@@ -22,8 +22,8 @@
         "link": "cash-management"
       },
       "settings": {
-        "ar": "ملفي",
-        "en": "My profile",
+        "ar": "تسجيل الخروج",
+        "en": "Log out",
         "link": "my-profile"
       },
       "waiterShiftChange": {

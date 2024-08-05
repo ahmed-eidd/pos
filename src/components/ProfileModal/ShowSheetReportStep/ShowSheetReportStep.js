@@ -86,20 +86,8 @@ function ShowSheetReportStep({ onClick }) {
           <Descriptions.Item label="عدد الطلبات">
             {sheetReport?.no_of_orders}
           </Descriptions.Item>
-          <Descriptions.Item label="الرصيد الافتتاحي">
-            {currencyFormat(sheetReport?.start_balance)}
-          </Descriptions.Item>
           <Descriptions.Item label="قيمة الطلبات">
             {currencyFormat(sheetReport?.ordersAmount)}
-          </Descriptions.Item>
-          <Descriptions.Item label="الاجمالي">
-            {currencyFormat(sheetReport?.total)}
-          </Descriptions.Item>
-          <Descriptions.Item label="الخزنة">
-            {currencyFormat(sheetReport?.end_balance)}
-          </Descriptions.Item>
-          <Descriptions.Item label="العجز" style={{ color: "red" }}>
-            {currencyFormat(sheetReport?.deficit)}
           </Descriptions.Item>
           <Descriptions.Item label="نقدي">
             {currencyFormat(sheetReport?.cash)}
