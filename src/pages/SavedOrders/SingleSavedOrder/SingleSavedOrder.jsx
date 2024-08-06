@@ -351,6 +351,12 @@ const SingleSavedOrder = ({ order, setCancelOrderItems, closeModal }) => {
               key: 'price',
               render: (price) => <p>{price} ج.م</p>,
             },
+            {
+              title: 'الاجمالي',
+              dataIndex: 'price',
+              key: 'total_amount',
+              render: (price, record) => <p>{price * +record?.quantity} ج.م</p>,
+            },
           ]}
           pagination={false}
         />

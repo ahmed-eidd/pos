@@ -9,8 +9,9 @@ import userIcon from '../../../assets/profile/user.png';
 import classes from './ProfileDetails.module.scss';
 import { useSelector } from 'react-redux';
 import { Popconfirm } from 'antd';
+import Flex from '../../Flex/Flex';
 
-const ProfileDetails = ({ onClick }) => {
+const ProfileDetails = ({ onClick, onLogOut }) => {
   const currentUser = useSelector((s) => s.auth?.currentUser);
   return (
     <div className={classes.ProfileDetails}>
@@ -65,18 +66,28 @@ const ProfileDetails = ({ onClick }) => {
         <Text color='grey'>اسم أمين الصندوق:</Text>
         <Text>محمود سيف</Text>
       </div> */}
-      <Popconfirm
-        title="سيتم الغاء الشيفت في حالة الاستمرار"
-        description=""
-        onConfirm={onClick}
-        onCancel={() => {}}
-        okText="نعم"
-        cancelText="لا"
-      >
-        <Button type="danger" fullwidth>
-          تسجيل الخروج
-        </Button>
-      </Popconfirm>
+      <Flex justify="space-between" align='center' gap={10}>
+        <Popconfirm
+          title="سيتم تسجيل الخروج في حالة الاستمرار"
+          description=""
+          onConfirm={onLogOut}
+          onCancel={() => {}}
+          okText="نعم"
+          cancelText="لا"
+        >
+          <Button type="primary" fullwidth>تسجيل الخروج</Button>
+        </Popconfirm>
+        <Popconfirm
+          title="سيتم الغاء الشيفت في حالة الاستمرار"
+          description=""
+          onConfirm={onClick}
+          onCancel={() => {}}
+          okText="نعم"
+          cancelText="لا"
+        >
+          <Button type="danger" fullwidth>الغاء الشيفت</Button>
+        </Popconfirm>
+      </Flex>
     </div>
   );
 };

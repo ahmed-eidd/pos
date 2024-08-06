@@ -23,8 +23,9 @@ const ProfileModal = () => {
   const currentStep = useSelector((state) => state.profileModal.step);
   const { isCashier } = useCurrentLoginType();
   const endSheetQuery = useEndSheet();
+  const { mutate: logOut, isLoading } = useLogOut(() => {});
 
-  const setClose = () => {
+  const onClose = () => {
     if (ProfileModalStates.PROFILE === currentStep) {
       dispatch(setProfileModalClose());
       return;
@@ -37,13 +38,20 @@ const ProfileModal = () => {
     });
   };
   const setStepHandler = (step) => dispatch(setStep(step));
-  const { mutate: logOut, isLoading } = useLogOut(() => {});
   return (
-    <Modal visible={isOpen} footer={null} onCancel={setClose}>
+    <Modal visible={isOpen} footer={null} onCancel={onClose}>
       <Spin spinning={isLoading}>
         {currentStep === ProfileModalStates.PROFILE && (
           <ProfileDetails
             loading={isLoading}
+            onLogOut={() => {
+              logOut(null, {
+                onSuccess: () => {
+                  dispatch(setProfileModalClose());
+                  navigate('/login');
+                },
+              });
+            }}
             onClick={() => {
               if (isCashier) {
                 endSheetQuery.mutate(0, {
@@ -63,7 +71,7 @@ const ProfileModal = () => {
         {currentStep === ProfileModalStates.BEFORE_OPENING_BALANCE_STEP && (
           <ConfirmLogoutStep
             loading={isLoading}
-            onClose={setClose}
+            onClose={onClose}
             onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)}
           >
             hello
@@ -72,7 +80,7 @@ const ProfileModal = () => {
         {currentStep === ProfileModalStates.OPENING_BALANCE_STEP && (
           <OpeningBalanceStep
             loading={isLoading}
-            onClose={setClose}
+            onClose={onClose}
             onClick={() => setStepHandler(ProfileModalStates.SHOW_SHEET_REPORT)}
           >
             hello
@@ -87,11 +95,11 @@ const ProfileModal = () => {
         )}
         {currentStep === ProfileModalStates.LOGOUT && (
           <FinalLogoutStep
-            onClose={setClose}
+            onClose={onClose}
             onClick={() => {
               logOut();
               navigate('/login');
-              setClose();
+              onClose();
             }}
             loading={isLoading}
           >

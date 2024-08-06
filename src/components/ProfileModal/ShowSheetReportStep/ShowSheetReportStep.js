@@ -46,7 +46,6 @@ function ShowSheetReportStep({ onClick }) {
   const handlePrint = useReactToPrint({
     content: () => sheetReportRef.current,
   });
-
   if (sheetReportLod)
     return (
       <Spin
